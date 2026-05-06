@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="fanfan.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MHS Engineering Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --maroon: #6B1E2E;
+      --maroon-dark: #4a1220;
+      --maroon-light: #8c2a3e;
+      --blue: #7EC8E3;
+      --blue-light: #aeddf0;
+      --blue-dark: #4fa8c8;
+      --cream: #f8f4f0;
+      --dark: #111111;
+      --gray: #555;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(107, 30, 46, 0.97);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.2);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--blue);
+      letter-spacing: 2px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a.nav-highlight {
+      color: var(--blue);
+      border: 1px solid rgba(126,200,227,0.4);
+      padding: 0.3rem 0.9rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
+    .nav-links a.nav-highlight:hover {
+      background: rgba(126,200,227,0.15);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--maroon-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(126,200,227,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-tag, .hero h1, .hero-sub, .hero-btns { position: relative; z-index: 2; }
+    .hero-bg-text {
+      position: absolute;
+      bottom: -40px; right: -20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18rem;
+      color: rgba(255,255,255,0.03);
+      letter-spacing: 0px;
+      white-space: nowrap;
+      z-index: 0;
+      cursor: default;
+      pointer-events: auto;
+      user-select: none;
+    }
+    .hero-bg-text span { transition: all 0.2s ease; display: inline-block; padding: 0 5px; }
+    .hero-bg-text span:hover { transform: translateY(-10px) scale(1.1); opacity: 1; }
+    .hero-bg-text span:nth-child(1):hover  { color: #00f2ff; text-shadow: 0 0 30px #00f2ff; }
+    .hero-bg-text span:nth-child(2):hover  { color: #7000ff; text-shadow: 0 0 30px #7000ff; }
+    .hero-bg-text span:nth-child(3):hover  { color: #00ff95; text-shadow: 0 0 30px #00ff95; }
+    .hero-bg-text span:nth-child(4):hover  { color: #ff0055; text-shadow: 0 0 30px #ff0055; }
+    .hero-bg-text span:nth-child(5):hover  { color: #50b3ff; text-shadow: 0 0 30px #50b3ff; }
+    .hero-bg-text span:nth-child(6):hover  { color: #ffcc00; text-shadow: 0 0 30px #ffcc00; }
+    .hero-bg-text span:nth-child(7):hover  { color: #0066ff; text-shadow: 0 0 30px #0066ff; }
+    .hero-bg-text span:nth-child(8):hover  { color: #33ff00; text-shadow: 0 0 30px #33ff00; }
+    .hero-bg-text span:nth-child(9):hover  { color: #ff5e00; text-shadow: 0 0 30px #ff5e00; }
+    .hero-bg-text span:nth-child(10):hover { color: #a200ff; text-shadow: 0 0 30px #a200ff; }
+    .hero-bg-text span:nth-child(11):hover { color: #00eaff; text-shadow: 0 0 30px #00eaff; }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.95;
+      color: white;
+      letter-spacing: 3px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 span { color: var(--blue); }
+    .hero-sub {
+      margin-top: 2rem;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-btns {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary { background: var(--blue); color: var(--maroon-dark); }
+    .btn-primary:hover { background: var(--blue-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(126,200,227,0.3); }
+    .btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 8rem; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--maroon);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--maroon-dark);
+      margin-bottom: 3rem;
+    }
+    .divider { width: 60px; height: 4px; background: var(--blue); margin-bottom: 2rem; border-radius: 2px; }
+
+    /* ── ABOUT ── */
+    #about {
+      background: white;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-text p { font-size: 1.05rem; line-height: 1.8; color: var(--gray); margin-bottom: 1.2rem; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-card {
+      background: var(--cream);
+      border-left: 4px solid var(--blue);
+      padding: 1.8rem 1.5rem;
+      border-radius: 0 8px 8px 0;
+    }
+    .stat-card .number { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--maroon); letter-spacing: 2px; }
+    .stat-card .label { font-size: 0.8rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.3rem; }
+
+    /* ── MEETINGS ── */
+    #meetings { background: var(--maroon-dark); position: relative; overflow: hidden; }
+    #meetings::before {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(126,200,227,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    #meetings .section-label { color: var(--blue-light); }
+    #meetings .section-title { color: white; }
+    .meeting-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(126,200,227,0.2);
+      border-radius: 12px;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      backdrop-filter: blur(5px);
+    }
+    .meeting-item h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; color: var(--blue); margin-bottom: 0.8rem; text-transform: uppercase; }
+    .meeting-item p { font-size: 1rem; color: rgba(255,255,255,0.75); line-height: 1.6; }
+    .meeting-item .big { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: white; letter-spacing: 2px; line-height: 1; margin-bottom: 0.3rem; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--cream); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      border-top: 4px solid var(--maroon);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(107,30,46,0.12); }
+    .project-icon { font-size: 2.2rem; margin-bottom: 1.2rem; }
+    .project-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1.5px; color: var(--maroon-dark); margin-bottom: 0.8rem; }
+    .project-card p { font-size: 0.95rem; color: var(--gray); line-height: 1.7; }
+    .project-tag { display: inline-block; margin-top: 1.2rem; padding: 0.3rem 0.9rem; background: rgba(126,200,227,0.15); color: var(--blue-dark); border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px; }
+
+    /* ── MEMBERS ── */
+    #members { background: white; }
+    .members-intro { font-size: 1.05rem; color: var(--gray); line-height: 1.8; max-width: 600px; margin-bottom: 3rem; }
+    .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .member-card { text-align: center; padding: 2rem 1rem; border-radius: 12px; background: var(--cream); transition: transform 0.2s; }
+    .member-card:hover { transform: translateY(-4px); }
+    .member-avatar { width: 70px; height: 70px; border-radius: 50%; background: var(--maroon); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--blue); margin: 0 auto 1rem; }
+    .member-card h4 { font-weight: 600; font-size: 0.95rem; color: var(--dark); margin-bottom: 0.3rem; }
+    .member-card .role { font-size: 0.8rem; color: var(--maroon); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--maroon-dark); text-align: center; padding: 7rem 4rem; }
+    #contact .section-label { color: var(--blue-light); }
+    #contact .section-title { color: white; margin-bottom: 1rem; }
+    .contact-sub { font-size: 1.05rem; color: rgba(255,255,255,0.6); margin-bottom: 3.5rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .contact-link { display: flex; align-items: center; gap: 0.7rem; padding: 1rem 2rem; background: rgba(255,255,255,0.07); border: 1px solid rgba(126,200,227,0.25); border-radius: 8px; color: white; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.25s; }
+    .contact-link:hover { background: rgba(126,200,227,0.15); border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+    .contact-link .icon { font-size: 1.2rem; }
+
+    /* ── FOOTER ── */
+    footer { background: #0a0a0a; color: rgba(255,255,255,0.4); text-align: center; padding: 2rem; font-size: 0.85rem; letter-spacing: 0.5px; }
+    footer span { color: var(--blue); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       OUTREACH HUB SECTION
+    ═══════════════════════════════════════════════════════ */
+    #outreach {
+      background: #0e1e2c;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* inner wrapper keeps hub styles from leaking */
+    .hub-wrap {
+      position: relative;
+    }
+
+    /* Hub header */
+    .hub-header {
+      background: var(--maroon-dark);
+      border-bottom: 4px solid var(--blue-dark);
+      padding: 3.5rem 8rem 3rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .hub-header-text {}
+    .hub-header .section-label { color: var(--blue-light); margin-bottom: 0.5rem; }
+    .hub-header .section-title { color: white; margin-bottom: 0.5rem; font-size: clamp(2rem, 4vw, 3.5rem); }
+    .hub-header p { color: rgba(255,255,255,0.55); font-size: 0.95rem; max-width: 500px; line-height: 1.6; }
+    .hub-stats {
+      margin-left: auto;
+      display: flex;
+      gap: 1.5rem;
+      flex-shrink: 0;
+    }
+    .hub-stat {
+      text-align: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(126,200,227,0.2);
+      border-radius: 8px;
+      padding: 1rem 1.4rem;
+    }
+    .hub-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--blue);
+      letter-spacing: 2px;
+      display: block;
+      line-height: 1;
+    }
+    .hub-stat-lbl {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 3px;
+      display: block;
+    }
+
+    /* Hub tabs */
+    .hub-tabs {
+      background: #1a2e40;
+      display: flex;
+      padding: 0 8rem;
+      border-bottom: 1px solid rgba(126,200,227,0.1);
+      overflow-x: auto;
+    }
+    .hub-tab {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 1.1rem 1.6rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .hub-tab:hover { color: white; }
+    .hub-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* Hub body */
+    .hub-body {
+      display: flex;
+      min-height: 600px;
+    }
+
+    /* Sidebar */
+    .hub-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: #0e1e2c;
+      border-right: 1px solid rgba(126,200,227,0.1);
+      display: none;
+      flex-direction: column;
+    }
+    .hub-sidebar.visible { display: flex; }
+    .hub-sidebar-search {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(126,200,227,0.1);
+    }
+    .hub-search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(126,200,227,0.2);
+      border-radius: 6px;
+      padding: 0.6rem 0.9rem;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .hub-search-input::placeholder { color: rgba(255,255,255,0.3); }
+    .hub-search-input:focus { border-color: var(--blue); }
+    .hub-school-list { overflow-y: auto; flex: 1; }
+    .hub-school-item {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .hub-school-item:hover { background: rgba(126,200,227,0.06); }
+    .hub-school-item.active { background: rgba(126,200,227,0.1); border-left: 3px solid var(--blue); }
+    .hub-school-item-name { font-size: 0.85rem; font-weight: 600; color: white; line-height: 1.3; }
+    .hub-school-item-meta { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .hub-dist-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 5px;
+    }
+    .dist-close { background: rgba(46,160,67,0.2); color: #4caf77; }
+    .dist-med   { background: rgba(210,147,0,0.2);  color: #e0a800; }
+    .dist-far   { background: rgba(200,50,50,0.2);   color: #e07070; }
+
+    /* Hub content pane */
+    .hub-content {
+      flex: 1;
+      overflow-y: auto;
+      background: #0e1e2c;
+      max-height: 80vh;
+    }
+    .hub-panel { display: none; padding: 2.5rem 3rem; }
+    .hub-panel.active { display: block; }
+
+    /* Overview grid */
+    .hub-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .hub-ov-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(126,200,227,0.12);
+      border-top: 3px solid var(--blue-dark);
+      border-radius: 8px;
+      padding: 1.4rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .hub-ov-card:hover { background: rgba(126,200,227,0.07); transform: translateY(-2px); }
+    .hub-ov-card.env-card { border-top-color: #4caf77; }
+    .hub-ov-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1.5px; color: white; line-height: 1.2; }
+    .hub-ov-loc { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-top: 3px; }
+    .hub-ov-counts { display: flex; gap: 1rem; margin-top: 0.8rem; }
+    .hub-ov-count-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--blue); display: block; line-height: 1; }
+    .hub-ov-count-lbl { font-size: 0.6rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* School detail */
+    .hub-school-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(126,200,227,0.12);
+    }
+    .hub-school-icon {
+      width: 56px; height: 56px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: white;
+      flex-shrink: 0;
+    }
+    .hub-school-title h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: white;
+      line-height: 1.1;
+    }
+    .hub-school-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .hub-pill {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .hub-pill.highlight { background: rgba(126,200,227,0.12); border-color: rgba(126,200,227,0.3); color: var(--blue-light); }
+    .hub-pill.housing-pill { background: rgba(220,140,0,0.15); border-color: rgba(220,140,0,0.3); color: #e0a800; }
+    .hub-pill.ok-pill { background: rgba(46,160,67,0.15); border-color: rgba(46,160,67,0.3); color: #4caf77; }
+
+    /* Professor cards */
+    .hub-dept-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: var(--blue);
+      margin: 2rem 0 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .hub-dept-label::after { content: ''; flex: 1; height: 1px; background: rgba(126,200,227,0.15); }
+
+    .hub-prof-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(126,200,227,0.1);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .hub-prof-head {
+      padding: 1.1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .hub-prof-head:hover { background: rgba(126,200,227,0.05); }
+    .hub-prof-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: white;
+      flex-shrink: 0;
+    }
+    .hub-prof-name { font-size: 0.95rem; font-weight: 700; color: white; }
+    .hub-prof-title-text { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+    .hub-prof-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+    .hub-rtag {
+      background: rgba(126,200,227,0.1);
+      color: var(--blue-light);
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.3px;
+    }
+    .hub-rtag.env { background: rgba(76,175,119,0.12); color: #4caf77; }
+    .hub-expand {
+      margin-left: auto;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      width: 26px; height: 26px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .hub-prof-head:hover .hub-expand { border-color: var(--blue); color: var(--blue); }
+
+    .hub-prof-body {
+      display: none;
+      padding: 0 1.2rem 1.4rem;
+      border-top: 1px solid rgba(126,200,227,0.08);
+    }
+    .hub-prof-body.open { display: block; }
+
+    .hub-papers-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin: 1rem 0 0.6rem;
+    }
+    .hub-paper-item {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      padding: 0.8rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      border-left: 2px solid var(--blue-dark);
+    }
+    .hub-paper-num { font-size: 0.68rem; color: rgba(255,255,255,0.3); flex-shrink: 0; margin-top: 2px; font-family: monospace; }
+    .hub-paper-title { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.9); line-height: 1.4; }
+    .hub-paper-summary { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 3px; line-height: 1.5; }
+    .hub-paper-year { font-size: 0.65rem; color: rgba(255,255,255,0.25); margin-top: 3px; font-family: monospace; }
+
+    /* Email fill box */
+    .hub-fill-box {
+      margin-top: 1.2rem;
+      background: rgba(200,100,0,0.08);
+      border: 1px dashed rgba(200,130,0,0.4);
+      border-radius: 8px;
+      padding: 1.2rem;
+    }
+    .hub-fill-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #e0a800;
+      margin-bottom: 0.8rem;
+    }
+    .hub-fill-row { margin-bottom: 0.6rem; }
+    .hub-fill-label { font-size: 0.7rem; font-weight: 700; color: rgba(200,160,80,0.9); margin-bottom: 2px; }
+    .hub-fill-val {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 0.45rem 0.7rem;
+      line-height: 1.5;
+    }
+    .hub-preview-btn {
+      margin-top: 1rem;
+      background: var(--maroon);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 1.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .hub-preview-btn:hover { background: var(--maroon-light); }
+
+    /* Outline tab */
+    .hub-outline-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(126,200,227,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 1.2rem;
+    }
+    .hub-outline-head {
+      background: var(--maroon-dark);
+      padding: 0.8rem 1.2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      color: white;
+      font-size: 0.95rem;
+    }
+    .hub-outline-section {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .hub-outline-section:last-child { border-bottom: none; }
+    .hub-outline-sec-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+    .hub-outline-text { font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.7; }
+    .ph { display: inline; font-weight: 700; color: #e0a800; background: rgba(200,130,0,0.12); border-radius: 3px; padding: 0 4px; }
+
+    /* Generator tab */
+    .hub-gen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .hub-gen-group { display: flex; flex-direction: column; gap: 4px; }
+    .hub-gen-group.full { grid-column: 1 / -1; }
+    .hub-gen-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); }
+    .hub-gen-input {
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(126,200,227,0.2);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .hub-gen-input:focus { border-color: var(--blue); }
+    .hub-gen-input::placeholder { color: rgba(255,255,255,0.25); }
+    textarea.hub-gen-input { resize: vertical; min-height: 70px; }
+    select.hub-gen-input option { background: #1a2e40; }
+    .hub-radio-group { display: flex; gap: 1rem; margin-top: 4px; }
+    .hub-radio-group label { font-size: 0.82rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 5px; cursor: pointer; }
+    .hub-gen-btn {
+      background: var(--maroon);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .hub-gen-btn:hover { background: var(--maroon-light); }
+    .hub-email-output {
+      margin-top: 1.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(126,200,227,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      display: none;
+    }
+    .hub-email-out-head {
+      background: #1a2e40;
+      padding: 0.7rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hub-email-out-head span { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; color: white; font-size: 0.95rem; }
+    .hub-copy-btn {
+      background: rgba(126,200,227,0.15);
+      border: 1px solid rgba(126,200,227,0.3);
+      color: var(--blue);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .hub-email-body {
+      padding: 1.4rem;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.8);
+      white-space: pre-wrap;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Modal */
+    .hub-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .hub-modal-overlay.open { display: flex; }
+    .hub-modal {
+      background: #1a2e40;
+      border-radius: 12px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .hub-modal-head {
+      background: var(--maroon-dark);
+      color: white;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .hub-modal-head h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; }
+    .hub-close-modal { background: rgba(255,255,255,0.15); border: none; color: white; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 14px; }
+    .hub-modal-body { padding: 1.5rem; font-size: 0.82rem; line-height: 1.8; white-space: pre-wrap; color: rgba(255,255,255,0.8); }
+    .hub-modal-foot { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 0.8rem; justify-content: flex-end; }
+    .hub-btn-close { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 6px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; cursor: pointer; color: white; }
+    .hub-btn-copy { background: var(--maroon); color: white; border: none; border-radius: 6px; padding: 6px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { padding: 0 3rem; }
+      section { padding: 5rem 3rem; }
+      #about { grid-template-columns: 1fr; gap: 3rem; }
+      .meeting-card { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .members-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .hub-header { padding: 2.5rem 3rem 2rem; }
+      .hub-tabs { padding: 0 3rem; }
+      .hub-gen-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero { padding: 0 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .members-grid { grid-template-columns: 1fr 1fr; }
+      .about-stats { grid-template-columns: 1fr; }
+      .hub-header { padding: 2rem 1.5rem; flex-direction: column; gap: 1.5rem; }
+      .hub-stats { margin-left: 0; }
+      .hub-tabs { padding: 0 1.5rem; }
+      .hub-panel { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">MHS Engineering</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#meetings">Meetings</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#members">Members</a></li>
+      <li><a href="#outreach" class="nav-highlight">Outreach Hub</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg-text" aria-hidden="true">
+      <span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span><span>E</span><span>R</span><span>I</span><span>N</span><span>G</span>
+    </div>
+    <div class="hero-tag">Morristown High School</div>
+    <h1>Engineering<br/><span>Club</span></h1>
+    <p class="hero-sub">Where curious minds come together to design, build, and innovate. Open to all disciplines — from mechanical to software and everything in between.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Join the Club</a>
+      <a href="#about" class="btn btn-outline">Learn More</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-text">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">Built by<br/>Students</h2>
+      <div class="divider"></div>
+      <p>The Morristown High School Engineering Club is a student-run organization for anyone passionate about exploring the fields of engineering and how things work and how to make them better. Whether you're into robotics, coding, science, math, or just curious about engineering, you belong here.</p>
+      <p>We work on real projects, learn from real engineers, and have a great time doing it. No prior experience required, just a willingness to build and explore.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card"><div class="number">ALL</div><div class="label">Engineering Disciplines Welcome</div></div>
+      <div class="stat-card"><div class="number">Weekly</div><div class="label">Meetings Every Tuesday</div></div>
+      <div class="stat-card"><div class="number">CONNECT</div><div class="label">Real Engineers Speak at Every Meeting</div></div>
+      <div class="stat-card"><div class="number">FREE</div><div class="label">Open to All Students</div></div>
+    </div>
+  </section>
+
+  <!-- MEETINGS -->
+  <section id="meetings">
+    <div class="section-label">When & Where</div>
+    <h2 class="section-title">Meeting Info</h2>
+    <div class="meeting-card">
+      <div class="meeting-item"><h3>Day</h3><div class="big">Tuesday</div><p>Every 1-2 weeks during the school year</p></div>
+      <div class="meeting-item"><h3>Time</h3><div class="big">Lunch</div><p>10:50 AM – 11:25 AM</p></div>
+      <div class="meeting-item"><h3>Location</h3><div class="big">Rm 357</div><p>Morristown High School</p></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card"><div class="project-icon">⚙️</div><h3>Mechanical Design</h3><p>From CAD modeling to physical prototypes, we bring ideas into the real world through hands-on building and iteration.</p><span class="project-tag">Ongoing</span></div>
+      <div class="project-card"><div class="project-icon">💻</div><h3>Software & Coding</h3><p>Building apps, scripts, and tools that solve real problems. All experience levels are welcome to contribute and learn.</p><span class="project-tag">Ongoing</span></div>
+      <div class="project-card"><div class="project-icon">🔬</div><h3>Research & Innovation</h3><p>Exploring new technologies and engineering challenges. We encourage members to pitch and lead their own project ideas.</p><span class="project-tag">Open to Ideas</span></div>
+    </div>
+  </section>
+
+  <!-- MEMBERS -->
+  <section id="members">
+    <div class="section-label">The Team</div>
+    <h2 class="section-title">Members</h2>
+    <p class="members-intro">Our club is made up of students from all grade levels and backgrounds. Leadership and advisor information will be updated here as the club grows.</p>
+    <div class="members-grid">
+      <div class="member-card"><div class="member-avatar">VD</div><h4>Vincent Dellacroce</h4><div class="role">President</div></div>
+      <div class="member-card"><div class="member-avatar">GL</div><h4>Gianna Laratta</h4><div class="role">Vice President</div></div>
+      <div class="member-card"><div class="member-avatar">TA</div><h4>Taj Abdullah</h4><div class="role">Secretary</div></div>
+      <div class="member-card"><div class="member-avatar">LS</div><h4>Luigi Sciano</h4><div class="role">Treasurer</div></div>
+      <div class="member-card"><div class="member-avatar">RL</div><h4>Rodney Lee</h4><div class="role">Advisor</div></div>
+      <a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net,rodney.lee@msdk12.net&su=Interested%20in%20Joining%20the%20Engineering%20Club" target="_blank" class="member-card" style="text-decoration:none; background:var(--maroon); border: 2px dashed var(--blue); position:relative;">
+        <div class="member-avatar" style="background:var(--blue);"><span style="color:var(--maroon-dark); font-size:2rem;">+</span></div>
+        <h4 style="color:var(--blue);">Join Us</h4>
+        <div class="role" style="color:rgba(126,200,227,0.8);">Click to email us!</div>
+        <div style="position:absolute; top:-10px; right:-10px; background:var(--blue); color:var(--maroon-dark); font-size:0.65rem; font-weight:700; padding:0.25rem 0.5rem; border-radius:20px; letter-spacing:1px; text-transform:uppercase;">Join</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       OUTREACH HUB
+  ════════════════════════════════════════════ -->
+  <section id="outreach" style="padding:0;">
+    <div class="hub-wrap">
+
+      <div class="hub-header">
+        <div class="hub-header-text">
+          <div class="section-label" style="color:var(--blue-light);">Research Partnerships</div>
+          <h2 class="section-title" style="color:white; margin-bottom:0.4rem;">STEM Outreach Hub</h2>
+          <p>Every university within 3 hours of Morristown with active STEM research — professors, papers, and ready-to-send email drafts.</p>
+        </div>
+        <div class="hub-stats">
+          <div class="hub-stat"><span class="hub-stat-num">14</span><span class="hub-stat-lbl">Schools</span></div>
+          <div class="hub-stat"><span class="hub-stat-num">30+</span><span class="hub-stat-lbl">Professors</span></div>
+          <div class="hub-stat"><span class="hub-stat-num">90+</span><span class="hub-stat-lbl">Papers</span></div>
+        </div>
+      </div>
+
+      <div class="hub-tabs">
+        <button class="hub-tab active" onclick="hubTab('overview',this)">Overview</button>
+        <button class="hub-tab" onclick="hubTab('directory',this)">Professor Directory</button>
+        <button class="hub-tab" onclick="hubTab('outline',this)">Email Outline</button>
+        <button class="hub-tab" onclick="hubTab('generator',this)">Email Generator</button>
+      </div>
+
+      <div class="hub-body">
+
+        <!-- SIDEBAR (directory only) -->
+        <div class="hub-sidebar" id="hubSidebar">
+          <div class="hub-sidebar-search">
+            <input class="hub-search-input" type="text" placeholder="Search schools…" oninput="hubFilterSchools()">
+          </div>
+          <div class="hub-school-list" id="hubSchoolList"></div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="hub-content">
+
+          <!-- OVERVIEW -->
+          <div class="hub-panel active" id="hub-overview">
+            <p style="color:rgba(255,255,255,0.4); font-size:0.8rem; margin-bottom:1.5rem;">Click any card to open its professor directory. 🌿 = environmental/ecology research.</p>
+            <div class="hub-overview-grid" id="hubOverviewGrid"></div>
+          </div>
+
+          <!-- DIRECTORY -->
+          <div class="hub-panel" id="hub-directory">
+            <div id="hubSchoolDetail" style="color:rgba(255,255,255,0.3); text-align:center; padding:4rem 1rem;">
+              <div style="font-size:2.5rem; margin-bottom:1rem;">🔬</div>
+              <div style="font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:2px; color:rgba(255,255,255,0.5); margin-bottom:0.5rem;">Select a School</div>
+              <div style="font-size:0.85rem;">Choose a university from the sidebar to see its faculty and research papers.</div>
+            </div>
+          </div>
+
+          <!-- OUTLINE -->
+          <div class="hub-panel" id="hub-outline">
+            <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:2px; color:var(--blue); margin-bottom:0.4rem;">Master Email Outline</h3>
+            <p style="color:rgba(255,255,255,0.4); font-size:0.82rem; margin-bottom:0.4rem;">Orange fields = fill in. Use the Professor Directory for pre-filled values per professor.</p>
+            <p style="color:#4caf77; font-size:0.78rem; margin-bottom:0.4rem;">Under 1 hour → no housing paragraph. Over 1 hour → include the housing paragraph.</p>
+            <div class="hub-outline-box">
+              <div class="hub-outline-head">SUBJECT LINE</div>
+              <div class="hub-outline-section">
+                <div class="hub-outline-text">High School Research Interest — <span class="ph">[PROFESSOR LAST NAME]</span> Lab / <span class="ph">[RESEARCH TOPIC]</span></div>
+              </div>
+            </div>
+            <div class="hub-outline-box" style="margin-top:1rem;">
+              <div class="hub-outline-head">EMAIL BODY</div>
+              <div class="hub-outline-section"><div class="hub-outline-sec-title">Salutation</div><div class="hub-outline-text">Dear <span class="ph">[Professor / Dr.] [FULL NAME]</span>,</div></div>
+              <div class="hub-outline-section"><div class="hub-outline-sec-title">Introduction</div><div class="hub-outline-text">My name is <span class="ph">[YOUR FULL NAME]</span>, and I am a <span class="ph">[GRADE]</span> at Morristown High School in Morristown, New Jersey, where I serve as President of the Engineering Club. I am writing to express my sincere interest in your research at <span class="ph">[UNIVERSITY NAME]</span>.</div></div>
+              <div class="hub-outline-section"><div class="hub-outline-sec-title">Why Their Research</div><div class="hub-outline-text">I recently came across your work on <span class="ph">[RESEARCH AREA / PAPER TITLE]</span>. <span class="ph">[1–2 sentences: why it excites you]</span> This connects to <span class="ph">[how it relates to your work or club projects]</span>.</div></div>
+              <div class="hub-outline-section"><div class="hub-outline-sec-title">The Ask</div><div class="hub-outline-text">I would be deeply honored to contribute to your lab or research group in whatever capacity would be most helpful — whether assisting with experiments, data collection, literature reviews, fabrication, or any other tasks. I am genuinely eager to learn, work hard, and contribute meaningfully to what your team is doing.</div></div>
+              <div class="hub-outline-section"><div class="hub-outline-sec-title">Schedule / Date Question</div><div class="hub-outline-text">Could you share when your current or upcoming research phase is scheduled, or when a student volunteer might best fit into your lab's timeline? I am available <span class="ph">[YOUR AVAILABILITY]</span> and happy to adjust around your needs.</div></div>
+              <div class="hub-outline-section" style="background:rgba(200,100,0,0.06);"><div class="hub-outline-sec-title" style="color:#e0a800;">Housing — ONLY if 1+ hour away</div><div class="hub-outline-text" style="color:rgba(255,255,255,0.5);">As <span class="ph">[UNIVERSITY]</span> is approximately <span class="ph">[DRIVE TIME]</span> from Morristown, I wanted to ask whether any student housing or guest researcher accommodations might be available. I am fully prepared to cover the cost of my lodging for the entirety of my stay.</div></div>
+              <div class="hub-outline-section"><div class="hub-outline-sec-title">Closing</div><div class="hub-outline-text">Thank you very much for your time and consideration. Please reach me at <span class="ph">[YOUR EMAIL]</span> at your convenience.<br><br>With great respect,<br><span class="ph">[YOUR FULL NAME]</span><br>President, Engineering Club — Morristown High School<br><span class="ph">[YOUR EMAIL]</span> / <span class="ph">[OPTIONAL PHONE]</span></div></div>
+            </div>
+          </div>
+
+          <!-- GENERATOR -->
+          <div class="hub-panel" id="hub-generator">
+            <h3 style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:2px; color:var(--blue); margin-bottom:0.4rem;">Email Generator</h3>
+            <p style="color:rgba(255,255,255,0.4); font-size:0.82rem; margin-bottom:1.4rem;">Fill in the fields and generate a complete ready-to-send email.</p>
+            <div class="hub-gen-grid">
+              <div class="hub-gen-group"><label class="hub-gen-label">Your Name</label><input class="hub-gen-input" id="gName" placeholder="e.g. Vincent Dellacroce"></div>
+              <div class="hub-gen-group"><label class="hub-gen-label">Your Grade</label>
+                <select class="hub-gen-input" id="gGrade">
+                  <option value="freshman">Freshman (9th)</option>
+                  <option value="sophomore">Sophomore (10th)</option>
+                  <option value="junior" selected>Junior (11th)</option>
+                  <option value="senior">Senior (12th)</option>
+                </select>
+              </div>
+              <div class="hub-gen-group"><label class="hub-gen-label">Your Email</label><input class="hub-gen-input" id="gEmail" placeholder="your@email.com"></div>
+              <div class="hub-gen-group"><label class="hub-gen-label">Phone (optional)</label><input class="hub-gen-input" id="gPhone" placeholder="(973) 555-0100"></div>
+              <div class="hub-gen-group full"><label class="hub-gen-label">Availability</label><input class="hub-gen-input" id="gAvail" placeholder="e.g. summer 2025, school breaks, weekends"></div>
+              <div class="hub-gen-group"><label class="hub-gen-label">Professor Name</label><input class="hub-gen-input" id="gProf" placeholder="e.g. Dr. Andrea Chen"></div>
+              <div class="hub-gen-group"><label class="hub-gen-label">University Name</label><input class="hub-gen-input" id="gUni" placeholder="e.g. Princeton University"></div>
+              <div class="hub-gen-group"><label class="hub-gen-label">Research Area</label><input class="hub-gen-input" id="gArea" placeholder="e.g. machine learning for materials science"></div>
+              <div class="hub-gen-group"><label class="hub-gen-label">Specific Paper</label><input class="hub-gen-input" id="gPaper" placeholder="e.g. 'Self-healing polymers via…'"></div>
+              <div class="hub-gen-group full"><label class="hub-gen-label">Why This Research Excites You</label><textarea class="hub-gen-input" id="gWhy" placeholder="e.g. I was fascinated by how your team used computational modeling to…"></textarea></div>
+              <div class="hub-gen-group full"><label class="hub-gen-label">How It Connects to Your Work</label><textarea class="hub-gen-input" id="gConnect" placeholder="e.g. In our Engineering Club, we've been prototyping…"></textarea></div>
+              <div class="hub-gen-group full"><label class="hub-gen-label">Distance from Morristown</label>
+                <div class="hub-radio-group">
+                  <label><input type="radio" name="gDist" value="close" checked onchange="toggleDriveTime()"> Under 1 hour (no housing ask)</label>
+                  <label><input type="radio" name="gDist" value="far" onchange="toggleDriveTime()"> 1+ hours (add housing paragraph)</label>
+                </div>
+              </div>
+              <div class="hub-gen-group full" id="gDriveGroup" style="display:none;"><label class="hub-gen-label">Approximate Drive Time</label><input class="hub-gen-input" id="gDrive" placeholder="e.g. roughly two hours"></div>
+            </div>
+            <button class="hub-gen-btn" onclick="hubGenerateEmail()">✉ Generate Email</button>
+            <div class="hub-email-output" id="hubEmailOutput">
+              <div class="hub-email-out-head">
+                <span>Generated Email</span>
+                <button class="hub-copy-btn" onclick="hubCopyEmail()">Copy</button>
+              </div>
+              <div class="hub-email-body" id="hubEmailText"></div>
+            </div>
+          </div>
+
+        </div><!-- /hub-content -->
+      </div><!-- /hub-body -->
+    </div><!-- /hub-wrap -->
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Get Involved</div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="contact-sub">Interested in joining or have questions? Reach out to us directly or follow us on Instagram.</p>
+    <div class="contact-links">
+      <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin-bottom:0.5rem;">Students Interested — Contact:</p>
+      <a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;"><span class="icon">✉️</span>27vincent.dellacroce@msdk12.net<span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span></a>
+      <a href="https://mail.google.com/mail/?view=cm&to=rodney.lee@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;"><span class="icon">✉️</span>rodney.lee@msdk12.net<span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span></a>
+      <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin:1rem 0 0.5rem;">Additional:</p>
+      <a href="https://mail.google.com/mail/?view=cm&to=77vincent.dellacroce@gmail.com" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;"><span class="icon">✉️</span>77vincent.dellacroce@gmail.com<span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span></a>
+      <a href="https://instagram.com/mhs.engineeringclub" target="_blank" class="contact-link">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        @mhs.engineeringclub
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 MHS Engineering Club — Morristown High School · Built by <span>Vincent Dellacroce</span></p>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="hub-modal-overlay" id="hubModal" onclick="hubCloseModalBg(event)">
+    <div class="hub-modal">
+      <div class="hub-modal-head"><h3 id="hubModalTitle">Email Draft</h3><button class="hub-close-modal" onclick="hubCloseModal()">✕</button></div>
+      <div class="hub-modal-body" id="hubModalBody"></div>
+      <div class="hub-modal-foot"><button class="hub-btn-close" onclick="hubCloseModal()">Close</button><button class="hub-btn-copy" onclick="hubCopyModal()">Copy Email</button></div>
+    </div>
+  </div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const HUB_SCHOOLS = [
+  { id:"princeton", name:"Princeton University", loc:"Princeton, NJ", dist:"~45 min", cat:"close", type:"Private Ivy League Research University",
+    depts:["Chemical & Biological Engineering","Electrical & Computer Engineering","Computer Science","Molecular Biology","Ecology & Evolutionary Biology"],
+    profs:[
+      { name:"Dr. Clifford Brangwynne", title:"Howard A. Prior Professor of Chemical & Biological Engineering", dept:"Chemical & Biological Engineering", tags:["Biophysics","Soft Matter","Cell Biology"], env:false,
+        papers:[
+          { t:"Germline P Granules Are Liquid Droplets That Localize by Controlled Dissolution/Condensation", y:"2009", s:"Landmark Science paper demonstrating RNA-protein granules in cells behave as liquid droplets governed by phase separation — the founding paper of the biomolecular condensate field." },
+          { t:"Active Liquid-like Behavior of Nucleoli Determines Their Size and Shape", y:"2011", s:"Showed the nucleolus is a liquid-like organelle whose size scales predictably with nuclear volume." },
+          { t:"Polymer Physics of Intracellular Phase Transitions", y:"2015", s:"Connects polymer physics to explain how disordered proteins drive phase separation inside living cells." }
+        ],
+        fill:{ area:"biomolecular condensates and intracellular phase separation", paper:"Germline P Granules Are Liquid Droplets (Science, 2009)", why:"Your discovery that cellular organelles behave as liquid droplets governed by phase separation — rather than membrane boundaries — fundamentally changed how scientists understand cellular organization.", connect:"In our Engineering Club we study soft materials and bioinspired design. The concept of programmable phase behavior in biological systems connects directly to our work on adaptive materials." }
+      },
+      { name:"Dr. Barry Rand", title:"Professor of Electrical & Computer Engineering and Andlinger Center", dept:"Electrical & Computer Engineering", tags:["Solar Energy","Perovskite","Photovoltaics"], env:false,
+        papers:[
+          { t:"Defect Tolerance in Halide Perovskite Solar Cells", y:"2019", s:"Examines why perovskite materials perform well despite high defect densities, providing a framework for engineering more resilient solar cells." },
+          { t:"Organic Solar Cells Based on Non-fullerene Acceptors", y:"2018", s:"Investigates high-efficiency organic photovoltaic devices using non-fullerene acceptor molecules, demonstrating record power conversion efficiencies." },
+          { t:"Perovskite Light-Emitting Diodes at Room Temperature", y:"2016", s:"First demonstration of bright, tunable LEDs made from perovskite materials, opening new avenues for displays and communications." }
+        ],
+        fill:{ area:"perovskite photovoltaics and thin-film solar energy materials", paper:"Defect Tolerance in Halide Perovskite Solar Cells (2019)", why:"The discovery that perovskite solar cells perform efficiently despite structural imperfections upends conventional wisdom in semiconductor design and could make affordable solar far more accessible.", connect:"As Engineering Club president I have led projects on renewable energy systems and have been studying thin-film material properties in physics." }
+      },
+      { name:"Dr. H. Vincent Poor", title:"Michael Henry Strater University Professor of Electrical Engineering", dept:"Electrical & Computer Engineering", tags:["Signal Processing","Wireless Networks","Machine Learning","Privacy"], env:false,
+        papers:[
+          { t:"Federated Learning with Differential Privacy", y:"2020", s:"Developed frameworks for training machine learning models across decentralized devices without exposing individual user data, balancing accuracy with rigorous privacy guarantees." },
+          { t:"Resource Allocation in Wireless Networks", y:"2013", s:"Comprehensive analysis of optimal communication resource assignment in multi-user wireless systems under interference constraints." },
+          { t:"Smart Grid Communications: Overview and Research Challenges", y:"2011", s:"Seminal review examining how advanced communication and signal processing technologies can modernize electrical power grids." }
+        ],
+        fill:{ area:"privacy-preserving machine learning and wireless communications systems", paper:"Federated Learning with Differential Privacy (2020)", why:"Training powerful AI models without centralizing sensitive personal data is one of the most important engineering problems of our era. Your mathematical framework for achieving this with formal privacy guarantees is groundbreaking.", connect:"I have been studying machine learning fundamentals and cybersecurity, and your work on federated systems shows how engineering can protect people while advancing AI." }
+      },
+      { name:"Dr. A. Carla Staver", title:"Professor of Ecology and Evolutionary Biology", dept:"Ecology & Evolutionary Biology", tags:["Plant Ecology","Savannas","Wildfire","Carbon Emissions"], env:true,
+        papers:[
+          { t:"The Global Extent and Determinants of Savanna and Forest as Alternative Biome States", y:"2011", s:"Used global vegetation and climate data to show savannas and forests are alternative stable states maintained partly by fire — major implications for carbon cycling." },
+          { t:"Tree Cover in Sub-Saharan Africa: Rainfall and Fire Constrain Forest and Savanna", y:"2011", s:"Demonstrated how fire frequency and rainfall interact to set the boundaries between savanna and forest ecosystems across Africa." },
+          { t:"Wildfires and Savanna Ecosystem Carbon Dynamics Under Climate Change", y:"2022", s:"Modeled how increasing wildfire frequency under projected climate scenarios would shift carbon storage in grassland-savanna biomes globally." }
+        ],
+        fill:{ area:"🌿 savanna ecosystem ecology, wildfire dynamics, and global carbon cycling", paper:"The Global Extent and Determinants of Savanna and Forest as Alternative Biome States (Science, 2011)", why:"🌿 The idea that entire biomes exist as bistable states — flipping between forest and savanna depending on fire history — is a profound insight that changes how we think about conservation and climate intervention.", connect:"🌿 Our Engineering Club has worked on environmental monitoring projects, and I am passionate about how systems thinking in engineering applies to ecological resilience." }
+      }
+    ]
+  },
+  { id:"rutgers", name:"Rutgers University — New Brunswick", loc:"New Brunswick, NJ", dist:"~40 min", cat:"close", type:"Public Research University (R1)",
+    depts:["Mechanical & Aerospace Engineering","Electrical & Computer Engineering","Chemical & Biochemical Engineering","Biomedical Engineering"],
+    profs:[
+      { name:"Dr. Yingying Chen", title:"Professor of Electrical & Computer Engineering", dept:"Electrical & Computer Engineering", tags:["Cybersecurity","IoT","Wireless Sensing"], env:false,
+        papers:[
+          { t:"Fingerprinting Smartphones Using WiFi RF Signals", y:"2015", s:"Showed smartphone hardware variations create unique RF fingerprints in WiFi signals, enabling passive device authentication without software." },
+          { t:"HeadScan: A Wearable System for Radio-Based Retrieval of Head and Mouth Movement", y:"2018", s:"Developed a wearable sensor using ambient RF signals to track head and jaw movements for rehabilitation and AR applications." },
+          { t:"Your Tattoo Is Tracked: Privacy Risks of QR-Code Tattoos", y:"2020", s:"Investigated privacy vulnerabilities where visible body-art QR codes enable passive surveillance in public spaces." }
+        ],
+        fill:{ area:"cybersecurity, wireless sensing, and mobile privacy", paper:"Fingerprinting Smartphones Using WiFi RF Signals (2015)", why:"The discovery that hardware manufacturing variance creates unique trackable device signatures — invisible to users — reveals a security vulnerability hiding in plain sight.", connect:"I have been studying cybersecurity fundamentals. Our Engineering Club participated in CyberPatriot, and your research shows how physical-layer signals carry security implications." }
+      },
+      { name:"Dr. Shishir Chundawat", title:"Associate Professor of Chemical & Biochemical Engineering", dept:"Chemical & Biochemical Engineering", tags:["Bioenergy","Lignocellulosic Biomass","Sustainability"], env:true,
+        papers:[
+          { t:"Ammonia Fiber Expansion Pretreatment Enables Near-Complete Cellulose Conversion", y:"2010", s:"Demonstrated that an ammonia-based pretreatment allows 90%+ conversion of plant cellulose to fermentable sugars — key for cost-effective cellulosic ethanol." },
+          { t:"Multiscale Characterization of Cellulose Ultrastructure During Pretreatment", y:"2011", s:"Used neutron scattering and X-ray diffraction to reveal how plant cell wall cellulose structure changes during industrial pretreatment for biofuel production." },
+          { t:"Engineering Protein-Carbohydrate Interaction for Efficient Biomass Deconstruction", y:"2018", s:"Engineered novel enzyme-carbohydrate binding combinations to dramatically increase the efficiency of plant biomass breakdown for biorefinery applications." }
+        ],
+        fill:{ area:"🌿 lignocellulosic biomass deconstruction and cellulosic biofuels", paper:"Ammonia Fiber Expansion Pretreatment Enables Near-Complete Cellulose Conversion (2010)", why:"🌿 The engineering of pretreatment chemistry to unlock nearly complete cellulose conversion is a beautiful example of applying physical chemistry to a global sustainability challenge.", connect:"🌿 Environmental sustainability is a focus within our Engineering Club. Understanding how chemical engineering enables renewable bioenergy connects directly to the clean energy future I want to work toward." }
+      },
+      { name:"Dr. Rajiv Malhotra", title:"Associate Professor of Mechanical & Aerospace Engineering", dept:"Mechanical & Aerospace Engineering", tags:["Advanced Manufacturing","Additive Manufacturing"], env:false,
+        papers:[
+          { t:"Knowledge-Driven Optimization of Incremental Forming Processes", y:"2017", s:"Developed a machine-learning-guided framework for optimizing sheet metal forming parameters, reducing trial-and-error while improving part accuracy." },
+          { t:"Mechanics of Material Flow in Laser-Shock-Induced Forming", y:"2019", s:"Investigated the fundamental material behavior during laser-shock forming — a high-speed, high-precision metal shaping technique for aerospace components." },
+          { t:"Hybrid Additive-Subtractive Manufacturing for Complex Geometries", y:"2021", s:"Proposed and validated an integrated approach combining 3D printing with precision machining to produce complex parts with both internal features and tight tolerances." }
+        ],
+        fill:{ area:"advanced manufacturing processes and hybrid additive/subtractive methods", paper:"Hybrid Additive-Subtractive Manufacturing for Complex Geometries (2021)", why:"The integration of 3D printing with subtractive processes to achieve geometries impossible with either alone is smart engineering. Your ML-driven process optimization shows how AI is transforming manufacturing.", connect:"I am very interested in fabrication. In Engineering Club we prototype with 3D printers and are studying how to improve part quality — your research is directly relevant." }
+      }
+    ]
+  },
+  { id:"njit", name:"New Jersey Institute of Technology", loc:"Newark, NJ", dist:"~35 min", cat:"close", type:"Public Technological Research University (R1)",
+    depts:["Electrical & Computer Engineering","Computer Science","Chemistry","Mechanical Engineering"],
+    profs:[
+      { name:"Dr. Atam Dhawan", title:"Senior Vice Provost for Research; Professor of ECE", dept:"Electrical & Computer Engineering", tags:["Medical Imaging","AI in Healthcare","Deep Learning"], env:false,
+        papers:[
+          { t:"Multi-Scale Analysis of Skin Lesion Images Using Deep Learning", y:"2018", s:"Developed a deep convolutional neural network for automated melanoma detection from dermoscopy images, achieving dermatologist-level accuracy." },
+          { t:"A Review of Deep Learning Based Methods for Medical Image Analysis", y:"2020", s:"Comprehensive survey of state-of-the-art deep learning architectures for diagnostic imaging across radiology, pathology, and dermatology." },
+          { t:"Computed Tomography Image Enhancement via Iterative Reconstruction", y:"2012", s:"Proposed iterative reconstruction methods that reduce radiation dose in CT scanning while maintaining diagnostic image quality." }
+        ],
+        fill:{ area:"AI-driven medical image analysis and diagnostic systems", paper:"Multi-Scale Analysis of Skin Lesion Images Using Deep Learning (2018)", why:"Designing a system that detects cancer from photographs at dermatologist-level accuracy is engineering at its most impactful. The multi-scale approach shows rigorous engineering thinking applied to a life-or-death diagnostic challenge.", connect:"I am interested in both machine learning and healthcare applications. Your research shows the direct path from engineering mathematics to clinical impact." }
+      },
+      { name:"Dr. Somenath Mitra", title:"Distinguished Professor of Chemistry", dept:"Chemistry", tags:["Environmental Chemistry","Carbon Nanotubes","PFAS Detection"], env:true,
+        papers:[
+          { t:"Carbon Nanotube-Based Sorbents for Environmental Contaminant Removal", y:"2008", s:"Demonstrated that carbon nanotubes dramatically outperform conventional activated carbon for adsorbing organic pollutants and heavy metals from contaminated water." },
+          { t:"Microwave-Assisted Functionalization of Carbon Nanotubes", y:"2004", s:"Developed rapid microwave-based methods to chemically functionalize carbon nanotubes, enabling integration into sensors, filters, and composite materials." },
+          { t:"Detection of PFAS Compounds in Environmental Matrices", y:"2021", s:"Developed highly sensitive extraction and analysis methods for detecting 'forever chemicals' (PFAS) in groundwater and soil at parts-per-trillion levels." }
+        ],
+        fill:{ area:"🌿 environmental analytical chemistry and carbon nanomaterial-based water treatment", paper:"Detection of PFAS Compounds in Environmental Matrices (2021)", why:"🌿 PFAS contamination is one of the most urgent environmental engineering problems of our time. Your ultra-sensitive detection methods at parts-per-trillion levels is foundational work that makes remediation possible.", connect:"🌿 Environmental engineering is a core focus of our club's sustainability projects. The intersection of analytical chemistry and environmental monitoring aligns directly with work we have done around water quality." }
+      }
+    ]
+  },
+  { id:"stevens", name:"Stevens Institute of Technology", loc:"Hoboken, NJ", dist:"~50 min", cat:"close", type:"Private Engineering & Technology University",
+    depts:["Mechanical Engineering","Computer Science","Civil & Environmental Engineering","Ocean Engineering"],
+    profs:[
+      { name:"Dr. Eui-Hyeok Yang", title:"Professor of Mechanical Engineering; Editor-in-Chief, IEEE Sensors Reviews", dept:"Mechanical Engineering", tags:["2D Materials","MEMS","Nanotechnology","Energy Harvesting"], env:false,
+        papers:[
+          { t:"Electromechanical Properties of Suspended Graphene Membranes", y:"2008", s:"First detailed characterization of the mechanical and electrical behavior of suspended single-layer graphene, establishing it as an ideal material for ultrasensitive MEMS resonators." },
+          { t:"Flexible Piezoelectric MoS₂ Nanogenerators for Energy Harvesting", y:"2014", s:"Demonstrated that atomic-layer MoS₂ generates electricity under mechanical strain, enabling ultra-thin flexible piezoelectric energy harvesters for wearable electronics." },
+          { t:"Two-Dimensional Materials for Next-Generation Sensors", y:"2019", s:"Comprehensive review of how single-layer materials like graphene and MoS₂ are revolutionizing chemical, biological, and physical sensing." }
+        ],
+        fill:{ area:"2D nanomaterials, MEMS devices, and flexible energy harvesting", paper:"Flexible Piezoelectric MoS₂ Nanogenerators for Energy Harvesting (2014)", why:"The idea that a single atomic layer of material can convert mechanical motion into electricity is remarkable. Your work bridges fundamental materials physics and practical wearable energy systems elegantly.", connect:"I am interested in MEMS fabrication and energy systems. In Engineering Club we have designed vibration-based energy harvesters, and your nanoscale work represents the frontier of that technology." }
+      }
+    ]
+  },
+  { id:"columbia", name:"Columbia University", loc:"New York, NY", dist:"~60 min", cat:"med", type:"Private Ivy League Research University",
+    depts:["Biomedical Engineering","Chemical Engineering","Earth & Environmental Engineering","Computer Science"],
+    profs:[
+      { name:"Dr. Ozgur Sahin", title:"Professor of Biological Sciences and Physics", dept:"Biological Sciences / Physics", tags:["Biophysics","Bacterial Spores","Evaporation Energy"], env:true,
+        papers:[
+          { t:"Bacterial Spores Harness the Power of Evaporation", y:"2015", s:"Discovered that hygroscopic bacterial spores embedded in polymer films generate significant mechanical work as humidity oscillates, creating a novel renewable energy source from evaporation." },
+          { t:"Nanomechanical Measurements Using Atomic Force Microscopy", y:"2007", s:"Developed new AFM cantilever techniques to measure mechanical properties at the nanoscale, enabling characterization of single molecules and cells." },
+          { t:"Hydration Shell of Proteins and Macromolecules", y:"2014", s:"Used high-resolution AFM to image and measure the organized water layers surrounding biological macromolecules, revealing how hydration shells govern protein function." }
+        ],
+        fill:{ area:"🌿 biophysics of bacterial spores and evaporation-driven renewable energy", paper:"Bacterial Spores Harness the Power of Evaporation (Science, 2015)", why:"🌿 The idea that bacterial spores can function as reliable mechanical engines powered by nothing but humidity changes — potentially generating electricity from evaporation over lakes and rivers — is one of the most creative ideas in energy research I have encountered.", connect:"🌿 Our Engineering Club explores unconventional energy harvesting. Evaporation-driven energy using biological materials is the kind of nature-inspired solution that changes what we think engineering can do." }
+      },
+      { name:"Dr. Ngai Yin Yip", title:"Associate Professor of Earth & Environmental Engineering", dept:"Earth & Environmental Engineering", tags:["Water Treatment","Membrane Technology","Desalination"], env:true,
+        papers:[
+          { t:"Salinity Gradient Energy via Reverse Electrodialysis", y:"2014", s:"Evaluated harvesting electricity from the salinity difference between river water and seawater using ion-exchange membranes." },
+          { t:"Thermodynamic Analysis of Osmotically Assisted Reverse Osmosis", y:"2017", s:"Developed the theoretical framework for a new desalination configuration that dramatically reduces energy consumption by exploiting osmotic pressure differentials." },
+          { t:"High-Pressure Reverse Osmosis for Water Desalination", y:"2019", s:"Investigated novel high-pressure membrane processes to achieve near-complete water recovery from seawater with lower energy input than conventional RO." }
+        ],
+        fill:{ area:"🌿 membrane-based water desalination and salinity gradient energy harvesting", paper:"Thermodynamic Analysis of Osmotically Assisted Reverse Osmosis (2017)", why:"🌿 Addressing global water scarcity by simultaneously desalinating water and harvesting energy from salinity gradients is a beautifully efficient engineering vision.", connect:"🌿 Water scarcity is one of the defining challenges of the next century. Our Engineering Club has prototyped filtration systems, and your work on advanced membrane desalination represents where that field is heading." }
+      },
+      { name:"Dr. Sam Sia", title:"Professor of Biomedical Engineering", dept:"Biomedical Engineering", tags:["Point-of-Care Diagnostics","Microfluidics","Global Health"], env:false,
+        papers:[
+          { t:"A Smartphone Dongle for Diagnosis of HIV and Syphilis at the Point of Care", y:"2015", s:"Developed a $34 lab-on-a-chip device that plugs into smartphone audio jacks and performs multiplexed blood tests in 15 minutes, validated in clinical trials in Rwanda." },
+          { t:"Microfluidic Synthesis of Functional Hydrogel Particles", y:"2008", s:"Used droplet microfluidics to create hydrogel microparticles with tunable mechanical properties and drug loading capacity." },
+          { t:"3D-Printed Vascularized Tissues for Transplantation", y:"2019", s:"Demonstrated a 3D printing approach to create living tissue constructs with embedded microchannels that support vascularization." }
+        ],
+        fill:{ area:"microfluidic point-of-care diagnostics and global health engineering", paper:"A Smartphone Dongle for Diagnosis of HIV and Syphilis at the Point of Care (2015)", why:"Designing a $34 diagnostic device that works in rural Rwanda with no laboratory infrastructure — and validating it in real clinical trials — is engineering at its most impactful.", connect:"I am deeply interested in how engineering can address healthcare access inequalities. Your approach of designing for extreme resource constraints is the engineering philosophy I want to pursue." }
+      }
+    ]
+  },
+  { id:"upenn", name:"University of Pennsylvania", loc:"Philadelphia, PA", dist:"~90 min", cat:"med", type:"Private Ivy League Research University",
+    depts:["Bioengineering","Chemical & Biomolecular Engineering","Mechanical Engineering","Computer Science"],
+    profs:[
+      { name:"Dr. Vijay Kumar", title:"Nemirovsky Family Dean of Engineering; Professor of Mechanical Engineering", dept:"Mechanical Engineering", tags:["Robotics","Autonomous Systems","Swarm Robotics","UAVs"], env:false,
+        papers:[
+          { t:"Aggressive Maneuvers for Autonomous Quadrotor Flight", y:"2010", s:"Demonstrated autonomous quadrotors performing precise, high-speed acrobatic maneuvers — widely considered a milestone in agile drone autonomy." },
+          { t:"Trajectory Generation and Control for Quadrotors", y:"2011", s:"Developed the mathematical framework for generating smooth, dynamically feasible trajectories for quadrotor drones and tracking them with high fidelity." },
+          { t:"Cooperative Transport by Teams of Aerial Robots", y:"2013", s:"Showed how multiple quadrotors can cooperatively lift and transport objects, forming the first demonstrations of aerial swarm manipulation." }
+        ],
+        fill:{ area:"autonomous aerial robotics, swarm systems, and trajectory control", paper:"Aggressive Maneuvers for Autonomous Quadrotor Flight (2010)", why:"Watching autonomous quadrotors perform precise high-speed maneuvers with no human input is one of the most inspiring demonstrations of control engineering I have seen. The mathematical elegance combined with the physical drama of agile flight is remarkable.", connect:"Robotics and autonomous systems are a core interest of mine. In Engineering Club we have worked on drone applications, and your foundational research on quadrotor autonomy is exactly the theory I want to understand more deeply." }
+      }
+    ]
+  },
+  { id:"yale", name:"Yale University", loc:"New Haven, CT", dist:"~2 hrs", cat:"med", type:"Private Ivy League Research University",
+    depts:["Biomedical Engineering","Chemical Engineering","Environmental Engineering","Mechanical Engineering & Materials Science"],
+    profs:[
+      { name:"Dr. Julie Zimmerman", title:"Professor of Green Engineering and Environmental Science", dept:"Chemical & Environmental Engineering", tags:["Green Chemistry","Sustainable Engineering","Life Cycle Assessment"], env:true,
+        papers:[
+          { t:"The Twelve Principles of Green Engineering", y:"2003", s:"Foundational paper co-authoring the 12 Principles of Green Engineering — a widely adopted framework guiding engineers to design processes and products that minimize environmental harm." },
+          { t:"Towards Designing Greener Ionic Liquids", y:"2010", s:"Established a framework for designing ionic liquids with reduced toxicity and environmental persistence, applying green chemistry principles to emerging materials." },
+          { t:"Greening the Life Sciences Using Green Chemistry", y:"2014", s:"Review examining how life science research can adopt green chemistry principles to reduce hazardous waste in pharmaceutical and biotech labs." }
+        ],
+        fill:{ area:"🌿 green engineering principles and sustainable chemical process design", paper:"The Twelve Principles of Green Engineering (2003)", why:"🌿 Co-authoring the foundational framework that guides engineers worldwide to embed sustainability into design from the start — rather than as an afterthought — is lasting impact.", connect:"🌿 Environmental sustainability is core to our Engineering Club's mission. Your framework for green engineering is something we actively reference in our project design process." }
+      }
+    ]
+  },
+  { id:"lehigh", name:"Lehigh University", loc:"Bethlehem, PA", dist:"~70 min", cat:"med", type:"Private Research University",
+    depts:["Chemical Engineering","Civil & Environmental Engineering","Electrical & Computer Engineering","Materials Science"],
+    profs:[
+      { name:"Dr. Jeetain Mittal", title:"Professor of Chemical and Biomolecular Engineering", dept:"Chemical Engineering", tags:["Molecular Simulation","Protein Phase Separation","Biophysics"], env:false,
+        papers:[
+          { t:"Sequence Determinants of Protein Phase Separation", y:"2020", s:"Used coarse-grained simulations to map how amino acid sequence properties control whether a protein will phase-separate into condensates inside cells." },
+          { t:"Role of Liquid-Liquid Phase Separation in Transcription Regulation", y:"2021", s:"Demonstrated computationally that transcription factor condensates concentrate RNA polymerase at gene promoters, explaining coordinated bursts of gene expression." },
+          { t:"Physics-Based Coarse-Grained Models for Intrinsically Disordered Proteins", y:"2018", s:"Developed a computationally efficient simulation framework for modeling disordered proteins — a major challenge for conventional molecular dynamics." }
+        ],
+        fill:{ area:"computational modeling of protein phase separation and disordered proteins", paper:"Sequence Determinants of Protein Phase Separation (2020)", why:"The idea that a protein's tendency to form condensates can be predicted from its amino acid sequence — and that this governs gene regulation — is remarkable.", connect:"I am studying biophysics and computational modeling. Understanding how protein sequence maps to function and phase behavior is exactly the kind of problem-solving I want to engage with." }
+      }
+    ]
+  },
+  { id:"drew", name:"Drew University", loc:"Madison, NJ", dist:"~10 min", cat:"close", type:"Private Liberal Arts University",
+    depts:["Biology","Chemistry","Mathematics","Environmental Studies","Computer Science"],
+    profs:[
+      { name:"Dr. April Hill", title:"Professor of Biology", dept:"Biology", tags:["Comparative Genomics","Sponge Biology","Evolutionary Genetics"], env:true,
+        papers:[
+          { t:"Genomic Signatures of Cooperative Gene Expression in Sponges", y:"2015", s:"Analyzed the genome of freshwater sponges to identify conserved regulatory networks that predate the emergence of complex multicellular animals." },
+          { t:"Evolution of Stem Cell Genes in Early Metazoans", y:"2012", s:"Traced the evolutionary origins of stem cell regulatory genes by identifying their precursors in ancient sponge genomes." },
+          { t:"Freshwater Sponge Ecology and Biodiversity Assessment", y:"2018", s:"Conducted molecular and morphological surveys of freshwater sponge diversity across northeastern US waterways, creating a reference database for ecological monitoring." }
+        ],
+        fill:{ area:"🌿 comparative genomics of early animals and freshwater sponge evolutionary biology", paper:"Evolution of Stem Cell Genes in Early Metazoans (2012)", why:"🌿 Tracing the evolutionary origins of stem cell genetics back to ancient sponge ancestors — revealing that the genetic toolkit for complex animal development predates most multicellular animals — is a profound insight.", connect:"🌿 I am interested in the intersection of biology and information science. Comparative genomics uses computational tools I am learning alongside the biological questions I find fascinating. Drew is also just minutes from Morristown." }
+      }
+    ]
+  },
+  { id:"drexel", name:"Drexel University", loc:"Philadelphia, PA", dist:"~90 min", cat:"med", type:"Private Research University",
+    depts:["Materials Science & Engineering","Mechanical Engineering","Chemical Engineering","Biomedical Engineering"],
+    profs:[
+      { name:"Dr. Yury Gogotsi", title:"Distinguished University Professor of Materials Science", dept:"Materials Science & Engineering", tags:["MXenes","2D Materials","Energy Storage","Nanomaterials"], env:false,
+        papers:[
+          { t:"Two-Dimensional Nanocrystals Produced by Exfoliation of Ti₃AlC₂", y:"2011", s:"Discovery of MXenes — a new class of 2D transition metal carbides — via selective etching of layered ceramics. Now used in supercapacitors, EMI shielding, and sensing." },
+          { t:"MXene: A New Family of Two-Dimensional Materials", y:"2012", s:"Systematic characterization of the structural, electronic, and electrochemical properties of MXenes, establishing the foundation for a new field with hundreds of related materials." },
+          { t:"Electromagnetic Interference Shielding with MXene Coatings", y:"2016", s:"Demonstrated that thin MXene films provide extraordinary electromagnetic shielding — outperforming metals — while remaining flexible and transparent." }
+        ],
+        fill:{ area:"MXene 2D materials for energy storage and electromagnetic applications", paper:"Two-Dimensional Nanocrystals Produced by Exfoliation of Ti₃AlC₂ (Science, 2011)", why:"The discovery of an entirely new family of 2D materials with tunable electronic and chemical properties is one of the most significant materials science discoveries of this century.", connect:"I have been studying materials science and nanotechnology. MXenes represent the kind of foundational discovery that opens entirely new engineering design spaces." }
+      }
+    ]
+  },
+  { id:"rpi", name:"Rensselaer Polytechnic Institute", loc:"Troy, NY", dist:"~2.5 hrs", cat:"far", type:"Private Technological Research University",
+    depts:["Biomedical Engineering","Chemical & Biological Engineering","Computer Science","Materials Science"],
+    profs:[
+      { name:"Dr. Deepak Vashishth", title:"Professor of Biomedical Engineering; Director, Center for Biotechnology", dept:"Biomedical Engineering", tags:["Bone Mechanics","Fracture Biomechanics","Osteoporosis"], env:false,
+        papers:[
+          { t:"Role of Collagen Cross-Links in Bone Mechanical Properties", y:"2004", s:"Demonstrated that collagen cross-link chemistry — not just mineral content — is a key determinant of bone fracture resistance, challenging the calcium-centric view of bone strength." },
+          { t:"Bone Quality and Fracture Risk in Aging and Disease", y:"2010", s:"Review establishing 'bone quality' as a multiscale concept encompassing mineral, collagen, and microarchitectural properties that collectively determine fracture risk." },
+          { t:"Osteocyte Network Damage Contributes to Bone Fragility in Osteoporosis", y:"2018", s:"Showed that osteocyte cell death and lacunar-canalicular network deterioration drive fracture susceptibility in osteoporotic bone." }
+        ],
+        fill:{ area:"bone biomechanics, collagen mechanics, and osteoporosis fracture risk", paper:"Role of Collagen Cross-Links in Bone Mechanical Properties (2004)", why:"Discovering that fracture resistance in bone depends on the chemistry of collagen cross-links — not just mineral density — overturned decades of assumptions in skeletal biology.", connect:"I am interested in biomechanics and materials science applied to biological tissues. Bone as a composite material is a fascinating engineering system with direct implications for aging populations." }
+      },
+      { name:"Dr. Kristin Bennett", title:"Professor of Mathematical Sciences and Computer Science", dept:"Mathematical Sciences / Computer Science", tags:["Machine Learning","Data Science","Optimization","Bioinformatics"], env:false,
+        papers:[
+          { t:"Support Vector Machines for Regression via Optimization", y:"1999", s:"Extended support vector machine theory to regression problems, developing efficient optimization formulations that became a standard in statistical machine learning." },
+          { t:"Data Mining Methods for Drug Discovery", y:"2003", s:"Applied machine learning and statistical optimization to screen pharmaceutical compound libraries, identifying structure-activity relationships that accelerate drug candidate selection." },
+          { t:"Federated Learning with Heterogeneous Data Distributions", y:"2021", s:"Investigated how ML models trained on distributed, non-identically distributed data can achieve good generalization — key for privacy-preserving healthcare AI." }
+        ],
+        fill:{ area:"machine learning, optimization theory, and data mining for biomedical discovery", paper:"Data Mining Methods for Drug Discovery (2003)", why:"Applying machine learning optimization to pharmaceutical compound screening — finding drug candidates faster by learning structure-activity patterns — is a clear demonstration of how mathematical engineering accelerates medicine.", connect:"I am studying machine learning and mathematical optimization. The application of these methods to biomedical data is one of the most compelling uses of AI I can imagine pursuing." }
+      }
+    ]
+  },
+  { id:"cornell", name:"Cornell University", loc:"Ithaca, NY", dist:"~3.5 hrs", cat:"far", type:"Private Ivy League Research University (R1)",
+    depts:["Biological & Environmental Engineering","Chemical Engineering","Computer Science","Electrical & Computer Engineering","Mechanical & Aerospace Engineering"],
+    profs:[
+      { name:"Dr. Itai Cohen", title:"Professor of Physics", dept:"Physics", tags:["Biophysics","Insect Flight","Soft Robotics"], env:true,
+        papers:[
+          { t:"Wing Flexibility Enhances Load-Lifting Capacity in Flies", y:"2014", s:"Showed that the flexible, corrugated wings of flies generate aerodynamic forces impossible with rigid wings, providing engineering principles for micro aerial vehicle design." },
+          { t:"Nanometer-Scale Flapping of Insect Wings via Atomic Force Microscopy", y:"2016", s:"Measured wing vibration patterns at nanometer resolution in living insects, revealing how microscale elasticity governs the energetics of insect flight." },
+          { t:"Microscale Robotic Origami Actuated by Wireless Magnetic Fields", y:"2020", s:"Demonstrated magnetically controlled origami microrobots capable of targeted drug delivery inside living tissues, using flexible kinematics inspired by insect wings." }
+        ],
+        fill:{ area:"🌿 insect flight biophysics and microrobotics inspired by biological locomotion", paper:"Wing Flexibility Enhances Load-Lifting Capacity in Flies (2014)", why:"🌿 Understanding how biological wing flexibility outperforms rigid airfoils — then applying that insight to micro aerial vehicles and soft robotics — is a perfect example of engineering learning from nature.", connect:"🌿 Bio-inspired engineering and robotics are among my deepest interests. Your work connecting insect biomechanics to microscale robot design is exactly the kind of interdisciplinary research I want to experience." }
+      },
+      { name:"Dr. Tobias Hanrath", title:"Professor of Chemical and Biomolecular Engineering", dept:"Chemical Engineering", tags:["Quantum Dots","Solar Energy","Nanocrystals"], env:false,
+        papers:[
+          { t:"Multiple Exciton Generation in Quantum Dots for High-Efficiency Photovoltaics", y:"2011", s:"Demonstrated that a single photon can generate multiple electron-hole pairs in quantum dots, potentially exceeding the single-junction solar efficiency limit." },
+          { t:"Quantum Dot Solar Cells — Progress, Prospects, and Challenges", y:"2012", s:"Comprehensive review of the physics and engineering of quantum dot photovoltaics, analyzing why size-tunable bandgaps make them attractive for multi-junction solar cells." },
+          { t:"Directed Self-Assembly of Colloidal Nanocrystal Superlattices", y:"2015", s:"Showed how nanocrystal superlattices can be assembled on surface templates, creating ordered semiconducting materials with collective electronic properties." }
+        ],
+        fill:{ area:"quantum dot photovoltaics and colloidal nanocrystal self-assembly", paper:"Multiple Exciton Generation in Quantum Dots for High-Efficiency Photovoltaics (2011)", why:"The ability of quantum dots to convert a single photon into multiple charge carriers — potentially breaking fundamental solar efficiency limits — is one of the most exciting physics results in energy research.", connect:"I have been studying quantum mechanics fundamentals and semiconductor physics. Your work on quantum dot solar cells shows the direct path from nanoscale quantum physics to real energy engineering." }
+      }
+    ]
+  },
+  { id:"nyu", name:"NYU Tandon School of Engineering", loc:"Brooklyn, NY", dist:"~65 min", cat:"med", type:"Private Research University",
+    depts:["Mechanical Engineering","Electrical & Computer Engineering","Computer Science","Biomedical Engineering"],
+    profs:[
+      { name:"Dr. Ramesh Karri", title:"Professor of Electrical & Computer Engineering", dept:"Electrical & Computer Engineering", tags:["Hardware Security","Logic Locking","Chip Trust"], env:false,
+        papers:[
+          { t:"Logic Locking Against Hardware Piracy", y:"2010", s:"Invented logic locking: a technique rendering integrated circuit designs functional only with a secret key, protecting chip IP from reverse engineering and counterfeiting." },
+          { t:"Trojan Detection in Integrated Circuits via Machine Learning", y:"2014", s:"Developed ML classifiers to detect hardware trojans — malicious modifications to microchips — without requiring invasive physical analysis." },
+          { t:"Primer on Hardware Security: Models, Methods, and Metrics", y:"2014", s:"Foundational paper establishing threat models, attack techniques, and countermeasures for hardware-level security across the semiconductor supply chain." }
+        ],
+        fill:{ area:"hardware security, logic locking, and chip-level trust mechanisms", paper:"Logic Locking Against Hardware Piracy (2010)", why:"The invention of logic locking — turning a circuit into a cryptographic system that works only with a secret key — is an elegant solution to chip counterfeiting.", connect:"I am interested in cybersecurity. Your work shows how security must be engineered into silicon itself, not just software." }
+      }
+    ]
+  }
+];
+
+const PROF_COLORS = ["#6B1E2E","#1a3566","#2d6a4f","#7a4000","#4a2d7b","#006070"];
+
+// ── HUB LOGIC ─────────────────────────────────────────────────────────────────
+function hubTab(name, btn) {
+  document.querySelectorAll('.hub-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.hub-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('hub-' + name).classList.add('active');
+  btn.classList.add('active');
+  const sidebar = document.getElementById('hubSidebar');
+  if (name === 'directory') {
+    sidebar.classList.add('visible');
+    hubRenderSidebar();
+  } else {
+    sidebar.classList.remove('visible');
+  }
+}
+
+function hubRenderOverview() {
+  document.getElementById('hubOverviewGrid').innerHTML = HUB_SCHOOLS.map(s => `
+    <div class="hub-ov-card ${s.profs.some(p=>p.env)?'env-card':''}" onclick="hubGoSchool('${s.id}')">
+      <div class="hub-ov-name">${s.profs.some(p=>p.env)?'🌿 ':''}${s.name}</div>
+      <div class="hub-ov-loc">${s.loc} · ${s.dist}</div>
+      <div class="hub-ov-counts">
+        <div><span class="hub-ov-count-num">${s.profs.length}</span><span class="hub-ov-count-lbl">Profs</span></div>
+        <div><span class="hub-ov-count-num">${s.profs.reduce((a,p)=>a+p.papers.length,0)}</span><span class="hub-ov-count-lbl">Papers</span></div>
+      </div>
+      <div style="margin-top:0.5rem;"><span class="hub-dist-badge dist-${s.cat}">${s.dist}</span>${s.cat!=='close'?'<span class="hub-dist-badge dist-far" style="margin-left:4px;">Housing</span>':''}</div>
+    </div>
+  `).join('');
+}
+
+function hubRenderSidebar(filter='') {
+  const list = document.getElementById('hubSchoolList');
+  list.innerHTML = HUB_SCHOOLS.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()) || s.loc.toLowerCase().includes(filter.toLowerCase())).map(s => `
+    <div class="hub-school-item" id="hsi-${s.id}" onclick="hubSelectSchool('${s.id}')">
+      <div class="hub-school-item-name">${s.profs.some(p=>p.env)?'🌿 ':''}${s.name}</div>
+      <div class="hub-school-item-meta">${s.loc} · ${s.type.split(' ').slice(0,2).join(' ')}</div>
+      <span class="hub-dist-badge dist-${s.cat}">${s.dist}</span>
+      ${s.cat!=='close'?'<span class="hub-dist-badge dist-far" style="margin-left:4px;">Housing</span>':''}
+    </div>
+  `).join('');
+}
+
+function hubFilterSchools() {
+  hubRenderSidebar(document.querySelector('.hub-search-input').value);
+}
+
+function hubSelectSchool(id) {
+  const s = HUB_SCHOOLS.find(x=>x.id===id);
+  if (!s) return;
+  document.querySelectorAll('.hub-school-item').forEach(el=>el.classList.remove('active'));
+  const si = document.getElementById('hsi-'+id);
+  if (si) si.classList.add('active');
+
+  const colorIdx = HUB_SCHOOLS.indexOf(s) % PROF_COLORS.length;
+  const initials = s.name.split(' ').map(w=>w[0]).join('').slice(0,3);
+
+  const byDept = {};
+  s.profs.forEach(p => { if (!byDept[p.dept]) byDept[p.dept]=[]; byDept[p.dept].push(p); });
+
+  let html = `
+    <div class="hub-school-header">
+      <div class="hub-school-icon" style="background:${PROF_COLORS[colorIdx]}">${initials}</div>
+      <div class="hub-school-title">
+        <h2>${s.profs.some(p=>p.env)?'🌿 ':''}${s.name}</h2>
+        <div class="hub-school-pills">
+          <span class="hub-pill">${s.loc}</span>
+          <span class="hub-pill highlight">${s.dist} from Morristown</span>
+          ${s.cat!=='close'?'<span class="hub-pill housing-pill">Ask about housing</span>':'<span class="hub-pill ok-pill">No housing needed</span>'}
+        </div>
+        <div class="hub-school-pills" style="margin-top:4px;">${s.depts.map(d=>`<span class="hub-pill">${d}</span>`).join('')}</div>
+      </div>
+    </div>`;
+
+  for (const [dept, profs] of Object.entries(byDept)) {
+    html += `<div class="hub-dept-label">${dept}</div>`;
+    profs.forEach((p, pi) => {
+      const col = PROF_COLORS[(HUB_SCHOOLS.indexOf(s)+pi) % PROF_COLORS.length];
+      const ini = p.name.replace('Dr.','').trim().split(' ').map(w=>w[0]).join('').slice(0,2);
+      const papersHtml = p.papers.map((paper,i) => `
+        <div class="hub-paper-item">
+          <div class="hub-paper-num">[${i+1}]</div>
+          <div>
+            <div class="hub-paper-title">${paper.t}</div>
+            <div class="hub-paper-summary">${paper.s}</div>
+            <div class="hub-paper-year">${paper.y}</div>
+          </div>
+        </div>`).join('');
+      const f = p.fill;
+      const fillHtml = `
+        <div class="hub-fill-box">
+          <div class="hub-fill-title">Email Fill-In Guide</div>
+          <div class="hub-fill-row"><div class="hub-fill-label">Research Area / Lab Focus</div><div class="hub-fill-val">${f.area}</div></div>
+          <div class="hub-fill-row"><div class="hub-fill-label">Specific Paper to Reference</div><div class="hub-fill-val">${f.paper}</div></div>
+          <div class="hub-fill-row"><div class="hub-fill-label">Why It Excites You</div><div class="hub-fill-val">${f.why}</div></div>
+          <div class="hub-fill-row"><div class="hub-fill-label">How It Connects to Your Work</div><div class="hub-fill-val">${f.connect}</div></div>
+          ${s.cat!=='close'?`<div class="hub-fill-row"><div class="hub-fill-label">Housing Note</div><div class="hub-fill-val">${s.name} is ${s.dist} — include the housing paragraph.</div></div>`:''}
+          <button class="hub-preview-btn" onclick='hubOpenModal(${JSON.stringify(p.name)}, ${JSON.stringify(s.name)}, ${JSON.stringify(s.cat)}, ${JSON.stringify(s.dist)}, ${JSON.stringify(f.area)}, ${JSON.stringify(f.paper)}, ${JSON.stringify(f.why)}, ${JSON.stringify(f.connect)})'>Preview Full Email Draft</button>
+        </div>`;
+      html += `
+        <div class="hub-prof-card">
+          <div class="hub-prof-head" onclick="hubToggleProf(this)">
+            <div class="hub-prof-avatar" style="background:${col}">${ini}</div>
+            <div style="flex:1">
+              <div class="hub-prof-name">${p.env?'🌿 ':''}${p.name}</div>
+              <div class="hub-prof-title-text">${p.title}</div>
+              <div class="hub-prof-tags">${p.tags.map(t=>`<span class="hub-rtag${p.env?' env':''}">${t}</span>`).join('')}</div>
+            </div>
+            <div class="hub-expand">▼</div>
+          </div>
+          <div class="hub-prof-body">
+            <div class="hub-papers-label">Research Papers & Summaries</div>
+            ${papersHtml}
+            ${fillHtml}
+          </div>
+        </div>`;
+    });
+  }
+  document.getElementById('hubSchoolDetail').innerHTML = html;
+}
+
+function hubToggleProf(head) {
+  const body = head.nextElementSibling;
+  const btn = head.querySelector('.hub-expand');
+  body.classList.toggle('open');
+  btn.textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+
+function hubGoSchool(id) {
+  // switch to directory tab
+  document.querySelectorAll('.hub-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.hub-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('hub-directory').classList.add('active');
+  document.querySelectorAll('.hub-tab')[1].classList.add('active');
+  document.getElementById('hubSidebar').classList.add('visible');
+  hubRenderSidebar();
+  hubSelectSchool(id);
+}
+
+// Email modal
+function hubBuildDraft(profName, uniName, distCat, distLabel, area, paper, why, connect, yourName, grade, email, phone, avail) {
+  const housing = distCat !== 'close' ? `\nAs ${uniName} is approximately ${distLabel} from Morristown, I wanted to ask whether any student housing, dormitory accommodations, or guest researcher arrangements might be available for the duration of participation. I am fully prepared to cover the cost of my lodging myself for the entirety of my stay.\n` : '';
+  const phoneLine = phone ? `\n${phone}` : '';
+  return `SUBJECT: High School Research Interest — ${profName.replace('Dr.','')} Lab / ${area.replace(/🌿 /g,'')}
+
+Dear ${profName},
+
+My name is ${yourName}, and I am a ${grade} at Morristown High School in Morristown, New Jersey, where I serve as President of the Engineering Club. I am writing to express my sincere interest in your research at ${uniName}.
+
+I recently came across your work on ${area}. ${why}
+
+This connects directly to my own work: ${connect}
+
+I would be deeply honored to contribute to your lab or research group in whatever capacity would be most helpful — whether assisting with experiments, data collection, literature reviews, fabrication, or any other tasks. I am genuinely eager to learn, work hard, and contribute meaningfully to what your team is doing.
+
+Could you share when your current or upcoming research phase is scheduled, or when a student volunteer might best fit into your lab's timeline? I am available ${avail} and happy to adjust around your needs.
+${housing}
+Thank you very much for your time and consideration. Please reach me at ${email} at your convenience.
+
+With great respect,
+${yourName}
+President, Engineering Club — Morristown High School
+${email}${phoneLine}`;
+}
+
+function hubOpenModal(profName, uniName, distCat, dist, area, paper, why, connect) {
+  const draft = hubBuildDraft(profName, uniName, distCat, dist, area, paper, why, connect, '[Your Name]', 'junior', '[your@email.com]', '', 'summers and school breaks');
+  document.getElementById('hubModalTitle').textContent = 'Email — ' + profName;
+  document.getElementById('hubModalBody').textContent = draft;
+  document.getElementById('hubModal').classList.add('open');
+}
+function hubCloseModalBg(e) { if (e.target===document.getElementById('hubModal')) hubCloseModal(); }
+function hubCloseModal() { document.getElementById('hubModal').classList.remove('open'); }
+function hubCopyModal() { navigator.clipboard.writeText(document.getElementById('hubModalBody').textContent); }
+
+function toggleDriveTime() {
+  document.getElementById('gDriveGroup').style.display =
+    document.querySelector('input[name="gDist"]:checked').value === 'far' ? 'block' : 'none';
+}
+
+function hubGenerateEmail() {
+  const draft = hubBuildDraft(
+    document.getElementById('gProf').value   || '[Professor Name]',
+    document.getElementById('gUni').value    || '[University Name]',
+    document.querySelector('input[name="gDist"]:checked').value,
+    document.getElementById('gDrive').value  || 'over an hour',
+    document.getElementById('gArea').value   || '[research area]',
+    document.getElementById('gPaper').value  || '[paper title]',
+    document.getElementById('gWhy').value    || '[why it excites you]',
+    document.getElementById('gConnect').value|| '[connection to your work]',
+    document.getElementById('gName').value   || '[Your Name]',
+    document.getElementById('gGrade').value,
+    document.getElementById('gEmail').value  || '[your@email.com]',
+    document.getElementById('gPhone').value,
+    document.getElementById('gAvail').value  || 'summers and school breaks'
+  );
+  document.getElementById('hubEmailText').textContent = draft;
+  document.getElementById('hubEmailOutput').style.display = 'block';
+}
+
+function hubCopyEmail() {
+  navigator.clipboard.writeText(document.getElementById('hubEmailText').textContent);
+  const btn = document.querySelector('.hub-copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(()=>btn.textContent='Copy', 2000);
+}
+
+// Init
+hubRenderOverview();
+</script>
+
+</body>
+</html>
