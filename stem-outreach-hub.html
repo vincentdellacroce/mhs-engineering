@@ -760,7 +760,49 @@
 </style>
 </head>
 <body>
+<!-- Password Overlay -->
+<div id="password-overlay" style="
+  position: fixed; inset: 0; z-index: 9999;
+  background: #1a1a2e;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+">
+  <div style="text-align: center; max-width: 360px; padding: 2rem;">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
+    <h2 style="color: #fff; font-size: 1.4rem; margin-bottom: 0.4rem;">MHS Engineering Club</h2>
+    <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 1.5rem;">Enter the password to access the Outreach Hub.</p>
+    <input id="password-input" type="password" placeholder="Password" style="
+      width: 100%; padding: 0.75rem 1rem;
+      border-radius: 8px; border: 1px solid #444;
+      background: #2a2a3e; color: #fff;
+      font-size: 1rem; margin-bottom: 0.75rem;
+      box-sizing: border-box; outline: none;
+    " onkeydown="if(event.key==='Enter') checkPassword()" />
+    <button onclick="checkPassword()" style="
+      width: 100%; padding: 0.75rem;
+      background: #7EC8E3; color: #1a1a2e;
+      border: none; border-radius: 8px;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer;
+    ">Enter</button>
+    <p id="password-error" style="color: #ff6b6b; font-size: 0.85rem; margin-top: 0.75rem; display: none;">
+      Incorrect password. Try again.
+    </p>
+  </div>
+</div>
 
+<script>
+  function checkPassword() {
+    const input = document.getElementById('password-input').value;
+    if (input === '7729') {
+      document.getElementById('password-overlay').style.display = 'none';
+    } else {
+      document.getElementById('password-error').style.display = 'block';
+      document.getElementById('password-input').value = '';
+    }
+  }
+</script>
 <header>
   <div class="header-badge">MHS ENG CLUB</div>
   <div>
