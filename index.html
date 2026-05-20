@@ -91,9 +91,32 @@
       border-radius: 50%;
     }
 
-.hero-tag, .hero h1, .hero-sub, .hero-btns {
+    .hero-tag, .hero h1, .hero-sub, .hero-btns {
       position: relative;
       z-index: 2;
+    }
+
+    /* FIXED: hero-tag styling to match site theme */
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 2px;
+      background: var(--blue);
     }
 
     .hero-bg-text {
@@ -103,11 +126,11 @@
       font-family: 'Bebas Neue', sans-serif;
       font-size: 18rem;
       color: rgba(255, 255, 255, 0.03);
-      letter-spacing: 0px; 
+      letter-spacing: 0px;
       white-space: nowrap;
       z-index: 0;
       cursor: default;
-      pointer-events: auto; 
+      pointer-events: auto;
       user-select: none;
     }
 
@@ -133,7 +156,7 @@
     .hero-bg-text span:nth-child(9):hover { color: #ff5e00; text-shadow: 0 0 30px #ff5e00; }
     .hero-bg-text span:nth-child(10):hover { color: #a200ff; text-shadow: 0 0 30px #a200ff; }
     .hero-bg-text span:nth-child(11):hover { color: #00eaff; text-shadow: 0 0 30px #00eaff; }
-    
+
 
     .hero h1 {
       font-family: 'Bebas Neue', sans-serif;
@@ -323,59 +346,114 @@
       margin-bottom: 0.3rem;
     }
 
-    /* PROJECTS */
-    #projects {
+    /* PARTNERSHIPS */
+    #partnerships {
       background: var(--cream);
     }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+    .partnerships-intro {
+      font-size: 1.05rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 650px;
+      margin-bottom: 3rem;
     }
 
-    .project-card {
+    .partnerships-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .partner-card {
       background: white;
       border-radius: 12px;
-      padding: 2.5rem 2rem;
+      padding: 3rem 2.5rem;
       border-top: 4px solid var(--maroon);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
       transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
     }
 
-    .project-card:hover {
+    .partner-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(107,30,46,0.12);
+      box-shadow: 0 20px 50px rgba(107,30,46,0.15);
     }
 
-    .project-icon {
-      font-size: 2.2rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .project-card h3 {
-      font-family: 'Bebas Neue', sans-serif;
+    .partner-card::after {
+      content: '↗';
+      position: absolute;
+      top: 1.5rem;
+      right: 1.8rem;
       font-size: 1.4rem;
+      color: var(--blue-dark);
+      opacity: 0.4;
+      transition: all 0.25s;
+    }
+
+    .partner-card:hover::after {
+      opacity: 1;
+      transform: translate(3px, -3px);
+    }
+
+    .partner-logo {
+      width: 100%;
+      height: 90px;
+      background: var(--cream);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 4px;
+      color: var(--maroon-dark);
+      font-size: 2.2rem;
+      border: 1px solid rgba(107,30,46,0.08);
+    }
+
+    .partner-logo .accent { color: var(--blue-dark); }
+
+    .partner-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
       letter-spacing: 1.5px;
       color: var(--maroon-dark);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.6rem;
     }
 
-    .project-card p {
+    .partner-card .partner-loc {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue-dark);
+      margin-bottom: 1rem;
+    }
+
+    .partner-card p {
       font-size: 0.95rem;
       color: var(--gray);
       line-height: 1.7;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
     }
 
-    .project-tag {
+    .partner-tag {
       display: inline-block;
-      margin-top: 1.2rem;
-      padding: 0.3rem 0.9rem;
+      padding: 0.35rem 1rem;
       background: rgba(126,200,227,0.15);
       color: var(--blue-dark);
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      align-self: flex-start;
     }
 
     /* MEMBERS */
@@ -518,7 +596,7 @@
       section { padding: 5rem 3rem; }
       #about { grid-template-columns: 1fr; gap: 3rem; }
       .meeting-card { grid-template-columns: 1fr; gap: 2rem; }
-      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .partnerships-grid { grid-template-columns: 1fr; }
       .members-grid { grid-template-columns: 1fr 1fr 1fr; }
     }
 
@@ -526,9 +604,9 @@
       .nav-links { display: none; }
       .hero { padding: 0 1.5rem; }
       section { padding: 4rem 1.5rem; }
-      .projects-grid { grid-template-columns: 1fr; }
       .members-grid { grid-template-columns: 1fr 1fr; }
       .about-stats { grid-template-columns: 1fr; }
+      .hero-tag { font-size: 0.75rem; letter-spacing: 3px; }
     }
   </style>
 </head>
@@ -540,17 +618,18 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#meetings">Meetings</a></li>
-      <li><a href="#projects">Projects</a></li>
+      <li><a href="#partnerships">Partnerships</a></li>
       <li><a href="#members">Members</a></li>
-<li><a href="#contact">Contact</a></li>
-<li><a href="/stem-outreach-hub.html" target="_blank" class="nav-highlight" style="color:var(--blue);border:1px solid rgba(126,200,227,0.4);padding:0.3rem 0.9rem;border-radius:4px;font-size:0.78rem;">Outreach Hub</a></li>    </ul>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="/stem-outreach-hub.html" target="_blank" class="nav-highlight" style="color:var(--blue);border:1px solid rgba(126,200,227,0.4);padding:0.3rem 0.9rem;border-radius:4px;font-size:0.78rem;">Outreach Hub</a></li>
+    </ul>
   </nav>
 
   <!-- HERO -->
-<section class="hero" id="home">
+  <section class="hero" id="home">
     <div class="hero-bg-text" aria-hidden="true">
-  <span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span><span>E</span><span>R</span><span>I</span><span>N</span><span>G</span>
-</div>
+      <span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span><span>E</span><span>R</span><span>I</span><span>N</span><span>G</span>
+    </div>
 
     <div class="hero-tag">Morristown High School</div>
     <h1>Engineering<br/><span>Club</span></h1>
@@ -613,29 +692,29 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-label">What We Do</div>
-    <h2 class="section-title">Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-icon">⚙️</div>
-        <h3>Mechanical Design</h3>
-        <p>From CAD modeling to physical prototypes, we bring ideas into the real world through hands-on building and iteration.</p>
-        <span class="project-tag">Ongoing</span>
-      </div>
-      <div class="project-card">
-        <div class="project-icon">💻</div>
-        <h3>Software & Coding</h3>
-        <p>Building apps, scripts, and tools that solve real problems. All experience levels are welcome to contribute and learn.</p>
-        <span class="project-tag">Ongoing</span>
-      </div>
-      <div class="project-card">
-        <div class="project-icon">🔬</div>
-        <h3>Research & Innovation</h3>
-        <p>Exploring new technologies and engineering challenges. We encourage members to pitch and lead their own project ideas.</p>
-        <span class="project-tag">Open to Ideas</span>
-      </div>
+  <!-- PARTNERSHIPS -->
+  <section id="partnerships">
+    <div class="section-label">Who We Work With</div>
+    <h2 class="section-title">Partnerships</h2>
+    <p class="partnerships-intro">We're proud to partner with leading engineering firms right here in Morris County. Our partners share their real-world expertise with our members, bringing professional engineering insight straight into the classroom.</p>
+    <div class="partnerships-grid">
+
+      <a href="https://www.jacobs.com/" target="_blank" rel="noopener" class="partner-card">
+        <div class="partner-logo">JACOBS</div>
+        <h3>Jacobs Engineering</h3>
+        <div class="partner-loc">Morristown, NJ</div>
+        <p>A global leader in engineering, design, and technical services. Jacobs delivers solutions across infrastructure, aerospace, environmental, and digital sectors worldwide — with a major office right in our hometown.</p>
+        <span class="partner-tag">Industry Partner</span>
+      </a>
+
+      <a href="https://www.pegmep.com/" target="_blank" rel="noopener" class="partner-card">
+        <div class="partner-logo">PREMIER<span class="accent"> · </span>PEG</div>
+        <h3>Premier Engineering Group</h3>
+        <div class="partner-loc">Rockaway, NJ</div>
+        <p>A full-service mechanical, electrical, and plumbing/fire protection engineering design firm with 70 years of experience serving the New Jersey AEC community on schools, healthcare, and municipal projects.</p>
+        <span class="partner-tag">Industry Partner</span>
+      </a>
+
     </div>
   </section>
 
@@ -670,7 +749,7 @@
         <h4>Rodney Lee</h4>
         <div class="role">Advisor</div>
       </div>
-<a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net,rodney.lee@msdk12.net&su=Interested%20in%20Joining%20the%20Engineering%20Club" target="_blank" class="member-card" style="text-decoration:none; background:var(--maroon); border: 2px dashed var(--blue); position:relative;">
+      <a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net,rodney.lee@msdk12.net&su=Interested%20in%20Joining%20the%20Engineering%20Club" target="_blank" class="member-card" style="text-decoration:none; background:var(--maroon); border: 2px dashed var(--blue); position:relative;">
         <div class="member-avatar" style="background:var(--blue);">
           <span style="color:var(--maroon-dark); font-size:2rem;">+</span>
         </div>
@@ -687,26 +766,37 @@
     <h2 class="section-title">Contact Us</h2>
     <p class="contact-sub">Interested in joining or have questions? Reach out to us directly or follow us on Instagram.</p>
     <div class="contact-links">
-  <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin-bottom:0.5rem;">Students Interested — Contact:</p>
-<a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">    <span class="icon">✉️</span>
-    27vincent.dellacroce@msdk12.net
-    <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
-  </a>
-<a href="https://mail.google.com/mail/?view=cm&to=rodney.lee@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">    <span class="icon">✉️</span>
-    rodney.lee@msdk12.net
-    <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
-  </a>
-  <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin:1rem 0 0.5rem;">Additional:</p>
-<a href="https://mail.google.com/mail/?view=cm&to=77vincent.dellacroce@gmail.com" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">    <span class="icon">✉️</span>
-    77vincent.dellacroce@gmail.com
-    <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
-  </a>
-  <a href="https://instagram.com/mhs.engineeringclub" target="_blank" class="contact-link">
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-    </svg>
-    @mhs.engineeringclub
-  </a>
-</div>
+      <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin-bottom:0.5rem;">Students Interested — Contact:</p>
+      <a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">
+        <span class="icon">✉️</span>
+        27vincent.dellacroce@msdk12.net
+        <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
+      </a>
+      <a href="https://mail.google.com/mail/?view=cm&to=rodney.lee@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">
+        <span class="icon">✉️</span>
+        rodney.lee@msdk12.net
+        <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
+      </a>
+      <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin:1rem 0 0.5rem;">Additional:</p>
+      <a href="https://mail.google.com/mail/?view=cm&to=77vincent.dellacroce@gmail.com" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">
+        <span class="icon">✉️</span>
+        77vincent.dellacroce@gmail.com
+        <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
+      </a>
+      <a href="https://instagram.com/mhs.engineeringclub" target="_blank" class="contact-link">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        @mhs.engineeringclub
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 <span>MHS Engineering Club</span> · Morristown High School
+  </footer>
+
+</body>
+</html>
