@@ -401,21 +401,23 @@
     }
 
     .partner-logo {
-      width: 100%;
-      height: 90px;
-      background: var(--cream);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.8rem;
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 4px;
-      color: var(--maroon-dark);
-      font-size: 2.2rem;
-      border: 1px solid rgba(107,30,46,0.08);
-    }
+  width: 100%;
+  height: 110px;
+  background: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.8rem;
+  border: 1px solid rgba(107,30,46,0.08);
+  padding: 1rem;
+}
 
+.partner-logo img {
+  max-height: 100%;
+  max-width: 70%;
+  object-fit: contain;
+}
     .partner-logo .accent { color: var(--blue-dark); }
 
     .partner-card h3 {
@@ -700,7 +702,7 @@
     <div class="partnerships-grid">
 
       <a href="https://www.jacobs.com/" target="_blank" rel="noopener" class="partner-card">
-        <div class="partner-logo">JACOBS</div>
+<div class="partner-logo"><img src="jacobs-logo.png" alt="Jacobs Engineering"></div>
         <h3>Jacobs Engineering</h3>
         <div class="partner-loc">Morristown, NJ</div>
         <p>A global leader in engineering, design, and technical services. Jacobs delivers solutions across infrastructure, aerospace, environmental, and digital sectors worldwide — with a major office right in our hometown.</p>
@@ -708,7 +710,7 @@
       </a>
 
       <a href="https://www.pegmep.com/" target="_blank" rel="noopener" class="partner-card">
-        <div class="partner-logo">PREMIER<span class="accent"> · </span>PEG</div>
+<div class="partner-logo"><img src="peg-logo.png" alt="Premier Engineering Group"></div>
         <h3>Premier Engineering Group</h3>
         <div class="partner-loc">Rockaway, NJ</div>
         <p>A full-service mechanical, electrical, and plumbing/fire protection engineering design firm with 70 years of experience serving the New Jersey AEC community on schools, healthcare, and municipal projects.</p>
