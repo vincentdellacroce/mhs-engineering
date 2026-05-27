@@ -26,7 +26,7 @@
     }
   </style>
 </head>
-<body class="relative select-none text-white overflow-hidden w-full h-full match-body">
+<body class="relative select-none text-white overflow-hidden w-full h-full">
 
   <canvas id="webgl-canvas" class="absolute inset-0 w-full h-full z-0 block pointer-events-auto touch-none"></canvas>
 
@@ -45,9 +45,9 @@
         <span class="text-sm font-light text-neutral-200">Bruin Atelier</span>
       </div>
       <nav class="hidden md:flex gap-12 text-sm font-medium tracking-widest uppercase text-neutral-300">
-        <span class="cursor-default">Origin</span>
-        <span class="cursor-default">The Roasts</span>
-        <span class="cursor-default">Experience</span>
+        <span>Origin</span>
+        <span>The Roasts</span>
+        <span>Experience</span>
       </nav>
       <button class="pointer-events-auto border border-white/20 px-5 py-2 text-xs tracking-widest uppercase rounded-full bg-white/5 backdrop-blur-md hover:bg-white hover:text-black transition-all duration-500 ease-out">
         Reserve
@@ -68,14 +68,14 @@
     <footer class="w-full grid grid-cols-2 md:grid-cols-3 items-end text-neutral-400 text-xs tracking-wider">
       <div class="flex flex-col gap-2">
         <span class="font-mono text-[10px] text-neutral-500">// SIMULATION DIAGNOSTICS</span>
-        <span id="fps-display" class="font-mono">Initializing System...</span>
+        <span id="fps-display" class="font-mono">Initializing...</span>
       </div>
       <div class="hidden md:block text-center italic font-['Playfair_Display'] text-neutral-300 text-base">
         "Refinement through physics."
       </div>
       <div class="text-right flex flex-col gap-1 items-end">
         <span class="uppercase tracking-[0.2em] font-semibold text-neutral-200">Interact</span>
-        <span class="text-[11px] text-neutral-500">Move mouse or drag to break fluid plane</span>
+        <span class="text-[11px] text-neutral-500">Move mouse across screen to ripple surface</span>
       </div>
     </footer>
   </main>
@@ -91,10 +91,11 @@
       }
     `;
 
+    // FIXED: u_mouse_pos is now properly declared inside the uniform block
     const simulationFragmentShaderSource = `
       uniform vec2 u_resolution;
       uniform float u_mouse_force;
-      vec2 u_mouse_pos; // Fixed structure mapping rule
+      uniform vec2 u_mouse_pos; 
       uniform sampler2D u_current_frame;
       uniform sampler2D u_prev_frame;
       varying vec2 vUv;
@@ -111,12 +112,12 @@
         float prevHeight = texture2D(u_prev_frame, uv).r;
         float nextHeight = (left + right + top + bottom) * 0.5 - prevHeight;
         
-        nextHeight *= 0.985; // Viscous damping stabilization pass
+        nextHeight *= 0.982; // Balanced viscosity damping
 
         if(u_mouse_force > 0.0) {
           float dist = distance(uv * u_resolution, u_mouse_pos * u_resolution);
-          float influence = smoothstep(25.0, 0.0, dist); // Broadened interaction brush size
-          nextHeight += influence * u_mouse_force * 0.5;
+          float influence = smoothstep(35.0, 0.0, dist); // Increased ripple brush size
+          nextHeight += influence * u_mouse_force * 0.6;
         }
 
         gl_FragColor = vec4(clamp(nextHeight, -5.0, 5.0), 0.0, 0.0, 1.0);
@@ -137,207 +138,19 @@
         float ht = texture2D(u_buffer, uv + vec2(0.0, texel.y)).r;
         float hb = texture2D(u_buffer, uv + vec2(0.0, -texel.y)).r;
 
-        vec3 normal = normalize(vec3((hl - hr) * 2.5, (hb - ht) * 2.5, 1.0));
+        vec3 normal = normalize(vec3((hl - hr) * 3.0, (hb - ht) * 3.0, 1.0));
 
         vec3 baseEspresso = vec3(0.07, 0.04, 0.02);
-        vec3 darkRoast    = vec3(0.18, 0.11, 0.07);
+        vec3 darkRoast    = vec3(0.19, 0.12, 0.07);
         
         vec2 distortion = normal.xy * 0.035;
 
         float rChannel = texture2D(u_buffer, uv + distortion * 1.05).r;
         float gChannel = texture2D(u_buffer, uv + distortion * 1.00).r;
-        float bChannel = texture2D(u_buffer, uv + distortion * 0.95).r;
+        float bChannel = texture2D(u_buffer, uv + distortion * 0.94).r;
         
         float combinedHeight = (rChannel + gChannel + bChannel) / 3.0;
-        vec3 liquidColor = mix(baseEspresso, darkRoast, clamp(combinedHeight * 2.0, 0.0, 1.0));
+        vec3 liquidColor = mix(baseEspresso, darkRoast, clamp(combinedHeight * 2.5, 0.0, 1.0));
 
-        // Specular highlight execution
-        vec3 lightDir = normalize(vec3(0.2, 0.5, 0.8));
-        vec3 viewDir  = vec3(0.0, 0.0, 1.0);
-        vec3 halfDir  = normalize(lightDir + viewDir);
-        float specularIntensity = pow(max(dot(normal, halfDir), 0.0), 40.0);
-        vec3 specularColor = vec3(0.95, 0.90, 0.85) * specularIntensity * 0.6;
-
-        gl_FragColor = vec4(liquidColor + specularColor, 1.0);
-      }
-    `;
-
-    class FluidSimulationEngine {
-      constructor() {
-        this.canvas = document.getElementById('webgl-canvas');
-        this.fpsDisplay = document.getElementById('fps-display');
-        
-        this.mouse = { x: 0.5, y: 0.5, prevX: 0.5, prevY: 0.5, targetX: 0.5, targetY: 0.5 };
-        this.pointerForce = 0.0;
-        this.hasMoved = false;
-        
-        this.lastTime = performance.now();
-        this.frameCount = 0;
-
-        this.initEngine();
-      }
-
-      initEngine() {
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-        
-        this.renderer = new THREE.WebGLRenderer({
-          canvas: this.canvas,
-          antialias: false,
-          powerPreference: "high-performance"
-        });
-        
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        const ratio = Math.min(window.devicePixelRatio, 2);
-        this.renderer.setPixelRatio(ratio);
-
-        this.width = Math.floor(window.innerWidth * ratio);
-        this.height = Math.floor(window.innerHeight * ratio);
-
-        // Robust cross-platform texture precision selection matrix
-        const gl = this.renderer.getContext();
-        let textureType = THREE.FloatType;
-        
-        if (!gl.getExtension('OES_texture_float') || !gl.getExtension('OES_texture_float_linear')) {
-          // Robust fallback to Half Floating precision arrays
-          textureType = THREE.HalfFloatType;
-        }
-
-        const targetOptions = {
-          minFilter: THREE.LinearFilter,
-          magFilter: THREE.LinearFilter,
-          format: THREE.RGBAFormat,
-          type: textureType,
-          depthBuffer: false,
-          stencilBuffer: false,
-        };
-
-        this.bufferA = new THREE.WebGLRenderTarget(this.width, this.height, targetOptions);
-        this.bufferB = new THREE.WebGLRenderTarget(this.width, this.height, targetOptions);
-        this.bufferC = new THREE.WebGLRenderTarget(this.width, this.height, targetOptions);
-
-        this.simulationMaterial = new THREE.ShaderMaterial({
-          vertexShader: vertexShaderSource,
-          fragmentShader: simulationFragmentShaderSource,
-          uniforms: {
-            u_resolution: { value: new THREE.Vector2(this.width, this.height) },
-            u_current_frame: { value: null },
-            u_prev_frame: { value: null },
-            u_mouse_pos: { value: new THREE.Vector2(0.5, 0.5) },
-            u_mouse_force: { value: 0.0 }
-          }
-        });
-
-        this.renderMaterial = new THREE.ShaderMaterial({
-          vertexShader: vertexShaderSource,
-          fragmentShader: renderFragmentShaderSource,
-          uniforms: {
-            u_resolution: { value: new THREE.Vector2(this.width, this.height) },
-            u_buffer: { value: null }
-          }
-        });
-
-        this.geometry = new THREE.PlaneGeometry(2, 2);
-        this.mesh = new THREE.Mesh(this.geometry, this.simulationMaterial);
-        this.scene.add(this.mesh);
-
-        this.setupEventListeners();
-        this.tick();
-      }
-
-      setupEventListeners() {
-        const updateCoords = (x, y) => {
-          this.mouse.targetX = x / window.innerWidth;
-          this.mouse.targetY = 1.0 - (y / window.innerHeight);
-          
-          if (!this.hasMoved) {
-            this.mouse.x = this.mouse.targetX;
-            this.mouse.y = this.mouse.targetY;
-            this.mouse.prevX = this.mouse.targetX;
-            this.mouse.prevY = this.mouse.targetY;
-            this.hasMoved = true;
-          }
-        };
-
-        // Attach events cleanly direct to the canvas target element
-        this.canvas.addEventListener('mousemove', (e) => {
-          updateCoords(e.clientX, e.clientY);
-        });
-        
-        this.canvas.addEventListener('touchmove', (e) => {
-          if (e.touches.length > 0) {
-            updateCoords(e.touches[0].clientX, e.touches[0].clientY);
-          }
-        }, { passive: true });
-
-        window.addEventListener('resize', () => {
-          const r = Math.min(window.devicePixelRatio, 2);
-          this.renderer.setSize(window.innerWidth, window.innerHeight);
-          this.width = Math.floor(window.innerWidth * r);
-          this.height = Math.floor(window.innerHeight * r);
-
-          this.bufferA.setSize(this.width, this.height);
-          this.bufferB.setSize(this.width, this.height);
-          this.bufferC.setSize(this.width, this.height);
-
-          this.simulationMaterial.uniforms.u_resolution.value.set(this.width, this.height);
-          this.renderMaterial.uniforms.u_resolution.value.set(this.width, this.height);
-        });
-      }
-
-      tick() {
-        requestAnimationFrame(() => this.tick());
-
-        // FPS Instrumentation tracker calculation
-        this.frameCount++;
-        const now = performance.now();
-        if (now >= this.lastTime + 1000) {
-          this.fpsDisplay.innerText = `${((this.frameCount * 1000) / (now - this.lastTime)).toFixed(1)} FPS // OPERATIONAL`;
-          this.frameCount = 0;
-          this.lastTime = now;
-        }
-
-        // Apply smoother dampening interpolations
-        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.15;
-        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.15;
-
-        const dx = this.mouse.x - this.mouse.prevX;
-        const dy = this.mouse.y - this.mouse.prevY;
-        const velocity = Math.sqrt(dx * dx + dy * dy);
-        
-        this.pointerForce = this.hasMoved ? Math.min(velocity * 12.0, 2.0) : 0.0;
-
-        // Execute processing pipeline steps
-        this.mesh.material = this.simulationMaterial;
-        this.simulationMaterial.uniforms.u_mouse_pos.value.set(this.mouse.x, this.mouse.y);
-        this.simulationMaterial.uniforms.u_mouse_force.value = this.pointerForce;
-        this.simulationMaterial.uniforms.u_current_frame.value = this.bufferA.texture;
-        this.simulationMaterial.uniforms.u_prev_frame.value = this.bufferB.texture;
-
-        this.renderer.setRenderTarget(this.bufferC);
-        this.renderer.render(this.scene, this.camera);
-
-        // Visual delivery output stage
-        this.mesh.material = this.renderMaterial;
-        this.renderMaterial.uniforms.u_buffer.value = this.bufferC.texture;
-
-        this.renderer.setRenderTarget(null);
-        this.renderer.render(this.scene, this.camera);
-
-        this.mouse.prevX = this.mouse.x;
-        this.mouse.prevY = this.mouse.y;
-
-        // Dynamic multi-buffer frame switch rotation pattern execution
-        const temp = this.bufferB;
-        this.bufferB = this.bufferA;
-        this.bufferA = this.bufferC;
-        this.bufferC = temp;
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      new FluidSimulationEngine();
-    });
-  </script>
-</body>
-</html>
+        // Specular Catch
+        vec3 lightDir
