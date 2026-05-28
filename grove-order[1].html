@@ -1,0 +1,1167 @@
+<!-- SITE 6: GROVE ORDER —— SAVANNAH GA -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grove Order — Savannah, GA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+  /* ── PALETTE 11: Champagne ── */
+  :root {
+    --bg: #F5EFE0;
+    --fg: #1C1812;
+    --muted: #D8CEB8;
+    --accent: #8C6D3F;
+    --accent-light: #C4A97A;
+    --warm-white: #FAF6EE;
+    --mid: #6B6050;
+
+    --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --step-2: clamp(1.563rem, 1.39rem + 0.85vw, 2rem);
+    --step-3: clamp(1.953rem, 1.68rem + 1.36vw, 2.67rem);
+    --step-4: clamp(2.441rem, 2.02rem + 2.1vw, 3.55rem);
+    --step-5: clamp(3.052rem, 2.42rem + 3.16vw, 4.74rem);
+    --step-6: clamp(3.815rem, 2.89rem + 4.66vw, 6.31rem);
+    --step-display: clamp(3.5rem, 8vw, 11rem);
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: auto; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    font-size: var(--step-0);
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CURSOR ── */
+  .cursor-dot {
+    position: fixed; top: 0; left: 0;
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s;
+  }
+  .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 32px; height: 32px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+  }
+
+  /* ── PRELOADER ── */
+  .preloader {
+    position: fixed; inset: 0;
+    background: var(--fg);
+    z-index: 9000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 3rem 3.5rem;
+  }
+  .preloader-brand {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-3);
+    color: var(--bg);
+    letter-spacing: -0.02em;
+    opacity: 0.9;
+  }
+  .preloader-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+  .preloader-counter {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-6);
+    color: var(--accent-light);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .preloader-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .preloader-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--muted);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  .preloader-bar-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.75rem 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    mix-blend-mode: multiply;
+  }
+  .nav-logo {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-1);
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  .nav-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .nav-contact {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .nav-contact:hover { color: var(--accent); }
+
+  /* ── HERO: STACKED INDEX ── */
+  .hero {
+    min-height: 100vh;
+    padding-top: 7rem;
+    padding-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-eyebrow {
+    padding: 0 3.5rem;
+    margin-bottom: 3rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .stacked-index {
+    width: 100%;
+  }
+  .index-row {
+    display: grid;
+    grid-template-columns: 4rem 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.6rem 3.5rem;
+    border-top: 1px solid var(--muted);
+    position: relative;
+    cursor: none;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .index-row:last-child { border-bottom: 1px solid var(--muted); }
+  .index-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--fg);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s var(--ease-out-expo);
+    z-index: 0;
+  }
+  .index-row:hover::before { transform: scaleY(1); }
+  .index-row:hover .row-num,
+  .index-row:hover .row-title,
+  .index-row:hover .row-tag { color: var(--bg); }
+  .index-row:hover .row-title em { color: var(--accent-light); }
+  .row-num {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-1);
+    color: var(--muted);
+    position: relative; z-index: 1;
+    transition: color 0.4s;
+  }
+  .row-title {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-display);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    position: relative; z-index: 1;
+    transition: color 0.4s;
+  }
+  .row-title em {
+    font-style: italic;
+    color: var(--accent);
+    transition: color 0.4s;
+  }
+  .row-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    position: relative; z-index: 1;
+    transition: color 0.4s;
+  }
+
+  /* Hover image reveal */
+  .index-image-reveal {
+    position: fixed;
+    width: 320px;
+    height: 240px;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.3s;
+    overflow: hidden;
+  }
+  .index-image-reveal img,
+
+
+
+  /* ── SECTIONS GENERIC ── */
+  section { padding-block: 9rem; }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-inline: 3.5rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  /* ── INTRO ── */
+  .intro { padding-block: 10rem 8rem; }
+  .intro-text {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-5);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: 860px;
+    color: var(--fg);
+  }
+  .intro-text em { font-style: italic; color: var(--accent); }
+  .intro-aside {
+    margin-top: 3rem;
+    padding-left: 2rem;
+    border-left: 1px solid var(--muted);
+    max-width: 380px;
+  }
+  .intro-aside p {
+    font-size: var(--step-0);
+    color: var(--mid);
+    line-height: 1.7;
+  }
+
+  /* ── WORK GRID ── */
+  .work-grid-section { background: var(--warm-white); }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--muted);
+    margin-top: 4rem;
+  }
+  .work-item {
+    background: var(--warm-white);
+    overflow: hidden;
+  }
+  .work-item-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .work-item-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s var(--ease-out-expo);
+  }
+  .work-item:hover .work-item-image img { transform: scale(1.04); }
+  figcaption {
+    padding: 1.25rem 1.75rem 1.75rem;
+    border-top: 1px solid var(--muted);
+  }
+  figcaption .proj-name {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-2);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.25rem;
+  }
+  figcaption .proj-meta {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── PROCESS ── */
+  .process-section { background: var(--bg); }
+  .process-moment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-bottom: 8rem;
+  }
+  .process-moment:last-child { margin-bottom: 0; }
+  .process-moment.reverse { direction: rtl; }
+  .process-moment.reverse > * { direction: ltr; }
+  .process-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .process-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .process-text {}
+  .process-num {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-6);
+    color: var(--muted);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .process-heading {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-4);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+  .process-heading em { font-style: italic; color: var(--accent); }
+  .process-body {
+    color: var(--mid);
+    line-height: 1.75;
+    max-width: 38ch;
+  }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--fg); color: var(--bg); }
+  .services-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    gap: 2rem;
+  }
+  .services-title {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-5);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 14ch;
+  }
+  .services-title em { font-style: italic; color: var(--accent-light); }
+  .services-note {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    max-width: 22ch;
+    text-align: right;
+  }
+  .services-list {
+    list-style: none;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .services-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-3);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    transition: color 0.3s;
+    cursor: none;
+  }
+  .services-list li:hover { color: var(--accent-light); }
+  .services-list li:hover .svc-num { color: var(--accent-light); }
+  .svc-num {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Inter', sans-serif;
+    transition: color 0.3s;
+  }
+  .svc-arrow {
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .services-list li:hover .svc-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── ABOUT ── */
+  .about-section { padding-block: 10rem; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: start;
+  }
+  .about-text-col {}
+  .about-heading {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-5);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+  .about-heading em { font-style: italic; color: var(--accent); }
+  .about-body {
+    color: var(--mid);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    max-width: 44ch;
+  }
+  .about-body + .about-body { margin-bottom: 3rem; }
+  .cta-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.2em;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .cta-link:hover { color: var(--accent); }
+  .about-image-col {}
+  .team-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+    display: block;
+  }
+
+  .team-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .team-caption {
+    margin-top: 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--accent);
+    padding-block: 9rem;
+    overflow: hidden;
+  }
+  .cta-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+  .cta-heading {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-6);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    max-width: 10ch;
+  }
+  .cta-heading em { font-style: italic; color: var(--warm-white); }
+  .cta-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2rem;
+  }
+  .cta-detail {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg);
+    opacity: 0.7;
+    text-align: right;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 2.5rem;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    transition: background 0.3s, color 0.3s;
+    cursor: none;
+  }
+  .cta-btn:hover { background: var(--fg); color: var(--accent); }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    background: var(--fg);
+    padding-block: 1.75rem;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    will-change: transform;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-2);
+    color: rgba(255,255,255,0.25);
+    letter-spacing: -0.01em;
+    flex-shrink: 0;
+  }
+  .marquee-item em { font-style: italic; color: var(--accent-light); }
+  .marquee-sep {
+    color: var(--accent-light);
+    font-style: normal;
+    margin: 0 0.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--fg);
+    padding: 5rem 3.5rem 3rem;
+    color: var(--bg);
+  }
+  .footer-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    gap: 3rem;
+  }
+  .footer-name {
+    font-family: 'EB Garamond', serif;
+    font-size: var(--step-6);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+  .footer-name em { font-style: italic; color: var(--accent-light); }
+  .footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+  }
+  .footer-right a {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+  }
+  .footer-right a:hover { color: var(--accent-light); }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+  .footer-year { color: var(--accent-light); }
+
+  /* ── SCROLL REVEAL UTILITY ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  .img-scale {
+    transform: scale(0.93);
+    opacity: 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .hero { padding-top: 6rem; }
+    .hero-eyebrow, .index-row { padding-inline: 1.5rem; }
+    .index-row { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+    .row-tag { display: none; }
+    .row-title { font-size: clamp(2.5rem, 10vw, 5rem); }
+    .container { padding-inline: 1.5rem; }
+    .process-moment { grid-template-columns: 1fr; gap: 2.5rem; }
+    .process-moment.reverse { direction: ltr; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-image-col { order: -1; }
+    .team-image { aspect-ratio: 4/3; }
+    .services-header { flex-direction: column; align-items: flex-start; }
+    .services-note { text-align: left; }
+    .cta-inner { flex-direction: column; }
+    .cta-right { align-items: flex-start; }
+    .footer-top { flex-direction: column; align-items: flex-start; }
+    .footer-right { align-items: flex-start; }
+    footer { padding-inline: 1.5rem; }
+    .work-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-brand">Grove Order</div>
+  <div class="preloader-right">
+    <div class="preloader-counter" id="preloaderCounter">0</div>
+    <div class="preloader-label">Loading</div>
+  </div>
+  <div class="preloader-bar">
+    <div class="preloader-bar-fill" id="preloaderBarFill"></div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Grove <em>Order</em></a>
+  <div class="nav-right">
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      Accepting select projects
+    </div>
+    <a href="mailto:inquiries@groveorder.com" class="nav-contact">Inquire</a>
+  </div>
+</nav>
+
+<!-- Hover image reveal (follows cursor) -->
+<div class="index-image-reveal" id="indexImageReveal">
+  <img src="images/lsp10.jpg" alt="Estate landscaping design from above, Savannah GA" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
+</div>
+
+<!-- Hero: Stacked Index -->
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">Grove Order — Savannah, GA — Est. 2009</div>
+  <div class="stacked-index" id="stackedIndex">
+    <div class="index-row" data-service="Formal Garden Design">
+      <span class="row-num">01</span>
+      <h1 class="row-title">Garden <em>Design</em></h1>
+      <span class="row-tag">Specialty</span>
+    </div>
+    <div class="index-row" data-service="Hardscape & Courtyard">
+      <span class="row-num">02</span>
+      <h2 class="row-title"><em>Hardscape</em></h2>
+      <span class="row-tag">Craftsmanship</span>
+    </div>
+    <div class="index-row" data-service="Estate Maintenance">
+      <span class="row-num">03</span>
+      <h2 class="row-title">Maintenance</h2>
+      <span class="row-tag">Ongoing</span>
+    </div>
+    <div class="index-row" data-service="Irrigation & Water">
+      <span class="row-num">04</span>
+      <h2 class="row-title">Irrigation</h2>
+      <span class="row-tag">Systems</span>
+    </div>
+    <div class="index-row" data-service="Lighting Design">
+      <span class="row-num">05</span>
+      <h2 class="row-title"><em>Lighting</em></h2>
+      <span class="row-tag">Atmosphere</span>
+    </div>
+  </div>
+</section>
+
+<!-- Intro -->
+<section class="intro">
+  <div class="container">
+    <p class="intro-text reveal">
+      Referrals only.<br>
+      We do not solicit work —<br>
+      the work <em>finds us</em>.
+    </p>
+    <div class="intro-aside reveal">
+      <p>Grove Order has shaped private gardens along the Georgia coast and through the Lowcountry since 2009. We accept four to six projects per year. Each one receives the full attention of our three-person team for as long as it requires.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Work Grid -->
+<section class="work-grid-section">
+  <div class="container">
+    <p class="section-eyebrow reveal">Selected Work</p>
+    <div class="work-grid">
+      <figure class="work-item reveal">
+        <div class="work-item-image" data-label="[ PHOTO: Walled courtyard garden, Savannah Historic District ]">
+          <img src="images/lsp5.jpg" alt="Cape Cod shingle estate with white hydrangea foreground, the aspirational client" loading="lazy">
+        </div>
+        <figcaption>
+          <p class="proj-name">Whitaker Street Residence</p>
+          <p class="proj-meta">Savannah, GA — 2023 — Formal Parterre</p>
+        </figcaption>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-item-image" data-label="[ PHOTO: Lowcountry estate garden, marsh views ]">
+          <img src="images/lsp8.jpg" alt="Aerial serpentine path through manicured garden, overhead pattern" loading="lazy">
+        </div>
+        <figcaption>
+          <p class="proj-name">Sea Island Estate</p>
+          <p class="proj-meta">Sea Island, GA — 2022 — Native Coastal Garden</p>
+        </figcaption>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-item-image" data-label="[ PHOTO: Limestone terrace and reflecting pool ]">
+          <img src="images/lsp9.jpg" alt="Formal fountain garden with striped lawn and symmetrical pools, classical grandeur" loading="lazy">
+        </div>
+        <figcaption>
+          <p class="proj-name">Jekyll Island Compound</p>
+          <p class="proj-meta">Jekyll Island, GA — 2022 — Terrace & Water Feature</p>
+        </figcaption>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-item-image" data-label="[ PHOTO: Spanish moss live oak allee, grand entrance ]">
+          <img src="images/lsp6.jpg" alt="Stone steps lit at dusk with landscape uplighting, evening drama" loading="lazy">
+        </div>
+        <figcaption>
+          <p class="proj-name">Beaufort River Road</p>
+          <p class="proj-meta">Beaufort, SC — 2021 — Allee Restoration</p>
+        </figcaption>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-item-image" data-label="[ PHOTO: Walled kitchen garden, espaliered fruit ]">
+          <img src="images/lsp7.jpeg" alt="Commercial courtyard with prairie beds and water feature, range of work" loading="lazy">
+        </div>
+        <figcaption>
+          <p class="proj-name">Habersham House</p>
+          <p class="proj-meta">Savannah, GA — 2021 — Kitchen Garden</p>
+        </figcaption>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-item-image" data-label="[ PHOTO: Evening garden lighting, jasmine arbor ]">
+          <img src="images/lsp1.jpg" alt="White cottage with paver path, residential detail" loading="lazy">
+        </div>
+        <figcaption>
+          <p class="proj-name">Bluffton Private Estate</p>
+          <p class="proj-meta">Bluffton, SC — 2020 — Lighting Design</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="process-section">
+  <div class="container">
+    <p class="section-eyebrow reveal">How We Work</p>
+
+    <div class="process-moment reveal">
+      <div class="process-image img-scale" data-label="[ PHOTO: Site survey, measuring a formal garden bed ]">
+        <img src="images/lsp9.jpg" alt="Formal fountain garden with symmetrical pools, site survey scale" loading="lazy">
+      </div>
+      <div class="process-text">
+        <div class="process-num">I.</div>
+        <h3 class="process-heading">The site speaks <em>first</em></h3>
+        <p class="process-body">Before drawings, before plants, before anything is committed to paper — we spend time on the land. Sometimes weeks. Soil conditions, drainage patterns, the angle of the afternoon sun in February. Nothing compensates for this step, so we do not skip it.</p>
+      </div>
+    </div>
+
+    <div class="process-moment reverse reveal">
+      <div class="process-image img-scale" data-label="[ PHOTO: Hand-drawn planting plan on drafting table ]">
+        <img src="images/lsp7.jpeg" alt="Modern courtyard with prairie planting and water feature" loading="lazy">
+      </div>
+      <div class="process-text">
+        <div class="process-num">II.</div>
+        <h3 class="process-heading">Plans drawn <em>by hand</em></h3>
+        <p class="process-body">Every design begins on paper. Our principal, Margaret Holt, has produced hand-drawn garden plans for fifteen years. The act of drawing by hand forces decisions that software defers. Each line is intentional.</p>
+      </div>
+    </div>
+
+    <div class="process-moment reveal">
+      <div class="process-image img-scale" data-label="[ PHOTO: Close detail of planting, gloved hands placing a plant ]">
+        <img src="images/lsp8.jpg" alt="Aerial of serpentine garden with winding path" loading="lazy">
+      </div>
+      <div class="process-text">
+        <div class="process-num">III.</div>
+        <h3 class="process-heading">Installation<br>without haste</h3>
+        <p class="process-body">We do not subcontract installation. Our team plants everything we design. The schedule is set by the plants — by the seasons — not by a contractor's calendar. A garden installed correctly in eighteen months outlasts one installed incorrectly in six weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services-section">
+  <div class="container">
+    <div class="services-header">
+      <h2 class="services-title">What we <em>offer</em></h2>
+      <p class="services-note">All engagements begin with a site consultation. Fees on request.</p>
+    </div>
+    <ul class="services-list">
+      <li class="reveal">
+        <span class="svc-num">01</span>
+        Formal Garden Design
+        <span class="svc-arrow">→</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">02</span>
+        Hardscape & Courtyard Construction
+        <span class="svc-arrow">→</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">03</span>
+        Native Planting Plans
+        <span class="svc-arrow">→</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">04</span>
+        Estate Grounds Management
+        <span class="svc-arrow">→</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">05</span>
+        Irrigation System Design
+        <span class="svc-arrow">→</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">06</span>
+        Landscape Lighting
+        <span class="svc-arrow">→</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text-col">
+        <p class="section-eyebrow reveal">About</p>
+        <h2 class="about-heading reveal">A practice built on<br><em>restraint</em></h2>
+        <p class="about-body reveal">Margaret Holt founded Grove Order after a decade assisting on private estate restorations in Charleston and Savannah. She has a particular reputation for formal parterre work — the precise geometry of clipped boxwood, the measured interval between standard roses — executed in the difficult heat and humidity of the Georgia coast.</p>
+        <p class="about-body reveal">Grove Order takes no unsolicited inquiries. Every client has come through a personal recommendation. We prefer it that way. The relationships are longer. The work is better.</p>
+        <a href="mailto:inquiries@groveorder.com" class="cta-link magnetic reveal">Schedule a site visit →</a>
+      </div>
+      <div class="about-image-col">
+        <div class="team-image img-scale" data-photo-slot="team">
+          <img src="images/lsp1.jpg" alt="White cottage with paver path, Savannah Georgia" loading="lazy">
+        </div>
+        <p class="team-caption">Margaret Holt — Principal, Grove Order</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-heading reveal">The garden begins with a <em>conversation</em></h2>
+      <div class="cta-right">
+        <p class="cta-detail reveal">Accepting inquiries<br>for 2026 projects</p>
+        <a href="mailto:inquiries@groveorder.com" class="cta-btn magnetic reveal">Begin the conversation →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Grove Order <span class="marquee-sep">·</span> Garden Design <span class="marquee-sep">·</span> <em>Savannah, Georgia</em> <span class="marquee-sep">·</span> Est. 2009 <span class="marquee-sep">·</span> Referrals Only <span class="marquee-sep">·</span></div>
+    <div class="marquee-item">Grove Order <span class="marquee-sep">·</span> Garden Design <span class="marquee-sep">·</span> <em>Savannah, Georgia</em> <span class="marquee-sep">·</span> Est. 2009 <span class="marquee-sep">·</span> Referrals Only <span class="marquee-sep">·</span></div>
+    <div class="marquee-item">Grove Order <span class="marquee-sep">·</span> Garden Design <span class="marquee-sep">·</span> <em>Savannah, Georgia</em> <span class="marquee-sep">·</span> Est. 2009 <span class="marquee-sep">·</span> Referrals Only <span class="marquee-sep">·</span></div>
+    <div class="marquee-item">Grove Order <span class="marquee-sep">·</span> Garden Design <span class="marquee-sep">·</span> <em>Savannah, Georgia</em> <span class="marquee-sep">·</span> Est. 2009 <span class="marquee-sep">·</span> Referrals Only <span class="marquee-sep">·</span></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-name">Grove <em>Order</em></div>
+    <div class="footer-right">
+      <a href="tel:+19124550212">(912) 455-0212</a>
+      <a href="mailto:inquiries@groveorder.com">inquiries@groveorder.com</a>
+      <a href="#">Savannah, Georgia 31401</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span class="footer-year">2026</span> Grove Order LLC</span>
+    <span>Garden Design · Savannah, GA</span>
+    <span>By referral</span>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('load', () => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── CURSOR ──
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = -100, my = -100, rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    gsap.to(dot, { x: mx, y: my, duration: 0.08, ease: 'none' });
+  });
+
+  if (!prefersReduced) {
+    gsap.ticker.add(() => {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      gsap.set(ring, { x: rx, y: ry });
+    });
+  }
+
+  document.querySelectorAll('a, .index-row, .cta-btn, .services-list li').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      gsap.to(ring, { scale: 2.2, opacity: 0.4, duration: 0.3 });
+      gsap.to(dot, { scale: 0, duration: 0.2 });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(ring, { scale: 1, opacity: 0.6, duration: 0.3 });
+      gsap.to(dot, { scale: 1, duration: 0.2 });
+    });
+  });
+
+  // ── PRELOADER ──
+  const tl = gsap.timeline({
+    onComplete: () => {
+      document.getElementById('preloader').style.display = 'none';
+      initScrollAnimations();
+    }
+  });
+
+  if (prefersReduced) {
+    document.getElementById('preloader').style.display = 'none';
+    initScrollAnimations();
+    return;
+  }
+
+  tl.to({ val: 0 }, {
+    val: 100,
+    duration: 2.2,
+    ease: 'power2.inOut',
+    onUpdate: function() {
+      const el = document.getElementById('preloaderCounter');
+      if (el) el.textContent = Math.round(this.targets()[0].val);
+    },
+  })
+  .to('#preloaderBarFill', {
+    scaleX: 1,
+    duration: 2.2,
+    ease: 'power2.inOut',
+    transformOrigin: 'left',
+  }, 0)
+  .to('#preloader', {
+    yPercent: -100,
+    duration: 1.1,
+    ease: 'power4.inOut',
+  }, '+=0.3');
+
+  // ── STACKED INDEX HOVER REVEAL ──
+  const reveal = document.getElementById('indexImageReveal');
+  const rows = document.querySelectorAll('.index-row');
+  const labels = [
+    '[ PHOTO: Formal parterre garden, clipped boxwood ]',
+    '[ PHOTO: Limestone courtyard paving detail ]',
+    '[ PHOTO: Estate grounds, weekly maintenance crew ]',
+    '[ PHOTO: Drip irrigation installation in planting bed ]',
+    '[ PHOTO: Low-voltage garden lighting, evening atmosphere ]',
+  ];
+
+  rows.forEach((row, i) => {
+    row.addEventListener('mouseenter', (e) => {
+      // image is now a real <img> tag — no text label to update
+      gsap.to(reveal, { opacity: 1, duration: 0.25 });
+    });
+    row.addEventListener('mousemove', (e) => {
+      gsap.to(reveal, {
+        x: e.clientX + 20,
+        y: e.clientY - 100,
+        duration: 0.4,
+        ease: 'power2.out',
+      });
+    });
+    row.addEventListener('mouseleave', () => {
+      gsap.to(reveal, { opacity: 0, duration: 0.2 });
+    });
+  });
+
+  // ── LENIS ──
+  function initScrollAnimations() {
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 1.4,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    // ── SCROLL REVEALS ──
+    document.querySelectorAll('.reveal').forEach(el => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        }
+      });
+    });
+
+    document.querySelectorAll('.img-scale').forEach(el => {
+      gsap.to(el, {
+        scale: 1,
+        opacity: 1,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        }
+      });
+    });
+
+    // ── NAV REVEAL ──
+    gsap.from('#mainNav', {
+      yPercent: -100,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      delay: 0.3,
+    });
+
+    // ── STACKED INDEX ROWS ──
+    gsap.from('.index-row', {
+      opacity: 0,
+      x: -30,
+      duration: 0.7,
+      stagger: 0.1,
+      ease: 'power3.out',
+      delay: 0.2,
+    });
+
+    // ── MARQUEE ──
+    const track = document.getElementById('marqueeTrack');
+    if (track) {
+      const items = track.querySelectorAll('.marquee-item');
+      const totalWidth = items[0].offsetWidth * items.length;
+      gsap.to(track, {
+        x: -items[0].offsetWidth,
+        duration: 22,
+        ease: 'none',
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize(x => parseFloat(x) % items[0].offsetWidth),
+        }
+      });
+    }
+
+    // ── MAGNETIC ──
+    document.querySelectorAll('.magnetic').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(el, { x: x * 0.35, y: y * 0.35, duration: 0.5, ease: 'power3.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.4)' });
+      });
+    });
+  }
+});
+</script>
+</body>
+</html>

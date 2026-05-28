@@ -1,0 +1,1110 @@
+<!-- SITE 7: THORNFIELD LAND CO. —— CHARLESTON SC -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thornfield Land Co. — Charleston, SC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+  /* ── PALETTE: Forest & Chartreuse ── */
+  :root {
+    --bg: #1A2416;
+    --fg: #E8EFD8;
+    --accent: #C5F04A;
+    --accent-dim: #8FAD2E;
+    --muted: #2D3D26;
+    --mid: #7A9460;
+    --warm: #F0EBDA;
+
+    --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --step-2: clamp(1.563rem, 1.39rem + 0.85vw, 2rem);
+    --step-3: clamp(1.953rem, 1.68rem + 1.36vw, 2.67rem);
+    --step-4: clamp(2.441rem, 2.02rem + 2.1vw, 3.55rem);
+    --step-5: clamp(3.052rem, 2.42rem + 3.16vw, 4.74rem);
+    --step-6: clamp(3.815rem, 2.89rem + 4.66vw, 6.31rem);
+    --step-display: clamp(3.5rem, 9vw, 12rem);
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: auto; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: var(--step-0);
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CURSOR ── */
+  .cursor-dot {
+    position: fixed; top: 0; left: 0;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+    mix-blend-mode: screen;
+  }
+
+  /* ── PRELOADER ── */
+  .preloader {
+    position: fixed; inset: 0;
+    background: var(--accent);
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .preloader-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-4);
+    color: var(--bg);
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .preloader-counter {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .preloader-bar-wrap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: rgba(0,0,0,0.15);
+  }
+  .preloader-bar {
+    height: 100%;
+    background: var(--bg);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-1);
+    color: var(--fg);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .nav-status {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .status-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .nav-cta {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    padding: 0.55rem 1.25rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── HERO: SPLIT SCREEN ── */
+  .hero {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem 3rem 4rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 2rem;
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-display);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    margin-bottom: 2.5rem;
+    font-weight: 900;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: var(--step-0);
+    color: var(--mid);
+    max-width: 34ch;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s;
+    width: fit-content;
+  }
+  .hero-btn:hover { background: var(--fg); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-image-slot {
+    position: absolute; inset: 0;
+    background: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-image-slot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    z-index: 2;
+  }
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--mid);
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding-block: 9rem; }
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-inline: 3rem;
+  }
+  .section-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── INTRO ── */
+  .intro { background: var(--bg); padding-block: 10rem; }
+  .intro-inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 6rem;
+    align-items: end;
+  }
+  .intro-text {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-5);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+  .intro-text em { font-style: italic; color: var(--accent); }
+  .intro-aside {
+    color: var(--mid);
+    font-size: var(--step-0);
+    line-height: 1.75;
+    border-left: 1px solid var(--muted);
+    padding-left: 2rem;
+  }
+
+  /* ── WORK GRID ── */
+  .work-section { background: var(--muted); padding-block: 9rem; }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 4rem;
+    background: var(--bg);
+  }
+  .work-item {
+    background: var(--muted);
+    overflow: hidden;
+    position: relative;
+  }
+  .work-item:nth-child(1) { grid-column: span 2; }
+  .work-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .work-item:nth-child(1) .work-image { aspect-ratio: 21/9; }
+
+  .work-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s var(--ease-out-expo);
+  }
+  .work-item:hover .work-image img { transform: scale(1.04); }
+  .work-caption {
+    padding: 1.25rem 1.5rem 1.75rem;
+    border-top: 1px solid var(--bg);
+  }
+  .work-caption .proj-name {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-2);
+    color: var(--fg);
+    margin-bottom: 0.3rem;
+  }
+  .work-caption .proj-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── PROCESS ── */
+  .process-section { background: var(--bg); }
+  .process-moment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin-bottom: 7rem;
+    gap: 5rem;
+  }
+  .process-moment:last-child { margin-bottom: 0; }
+  .process-moment.alt { direction: rtl; }
+  .process-moment.alt > * { direction: ltr; }
+  .process-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--muted);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .process-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .process-content {}
+  .process-step {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .process-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-4);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+  .process-heading em { font-style: italic; color: var(--accent); }
+  .process-body { color: var(--mid); line-height: 1.8; max-width: 40ch; }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--warm); color: var(--bg); padding-block: 9rem; }
+  .services-title {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-5);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 4rem;
+    color: var(--bg);
+    max-width: 14ch;
+    font-weight: 900;
+  }
+  .services-title em { font-style: italic; color: var(--accent-dim); }
+  .services-list {
+    list-style: none;
+    border-top: 1px solid rgba(26,36,22,0.15);
+  }
+  .services-list li {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(26,36,22,0.15);
+    cursor: none;
+    transition: background 0.3s;
+  }
+  .services-list li:hover { background: rgba(26,36,22,0.04); }
+  .svc-num {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26,36,22,0.35);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .svc-name {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-3);
+    letter-spacing: -0.01em;
+    color: var(--bg);
+    font-weight: 700;
+  }
+  .svc-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(26,36,22,0.4);
+    text-align: right;
+  }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--muted); padding-block: 10rem; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7rem;
+    align-items: start;
+  }
+  .about-col {}
+  .about-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-5);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--fg);
+    margin-bottom: 2.5rem;
+    font-weight: 900;
+  }
+  .about-heading em { font-style: italic; color: var(--accent); }
+  .about-body {
+    color: var(--mid);
+    line-height: 1.8;
+    margin-bottom: 1.75rem;
+    max-width: 46ch;
+  }
+  .about-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-dim);
+    padding-bottom: 0.2em;
+  }
+  .team-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .team-caption {
+    margin-top: 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--accent);
+    padding-block: 9rem;
+    overflow: hidden;
+  }
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+  .cta-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-6);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--bg);
+    max-width: 12ch;
+    font-weight: 900;
+  }
+  .cta-heading em { font-style: italic; }
+  .cta-right { flex-shrink: 0; }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.2rem 3rem;
+    border: 2px solid var(--bg);
+    color: var(--bg);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, color 0.3s;
+    cursor: none;
+  }
+  .cta-btn:hover { background: var(--bg); color: var(--accent); }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    background: var(--bg);
+    padding-block: 1.5rem;
+    overflow: hidden;
+    border-top: 1px solid var(--muted);
+    border-bottom: 1px solid var(--muted);
+  }
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-2);
+    color: var(--mid);
+    letter-spacing: -0.01em;
+    flex-shrink: 0;
+  }
+  .marquee-item em { font-style: italic; color: var(--accent); }
+  .marquee-dot { color: var(--accent); font-size: 0.5em; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    padding: 5rem 3rem 2.5rem;
+    border-top: 1px solid var(--muted);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--step-5);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    font-weight: 900;
+  }
+  .footer-brand em { font-style: italic; color: var(--accent); }
+  .footer-col-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1.25rem;
+  }
+  .footer-col a, .footer-col p {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(232,239,216,0.5);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-base {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid var(--muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(232,239,216,0.25);
+  }
+  .footer-year { color: var(--accent); }
+
+  /* ── REVEAL UTILS ── */
+  .reveal { opacity: 0; transform: translateY(30px); }
+  .img-scale { transform: scale(0.92); opacity: 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .hero { grid-template-columns: 1fr; height: auto; min-height: 100vh; }
+    .hero-right { height: 50vh; }
+    .hero-left { padding: 8rem 1.5rem 3rem; }
+    .container { padding-inline: 1.5rem; }
+    .intro-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-item:nth-child(1) { grid-column: span 1; }
+    .process-moment { grid-template-columns: 1fr; gap: 2rem; }
+    .process-moment.alt { direction: ltr; }
+    .services-list li { grid-template-columns: 2.5rem 1fr; }
+    .svc-tag { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .cta-inner { flex-direction: column; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-base { flex-direction: column; gap: 0.5rem; text-align: center; }
+    footer { padding-inline: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-wordmark">Thornfield</div>
+  <div class="preloader-counter" id="preloaderCounter">Loading — 0%</div>
+  <div class="preloader-bar-wrap">
+    <div class="preloader-bar" id="preloaderBar"></div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Thornfield <span>Land Co.</span></a>
+  <div class="nav-right">
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      Now booking Spring 2026
+    </div>
+    <a href="mailto:work@thornfieldland.com" class="nav-cta">Inquire</a>
+  </div>
+</nav>
+
+<!-- Hero: Split Screen -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Charleston, SC — Est. 2013</p>
+    <h1 class="hero-headline">
+      Land<br>that<br><em>holds</em>
+    </h1>
+    <p class="hero-sub">Landscape design and stewardship for the coastal South. We work in places that matter — the Lowcountry, the barrier islands, the Pee Dee basin — and we take that responsibility seriously.</p>
+    <a href="mailto:work@thornfieldland.com" class="hero-btn magnetic">See the work →</a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-slot">
+      <img src="images/lsw3.jpg" alt="Precision grounds maintenance, Charleston SC" loading="eager" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span class="scroll-line"></span>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- Intro -->
+<section class="intro section">
+  <div class="container">
+    <div class="intro-inner">
+      <p class="intro-text reveal">
+        The Lowcountry is not a backdrop.<br>
+        It is the <em>client</em>.
+      </p>
+      <div class="intro-aside reveal">
+        <p>We have been designing landscapes for private properties along the South Carolina and Georgia coast since 2013. Our work is site-specific, ecologically grounded, and built to outlast the people who commissioned it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Work Grid -->
+<section class="work-section">
+  <div class="container">
+    <p class="section-eyebrow reveal">Selected Projects</p>
+    <div class="work-grid">
+      <figure class="work-item reveal">
+        <div class="work-image" data-label="[ PHOTO: Tidal marsh edge planting, Sullivan's Island ]">
+          <img src="images/lsw5.jpg" alt="Grounds crew maintaining manicured hedges and cypress trees, institutional scale" loading="lazy">
+        </div>
+        <div class="work-caption">
+          <p class="proj-name">Sullivan's Island Residence</p>
+          <p class="proj-meta">Sullivan's Island, SC — 2024 — Tidal Restoration</p>
+        </div>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-image" data-label="[ PHOTO: Formal entrance drive, live oak allee ]">
+          <img src="images/lsw9.jpg" alt="Tree removal crew in high-vis on a city street, arborist work" loading="lazy">
+        </div>
+        <div class="work-caption">
+          <p class="proj-name">Edisto River Plantation</p>
+          <p class="proj-meta">Walterboro, SC — 2023 — Drive Restoration</p>
+        </div>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-image" data-label="[ PHOTO: Oyster shell path and native grass meadow ]">
+          <img src="images/lsp5.jpg" alt="Cape Cod shingle estate with hydrangea beds, stone retaining wall and lily border" loading="lazy">
+        </div>
+        <div class="work-caption">
+          <p class="proj-name">Isle of Palms Dune Garden</p>
+          <p class="proj-meta">Isle of Palms, SC — 2023 — Coastal Meadow</p>
+        </div>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-image" data-label="[ PHOTO: Walled garden with southern boxwood ]">
+          <img src="images/lsp6.jpg" alt="Modern stone-step garden lit at dusk with uplighting and fountain feature" loading="lazy">
+        </div>
+        <div class="work-caption">
+          <p class="proj-name">Legare Street Garden</p>
+          <p class="proj-meta">Charleston, SC — 2022 — Urban Formal</p>
+        </div>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-image" data-label="[ PHOTO: Boat dock landscape, Kiawah waterway ]">
+          <img src="images/lsw8.jpg" alt="Stone cutting with angle grinder, craft detail and material precision" loading="lazy">
+        </div>
+        <div class="work-caption">
+          <p class="proj-name">Kiawah Waterway Compound</p>
+          <p class="proj-meta">Kiawah Island, SC — 2022 — Waterway Edge</p>
+        </div>
+      </figure>
+      <figure class="work-item reveal">
+        <div class="work-image" data-label="[ PHOTO: Timber pavilion in naturalistic landscape ]">
+          <img src="images/lsp4.png" alt="Rock path with flagstone steppers leading to stone firepit terrace, naturalistic hardscape" loading="lazy">
+        </div>
+        <div class="work-caption">
+          <p class="proj-name">Pawleys Island Retreat</p>
+          <p class="proj-meta">Pawleys Island, SC — 2021 — Meadow + Structure</p>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="process-section section">
+  <div class="container">
+    <p class="section-eyebrow reveal">Our Method</p>
+
+    <div class="process-moment reveal">
+      <div class="process-img img-scale" data-label="[ PHOTO: Ecological site survey, soil sampling ]">
+        <img src="images/lsw8.jpg" alt="Stone cutting with angle grinder, craft and material precision, Charleston SC" loading="lazy">
+      </div>
+      <div class="process-content">
+        <p class="process-step">Step 01 — Read the Land</p>
+        <h3 class="process-heading">Ecology<br>before <em>aesthetics</em></h3>
+        <p class="process-body">Every project begins with an ecological reading of the site — soils, hydrology, existing plant communities, wildlife corridors. We do not begin designing until we understand what the land is already doing and what it wants to become.</p>
+      </div>
+    </div>
+
+    <div class="process-moment alt reveal">
+      <div class="process-img img-scale" data-label="[ PHOTO: Design meeting with clients, drawing review ]">
+        <img src="images/lsp4.png" alt="Rock path with flagstone steppers leading to stone firepit patio" loading="lazy">
+      </div>
+      <div class="process-content">
+        <p class="process-step">Step 02 — Design Together</p>
+        <h3 class="process-heading">The <em>brief</em><br>takes months</h3>
+        <p class="process-body">We are not a studio that disappears with a retainer and returns with a finished plan. We work alongside our clients — often over many meetings — refining the vision until it is exactly right. This takes time. We do not apologize for that.</p>
+      </div>
+    </div>
+
+    <div class="process-moment reveal">
+      <div class="process-img img-scale" data-label="[ PHOTO: Hand-planting native seedlings ]">
+        <img src="images/lsw5.jpg" alt="Grounds crew in blue vests maintaining manicured hedges and cypress trees" loading="lazy">
+      </div>
+      <div class="process-content">
+        <p class="process-step">Step 03 — Build to Last</p>
+        <h3 class="process-heading">Built by<br>our own <em>hands</em></h3>
+        <p class="process-body">Our twelve-person crew handles installation. We work with coastal ecologists on native species sourcing, and we warranty all plantings through two full growing seasons. The job is not done when the final bill goes out — it is done when the garden is self-sustaining.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services-section">
+  <div class="container">
+    <h2 class="services-title reveal">Our <em>Practice</em></h2>
+    <ul class="services-list">
+      <li class="reveal">
+        <span class="svc-num">01</span>
+        <span class="svc-name">Coastal Landscape Design</span>
+        <span class="svc-tag">Site-Specific</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">02</span>
+        <span class="svc-name">Native Planting & Restoration</span>
+        <span class="svc-tag">Ecology</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">03</span>
+        <span class="svc-name">Hardscape & Stone Work</span>
+        <span class="svc-tag">Craftsmanship</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">04</span>
+        <span class="svc-name">Tidal & Stormwater Management</span>
+        <span class="svc-tag">Resilience</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">05</span>
+        <span class="svc-name">Grounds Stewardship</span>
+        <span class="svc-tag">Ongoing Care</span>
+      </li>
+      <li class="reveal">
+        <span class="svc-num">06</span>
+        <span class="svc-name">Outdoor Structure & Pavilion</span>
+        <span class="svc-tag">Built Form</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-col">
+        <p class="section-eyebrow reveal">The Practice</p>
+        <h2 class="about-heading reveal">Built on<br>land <em>knowledge</em></h2>
+        <p class="about-body reveal">James Thornfield spent eight years as a restoration ecologist for the South Carolina Department of Natural Resources before establishing Thornfield Land Co. in 2013. That background shapes everything we do — from the species we specify to the grading solutions we propose.</p>
+        <p class="about-body reveal">We are twelve people. We work within a two-hour radius of Charleston. We turn away projects that require us to spread thinner than that. Our current clients have stayed with us for an average of six years.</p>
+        <a href="mailto:work@thornfieldland.com" class="about-cta magnetic reveal">Inquire about your project →</a>
+      </div>
+      <div>
+        <div class="team-image img-scale" data-photo-slot="team">
+          <img src="images/lsp5.jpg" alt="Cape Cod shingle estate with hydrangea beds, Charleston SC" loading="lazy">
+        </div>
+        <p class="team-caption">James Thornfield — Principal</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-heading reveal">The land deserves <em>serious</em> attention</h2>
+      <div class="cta-right">
+        <a href="mailto:work@thornfieldland.com" class="cta-btn magnetic reveal">Start a conversation →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Thornfield Land Co. <span class="marquee-dot">●</span> Charleston, SC <span class="marquee-dot">●</span> <em>Coastal Landscape Design</em> <span class="marquee-dot">●</span> Est. 2013 <span class="marquee-dot">●</span>&nbsp;</div>
+    <div class="marquee-item">Thornfield Land Co. <span class="marquee-dot">●</span> Charleston, SC <span class="marquee-dot">●</span> <em>Coastal Landscape Design</em> <span class="marquee-dot">●</span> Est. 2013 <span class="marquee-dot">●</span>&nbsp;</div>
+    <div class="marquee-item">Thornfield Land Co. <span class="marquee-dot">●</span> Charleston, SC <span class="marquee-dot">●</span> <em>Coastal Landscape Design</em> <span class="marquee-dot">●</span> Est. 2013 <span class="marquee-dot">●</span>&nbsp;</div>
+    <div class="marquee-item">Thornfield Land Co. <span class="marquee-dot">●</span> Charleston, SC <span class="marquee-dot">●</span> <em>Coastal Landscape Design</em> <span class="marquee-dot">●</span> Est. 2013 <span class="marquee-dot">●</span>&nbsp;</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Thornfield<br><em>Land Co.</em></div>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contact</p>
+        <a href="tel:+18432110937">(843) 211-0937</a>
+        <a href="mailto:work@thornfieldland.com">work@thornfieldland.com</a>
+        <p>Charleston, SC 29401</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Studio</p>
+        <p>Now booking 2026</p>
+        <p>By inquiry only</p>
+        <p>SC Licensed #LC-04712</p>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© <span class="footer-year">2026</span> Thornfield Land Co. LLC</span>
+      <span>Charleston, South Carolina</span>
+      <span>Coastal Landscape Design Since 2013</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('load', () => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── CURSOR ──
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = -100, my = -100, rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    gsap.to(dot, { x: mx, y: my, duration: 0.07, ease: 'none' });
+  });
+
+  if (!prefersReduced) {
+    gsap.ticker.add(() => {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      gsap.set(ring, { x: rx, y: ry });
+    });
+  }
+
+  document.querySelectorAll('a, .cta-btn, .services-list li').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      gsap.to(ring, { scale: 2.5, opacity: 0.3, duration: 0.35 });
+      gsap.to(dot, { scale: 0, duration: 0.2 });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(ring, { scale: 1, opacity: 0.5, duration: 0.35 });
+      gsap.to(dot, { scale: 1, duration: 0.2 });
+    });
+  });
+
+  // ── PRELOADER ──
+  if (prefersReduced) {
+    document.getElementById('preloader').style.display = 'none';
+    initPage();
+    return;
+  }
+
+  let count = 0;
+  const counterEl = document.getElementById('preloaderCounter');
+  const barEl = document.getElementById('preloaderBar');
+
+  const countTl = gsap.timeline({
+    onComplete: () => {
+      gsap.to('#preloader', {
+        yPercent: -100,
+        duration: 1.0,
+        ease: 'power4.inOut',
+        onComplete: () => {
+          document.getElementById('preloader').style.display = 'none';
+          initPage();
+        }
+      });
+    }
+  });
+
+  countTl
+    .to({}, {
+      duration: 2.3,
+      onUpdate: function() {
+        count = Math.round(this.progress() * 100);
+        counterEl.textContent = `Loading — ${count}%`;
+      },
+      ease: 'power2.inOut',
+    })
+    .to(barEl, {
+      scaleX: 1,
+      duration: 2.3,
+      ease: 'power2.inOut',
+      transformOrigin: 'left',
+    }, 0);
+
+  function initPage() {
+    // ── LENIS ──
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 1.3,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    // ── HERO ENTRANCE ──
+    gsap.from('.hero-eyebrow', { opacity: 0, y: 20, duration: 0.8, ease: 'power3.out', delay: 0.1 });
+
+    if (typeof SplitText !== 'undefined') {
+      const split = new SplitText('.hero-headline', { type: 'lines' });
+      split.lines.forEach(line => {
+        const wrapper = document.createElement('div');
+        wrapper.style.overflow = 'hidden';
+        line.parentNode.insertBefore(wrapper, line);
+        wrapper.appendChild(line);
+      });
+      gsap.from(split.lines, {
+        yPercent: 110,
+        duration: 1.0,
+        stagger: 0.08,
+        ease: 'power4.out',
+        delay: 0.3,
+      });
+    }
+
+    gsap.from('.hero-sub, .hero-btn', {
+      opacity: 0,
+      y: 20,
+      duration: 0.9,
+      stagger: 0.15,
+      ease: 'power3.out',
+      delay: 0.7,
+    });
+
+    // ── NAV ──
+    gsap.from('#mainNav', { yPercent: -100, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.2 });
+
+    // ── SCROLL REVEALS ──
+    document.querySelectorAll('.reveal').forEach(el => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 1.0,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        }
+      });
+    });
+
+    document.querySelectorAll('.img-scale').forEach(el => {
+      gsap.to(el, {
+        scale: 1,
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        }
+      });
+    });
+
+    // ── HERO IMAGE PARALLAX ──
+    gsap.to('.hero-right .hero-image-slot', {
+      yPercent: 15,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5,
+      }
+    });
+
+    // ── MARQUEE ──
+    const track = document.getElementById('marqueeTrack');
+    if (track) {
+      const items = track.querySelectorAll('.marquee-item');
+      if (items.length > 0) {
+        const itemW = items[0].offsetWidth;
+        gsap.to(track, {
+          x: -itemW,
+          duration: 20,
+          ease: 'none',
+          repeat: -1,
+          modifiers: {
+            x: gsap.utils.unitize(x => parseFloat(x) % itemW),
+          }
+        });
+      }
+    }
+
+    // ── MAGNETIC ──
+    document.querySelectorAll('.magnetic').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(el, { x: x * 0.38, y: y * 0.38, duration: 0.55, ease: 'power3.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.4)' });
+      });
+    });
+  }
+});
+</script>
+</body>
+</html>

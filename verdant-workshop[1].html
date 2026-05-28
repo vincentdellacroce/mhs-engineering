@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<!-- SITE 3: VERDANT WORKSHOP —— HUDSON VALLEY NY -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verdant Workshop — Hudson Valley, NY</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<style>
+  :root {
+    --bg: #F2EDE4;
+    --fg: #2A1410;
+    --accent: #8B1A1A;
+    --muted: #B8A99A;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+    --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --step-2: clamp(1.563rem, 1.39rem + 0.85vw, 2rem);
+    --step-3: clamp(1.953rem, 1.68rem + 1.36vw, 2.67rem);
+    --step-4: clamp(2.441rem, 2.02rem + 2.1vw, 3.55rem);
+    --step-5: clamp(3.052rem, 2.42rem + 3.16vw, 4.74rem);
+    --step-display: clamp(3.5rem, 9vw, 11rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 17px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── CURSOR ─── */
+  .cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: multiply;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--fg);
+    border-radius: 50%;
+    transition: width .3s var(--ease-out-expo), height .3s var(--ease-out-expo);
+  }
+  .cursor-ring.hover { width: 54px; height: 54px; }
+  @media (hover: none) {
+    .cursor-dot, .cursor-ring { display: none; }
+    * { cursor: auto; }
+  }
+
+  /* ─── PRELOADER ─── */
+  .preloader {
+    position: fixed; inset: 0;
+    background: var(--fg);
+    z-index: 1000;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 2.5rem;
+  }
+  .preloader-header {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+  .preloader-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .preloader-word {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(3rem, 10vw, 9rem);
+    color: var(--bg);
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .preloader-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .preloader-counter {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(4rem, 14vw, 12rem);
+    line-height: 0.85;
+    color: var(--bg);
+    letter-spacing: -0.05em;
+    font-variation-settings: 'opsz' 144;
+    font-weight: 300;
+  }
+  .preloader-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: var(--accent);
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 2.5rem;
+    border-bottom: 1px solid rgba(42,20,16,0.1);
+    background: var(--bg);
+  }
+  .nav-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    text-decoration: none;
+    font-variation-settings: 'opsz' 60;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .nav-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--fg);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  /* ─── HERO — Newspaper Front Page ─── */
+  .hero {
+    padding-top: 6rem;
+    border-bottom: 2px solid var(--fg);
+  }
+  .newspaper-masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--fg);
+  }
+  .masthead-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .masthead-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  .newspaper-grid {
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr 2px 1fr;
+    min-height: calc(100vh - 10rem);
+  }
+  .newspaper-col-divider {
+    background: var(--fg);
+  }
+  .newspaper-col {
+    padding: 2.5rem;
+  }
+  .col-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .col-1-top { }
+  .col-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .hero-main-hed {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 7vw, 9rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-variation-settings: 'opsz' 144;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+  .hero-main-hed em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-dek {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 30ch;
+    margin-bottom: 2rem;
+  }
+  .col-1-footer {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .col-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .hero-image-main {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-image-main img {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+  }
+  .hero-image-caption {
+    padding: 0.8rem 0 0;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-top: 1px solid var(--muted);
+  }
+  .col-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .col3-feature {
+    border-bottom: 1px solid var(--muted);
+    padding-bottom: 2rem;
+  }
+  .col3-feature:last-child { border-bottom: none; }
+  .col3-hed {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-2);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 60;
+    margin-bottom: 0.8rem;
+  }
+  .col3-body {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .col3-service-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ─── INTRO STATEMENT ─── */
+  .intro-section {
+    padding: 10rem 2.5rem;
+    border-bottom: 1px solid var(--muted);
+  }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .intro-index {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.5rem;
+  }
+  .intro-text {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-4);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    font-variation-settings: 'opsz' 72;
+    font-weight: 400;
+    max-width: 22ch;
+  }
+  .intro-text em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ─── WORK GRID ─── */
+  .work-section {
+    padding: 8rem 2.5rem;
+    border-bottom: 1px solid var(--muted);
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5rem;
+    border-bottom: 1px solid var(--fg);
+    padding-bottom: 1rem;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-count {
+    font-family: 'Fraunces', serif;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+  .work-item { margin: 0; }
+  .work-item .img-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+  }
+  .work-item .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .work-item:hover .img-wrap img { transform: scale(1.04); }
+  .work-item figcaption {
+    padding: 0.8rem 0 2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(42,20,16,0.15);
+  }
+
+  /* ─── PROCESS ─── */
+  .process-section {
+    padding: 8rem 2.5rem;
+    border-bottom: 1px solid var(--muted);
+  }
+  .process-moment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-bottom: 8rem;
+  }
+  .process-moment:last-child { margin-bottom: 0; }
+  .process-moment.reverse { direction: rtl; }
+  .process-moment.reverse > * { direction: ltr; }
+  .process-image .img-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+  }
+  .process-image .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .process-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .process-text h3 {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-3);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 72;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+  .process-text h3 em { font-style: italic; color: var(--accent); }
+  .process-text p {
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 38ch;
+  }
+
+  /* ─── ABOUT ─── */
+  .about-section {
+    padding: 8rem 2.5rem;
+    border-bottom: 1px solid var(--muted);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-text h2 {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-4);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-variation-settings: 'opsz' 72;
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+  .about-text h2 em { font-style: italic; color: var(--accent); }
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 42ch;
+    font-size: 0.95rem;
+  }
+  .about-text .pull-quote {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-2);
+    font-style: italic;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+    margin: 2.5rem 0;
+    font-variation-settings: 'opsz' 48;
+  }
+  .team-image .img-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+  }
+  .team-image .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    padding: 8rem 2.5rem;
+    border-bottom: 1px solid var(--muted);
+  }
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+  }
+  .cta-heading {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-5);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variation-settings: 'opsz' 144;
+    font-weight: 400;
+  }
+  .cta-heading em { font-style: italic; color: var(--accent); }
+  .cta-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .cta-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 32ch;
+  }
+  .magnetic {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    border: 1px solid var(--fg);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    background: transparent;
+    transition: background 0.4s var(--ease-out-expo), color 0.4s;
+  }
+  .magnetic:hover { background: var(--fg); color: var(--bg); }
+
+  /* ─── MARQUEE ─── */
+  .marquee-section {
+    overflow: hidden;
+    padding: 2rem 0;
+    background: var(--accent);
+  }
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+  }
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .marquee-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: var(--step-2);
+    color: var(--bg);
+    letter-spacing: -0.02em;
+    padding-right: 2.5rem;
+    font-variation-settings: 'opsz' 60;
+  }
+  .marquee-sep {
+    color: var(--bg);
+    padding-right: 2.5rem;
+    opacity: 0.5;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--fg);
+    color: var(--bg);
+    padding: 4rem 2.5rem 3rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    align-items: end;
+  }
+  .footer-name {
+    font-family: 'Fraunces', serif;
+    font-size: var(--step-3);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variation-settings: 'opsz' 72;
+    font-weight: 400;
+  }
+  .footer-name em { font-style: italic; color: var(--accent); }
+  .footer-info {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 2;
+  }
+  .footer-info a { color: var(--muted); text-decoration: none; }
+  .footer-info a:hover { color: var(--accent); }
+  .footer-legal {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+    line-height: 2;
+  }
+
+  /* ─── REVEALS ─── */
+  .reveal { opacity: 0; transform: translateY(28px); }
+  .img-scale { transform: scale(0.92); opacity: 0; }
+
+  /* ─── REDUCED MOTION ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+    .img-scale { transform: none; opacity: 1; }
+    .preloader { display: none; }
+    .cursor-dot, .cursor-ring { display: none; }
+    * { cursor: auto; }
+  }
+
+  @media (max-width: 900px) {
+    .newspaper-grid { grid-template-columns: 1fr; }
+    .newspaper-col-divider { display: none; }
+    nav { padding: 1.5rem; }
+    .work-grid { grid-template-columns: 1fr; }
+    .process-moment { grid-template-columns: 1fr; gap: 3rem; }
+    .process-moment.reverse { direction: ltr; }
+    .about-section { grid-template-columns: 1fr; gap: 4rem; }
+    .cta-inner { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .footer-legal { text-align: left; }
+    .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-header">
+    <span>Verdant Workshop</span>
+    <span>Hudson Valley, NY</span>
+  </div>
+  <div class="preloader-center">
+    <div class="preloader-word">growing</div>
+  </div>
+  <div class="preloader-footer">
+    <div class="preloader-counter" id="preloaderCounter">0</div>
+  </div>
+  <div class="preloader-bar" id="preloaderBar"></div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-name" href="#">Verdant Workshop</a>
+  <div class="nav-right">
+    <span style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);">Hudson Valley, NY</span>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      <span style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;">Booking 2026</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero — Newspaper Front Page -->
+<section class="hero">
+  <div class="newspaper-masthead">
+    <div class="masthead-title">The Verdant Workshop — Garden Design &amp; Landscape Construction</div>
+    <div class="masthead-date">Hudson Valley — Est. MMXVI</div>
+  </div>
+
+  <div class="newspaper-grid">
+    <!-- Column 1: Main headline -->
+    <div class="newspaper-col col-1">
+      <div class="col-1-top">
+        <div class="col-label">§ Practice</div>
+        <h1 class="hero-main-hed">
+          Gardens<br>
+          made to<br>
+          <em>last.</em>
+        </h1>
+        <p class="hero-dek">I design and build landscape gardens for old properties in the Hudson Valley. The kind of gardens that look like they've always been there — because eventually, they will.</p>
+        <a href="mailto:eleanor@verdantworkshop.com" class="magnetic" style="margin-top:2rem;">See the work →</a>
+      </div>
+      <div class="col-1-footer">
+        Eleanor Marsh, Principal<br>
+        New Paltz, New York
+      </div>
+    </div>
+
+    <div class="newspaper-col-divider"></div>
+
+    <!-- Column 2: Main image — lsp1.jpg hero -->
+    <div class="newspaper-col col-2">
+      <div class="hero-image-main">
+        <img
+          src="images/lsp1.jpg"
+          alt="Residential front yard transformation, Hudson Valley NY"
+          loading="eager"
+          fetchpriority="high"
+        >
+      </div>
+      <div class="hero-image-caption">
+        The Rosenblatt property, Tivoli, NY — installed 2022, photographed spring 2025
+      </div>
+    </div>
+
+    <div class="newspaper-col-divider"></div>
+
+    <!-- Column 3: Features -->
+    <div class="newspaper-col col-3">
+      <div class="col3-feature">
+        <div class="col3-service-num">01 — Hardscaping</div>
+        <h3 class="col3-hed">Stone paths, walls, and terraces built from regional fieldstone.</h3>
+        <p class="col3-body">Sourced from local stone yards and, where possible, from the property itself. No imported flagstone.</p>
+      </div>
+      <div class="col3-feature">
+        <div class="col3-service-num">02 — Planting Design</div>
+        <h3 class="col3-hed">Perennial gardens designed for the third year, not the installation photo.</h3>
+        <p class="col3-body">A mix of old varieties and carefully chosen natives. I don't design with plants I haven't grown myself.</p>
+      </div>
+      <div class="col3-feature">
+        <div class="col3-service-num">03 — Orchard &amp; Kitchen Garden</div>
+        <h3 class="col3-hed">Working gardens for properties that want to produce something.</h3>
+        <p class="col3-body">Espalier fruit, raised bed systems, cold frames, and the kind of compost infrastructure people pretend they don't need.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Intro Statement -->
+<section class="intro-section">
+  <div class="intro-grid">
+    <div class="intro-index">§ 01 — About the Practice</div>
+    <p class="intro-text reveal">I make gardens for people who want to <em>actually</em> be in them — not look at them through a window.</p>
+  </div>
+</section>
+
+<!-- Work Grid -->
+<section class="work-section">
+  <div class="section-header">
+    <div class="section-label">Selected Work — 2018 — Present</div>
+    <div class="section-count">Six of thirty-four</div>
+  </div>
+  <div class="work-grid">
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp2.jpg" alt="Woodland garden with gazebos and winding paths, Hudson Valley" loading="lazy">
+      </div>
+      <figcaption><span>Rosenblatt Estate Knot Garden</span><span>Tivoli — 2022</span></figcaption>
+    </figure>
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp3.jpg" alt="Brick patio seating with teak furniture, purple azaleas and yellow tulips" loading="lazy">
+      </div>
+      <figcaption><span>Rhinebeck Terrace Garden</span><span>Rhinebeck — 2023</span></figcaption>
+    </figure>
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp4.png" alt="Stone-step rock garden path leading to firepit patio, Hudson Valley" loading="lazy">
+      </div>
+      <figcaption><span>Catskill Farmhouse Kitchen Garden</span><span>Catskill — 2024</span></figcaption>
+    </figure>
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp9.jpg" alt="Formal fountain garden with striped lawn and symmetrical pools" loading="lazy">
+      </div>
+      <figcaption><span>Woodstock Meadow Edge</span><span>Woodstock — 2024</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="process-section">
+  <div class="section-header" style="margin-bottom:6rem;">
+    <div class="section-label">§ 02 — How I Work</div>
+  </div>
+
+  <div class="process-moment">
+    <div class="process-image">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp7.jpeg" alt="Modern commercial courtyard with prairie plantings and water feature, Hudson Valley" loading="lazy">
+      </div>
+    </div>
+    <div class="process-text reveal">
+      <div class="process-num">§ Design</div>
+      <h3>I design from the <em>house out.</em></h3>
+      <p>Every garden I make begins with the building it belongs to. The sightlines from inside, the architecture of the façade, the materials already in the ground. The garden should feel like it grew alongside the house, not after it.</p>
+    </div>
+  </div>
+
+  <div class="process-moment reverse">
+    <div class="process-image">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp8.jpg" alt="Aerial of serpentine garden with winding path and worker mowing" loading="lazy">
+      </div>
+    </div>
+    <div class="process-text reveal">
+      <div class="process-num">§ Build</div>
+      <h3>Slow work.<br>Four projects a year.</h3>
+      <p>I work with two builders, both from the Hudson Valley, both with more experience in dry-stone construction than I'll ever have. We take on four projects each year. No more. The work takes as long as it takes.</p>
+    </div>
+  </div>
+
+  <div class="process-moment">
+    <div class="process-image">
+      <div class="img-wrap img-scale">
+        <img src="images/lsp2.jpg" alt="Woodland garden with gazebos, winding gravel paths and hydrangeas" loading="lazy">
+      </div>
+    </div>
+    <div class="process-text reveal">
+      <div class="process-num">§ Grow</div>
+      <h3>The garden you didn't<br>know you wanted.</h3>
+      <p>I check in at one year and three years after installation. Something always needs adjusting. The plants that thrived, the ones that didn't — that information shapes what I plant next. It's a slow education.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section">
+  <div class="about-text reveal">
+    <div class="section-label" style="margin-bottom:2.5rem;">§ 03 — The Practice</div>
+    <h2><em>Independent</em><br>design practice.<br>New Paltz, NY.</h2>
+    <p>I've been designing and building gardens in the Hudson Valley since 2016. Before that, I spent five years working for a landscape architect in Brooklyn and two years apprenticing with a dry-stone waller in County Clare, Ireland.</p>
+    <div class="pull-quote">"The garden should feel like it grew alongside the house, not after it."</div>
+    <p>Referrals only. I don't advertise. If you're reading this, someone sent you.</p>
+  </div>
+  <div class="team-image">
+    <div class="img-wrap img-scale">
+      <img src="images/lsp8.jpg" alt="Aerial of serpentine garden with winding path, Verdant Workshop Hudson Valley" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-heading reveal">Have a <em>garden</em><br>in mind?</h2>
+    <div class="cta-right">
+      <p class="cta-note">I respond to every inquiry personally. The first conversation is free. We talk about the site, the house, what you want to feel when you're in it.</p>
+      <p class="cta-note" style="color:var(--accent); font-style:italic;">(Currently booking for Spring 2027 installs.)</p>
+      <a href="mailto:eleanor@verdantworkshop.com" class="magnetic">Inquire about your project →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-content">
+      <span class="marquee-text">Verdant Workshop</span>
+      <span class="marquee-sep">—</span>
+      <span class="marquee-text">Hudson Valley</span>
+      <span class="marquee-sep">—</span>
+      <span class="marquee-text">Landscape &amp; Garden</span>
+      <span class="marquee-sep">—</span>
+      <span class="marquee-text">Est. MMXVI</span>
+      <span class="marquee-sep">—</span>
+    </div>
+    <div class="marquee-content" aria-hidden="true">
+      <span class="marquee-text">Verdant Workshop</span>
+      <span class="marquee-sep">—</span>
+      <span class="marquee-text">Hudson Valley</span>
+      <span class="marquee-sep">—</span>
+      <span class="marquee-text">Landscape &amp; Garden</span>
+      <span class="marquee-sep">—</span>
+      <span class="marquee-text">Est. MMXVI</span>
+      <span class="marquee-sep">—</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-name"><em>Verdant</em> Workshop</div>
+  <div class="footer-info">
+    New Paltz, NY 12561<br>
+    <a href="tel:+18453100412">(845) 310-0412</a><br>
+    <a href="mailto:eleanor@verdantworkshop.com">eleanor@verdantworkshop.com</a>
+  </div>
+  <div class="footer-legal">
+    Last revised 01.VI.2026<br>
+    All rights reserved<br>
+    <span style="color:var(--accent);">MMXXVI</span>
+  </div>
+</footer>
+
+<script>
+
+  // ─── VANILLA SPLITTEXT REPLACEMENT ───
+  function splitTextIntoWords(el) {
+    const text = el.innerText;
+    const words = text.split(/\s+/).filter(Boolean);
+    el.innerHTML = words.map(w =>
+      `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:bottom;"><span class="word" style="display:inline-block;">${w}</span></span>`
+    ).join(' ');
+    return { words: el.querySelectorAll('.word') };
+  }
+
+  window.addEventListener('load', () => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ─── LENIS ───
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({
+      duration: 1.3,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // ─── CURSOR ───
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    gsap.to(dot, { x: mouseX, y: mouseY, duration: 0.1, ease: 'power2.out' });
+  });
+  gsap.ticker.add(() => {
+    ringX += (mouseX - ringX) * 0.11;
+    ringY += (mouseY - ringY) * 0.11;
+    gsap.set(ring, { x: ringX, y: ringY });
+  });
+  document.querySelectorAll('a, button, .magnetic').forEach((el) => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+
+  // ─── PRELOADER ───
+  if (!prefersReduced) {
+    const counter = document.getElementById('preloaderCounter');
+    const obj = { val: 0 };
+    const tl = gsap.timeline();
+    tl.to(obj, {
+      val: 100,
+      duration: 2.2,
+      ease: 'power2.inOut',
+      onUpdate: () => { if (counter) counter.textContent = Math.round(obj.val); },
+    })
+    .to('#preloaderBar', { scaleX: 1, duration: 2.2, ease: 'power2.inOut', transformOrigin: 'left' }, 0)
+    .to('.preloader-word', {
+      yPercent: -8,
+      opacity: 0.5,
+      duration: 0.6,
+      ease: 'power2.in',
+    }, '-=0.3')
+    .to('#preloader', {
+      yPercent: -100,
+      duration: 1.1,
+      ease: 'power4.inOut',
+      onComplete: () => { document.getElementById('preloader').style.display = 'none'; },
+    }, '+=0.2');
+  } else {
+    document.getElementById('preloader').style.display = 'none';
+  }
+
+  // ─── HERO SPLITTEXT ───
+  document.fonts.ready.then(() => {
+    if (prefersReduced) return;
+    const hed = document.querySelector('.hero-main-hed');
+    if (hed) {
+      const split = splitTextIntoWords(hed);
+      gsap.from(split.words, {
+        yPercent: 110,
+        duration: 1,
+        stagger: 0.04,
+        ease: 'power4.out',
+        delay: 2.8,
+      });
+    }
+    gsap.from(['.hero-dek', '.col3-feature', '.masthead-title', '.masthead-date'], {
+      opacity: 0, y: 12, duration: 0.8, stagger: 0.06, ease: 'power3.out', delay: 3.0,
+    });
+  });
+
+  // ─── SCROLL REVEALS ───
+  if (!prefersReduced) {
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.to(el, {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      });
+    });
+    gsap.utils.toArray('.img-scale').forEach((el) => {
+      gsap.to(el, {
+        scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      });
+    });
+  }
+
+  // ─── MAGNETIC ───
+  document.querySelectorAll('.magnetic').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
+      gsap.to(el, { x, y, duration: 0.5, ease: 'power3.out' });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+
+  // ─── MARQUEE ───
+  if (!prefersReduced) {
+    const track = document.getElementById('marqueeTrack');
+    if (track) {
+      const w = track.querySelector('.marquee-content').offsetWidth;
+      gsap.to(track, { x: -w, duration: 24, ease: 'none', repeat: -1 });
+    }
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<!-- SITE 1: STONEFORM LANDSCAPING —— PORTLAND OR -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stoneform Landscaping — Portland, OR</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<style>
+  :root {
+    --bg: #E8E4D8;
+    --fg: #1F2419;
+    --accent: #6B7F4A;
+    --muted: #9C9889;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+    --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --step-2: clamp(1.563rem, 1.39rem + 0.85vw, 2rem);
+    --step-3: clamp(1.953rem, 1.68rem + 1.36vw, 2.67rem);
+    --step-4: clamp(2.441rem, 2.02rem + 2.1vw, 3.55rem);
+    --step-5: clamp(3.052rem, 2.42rem + 3.16vw, 4.74rem);
+    --step-display: clamp(4rem, 11vw, 13rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--bg); }
+
+  body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 17px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── CURSOR ─── */
+  .cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: multiply;
+  }
+  .cursor-dot {
+    width: 7px; height: 7px;
+    background: var(--fg);
+    border-radius: 50%;
+  }
+  .cursor-ring {
+    width: 38px; height: 38px;
+    border: 1px solid var(--fg);
+    border-radius: 50%;
+    transition: width .3s var(--ease-out-expo), height .3s var(--ease-out-expo);
+  }
+  .cursor-ring.hover { width: 60px; height: 60px; }
+  @media (hover: none) {
+    .cursor-dot, .cursor-ring { display: none; }
+    * { cursor: auto; }
+  }
+
+  /* ─── PRELOADER ─── */
+  .preloader {
+    position: fixed; inset: 0;
+    background: var(--fg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+  }
+  .preloader-label {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .preloader-counter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(5rem, 18vw, 16rem);
+    line-height: 0.88;
+    color: var(--bg);
+    letter-spacing: -0.04em;
+    font-weight: 400;
+  }
+  .preloader-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    mix-blend-mode: multiply;
+  }
+  .nav-name {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .nav-status {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .status-dot {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ─── HERO (Stacked Index) ─── */
+  .hero {
+    padding-top: 12rem;
+    padding-bottom: 6rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4rem;
+  }
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-display);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+    max-width: 16ch;
+    margin-bottom: 6rem;
+  }
+  .hero-tagline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Stacked Index */
+  .services-index {
+    border-top: 1px solid var(--muted);
+    margin-top: 2rem;
+  }
+  .service-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--muted);
+    padding: 1.5rem 0;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+  }
+  .service-row-inner {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    width: 100%;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .service-num {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 3rem;
+    flex-shrink: 0;
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-4);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    transition: color 0.3s ease;
+  }
+  .service-row:hover .service-name { color: var(--accent); }
+  .service-arrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: auto;
+  }
+  .service-row:hover .service-arrow { opacity: 1; }
+
+  /* ─── INTRO STATEMENT ─── */
+  .intro-section {
+    padding: 10rem 3rem;
+    max-width: 1400px;
+  }
+  .intro-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-4);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    max-width: 22ch;
+  }
+  .intro-text em { font-style: italic; color: var(--accent); }
+
+  /* ─── WORK GRID ─── */
+  .work-section {
+    padding: 0 3rem 10rem;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4rem;
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+  .work-item {
+    margin: 0;
+    position: relative;
+  }
+  .work-item .img-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+  }
+  .work-item .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .work-item:hover .img-wrap img {
+    transform: scale(1.04);
+  }
+  .work-item figcaption {
+    padding: 1rem 0 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ─── PROCESS ─── */
+  .process-section {
+    padding: 10rem 3rem;
+  }
+  .process-moment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-bottom: 10rem;
+  }
+  .process-moment.reverse { direction: rtl; }
+  .process-moment.reverse > * { direction: ltr; }
+  .process-image .img-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+  }
+  .process-image .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .process-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-3);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+  }
+  .process-text p {
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 38ch;
+  }
+
+  /* ─── ABOUT ─── */
+  .about-section {
+    padding: 10rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: start;
+  }
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-4);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+  .about-text h2 em { font-style: italic; color: var(--accent); }
+  .about-text p {
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    max-width: 45ch;
+  }
+  .team-image .img-wrap {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+  }
+  .team-image .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    padding: 6rem 3rem 10rem;
+  }
+  .cta-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .cta-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-5);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+    margin-bottom: 4rem;
+    max-width: 18ch;
+  }
+  .magnetic {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 2.4rem;
+    border: 1px solid var(--fg);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    transition: background 0.4s var(--ease-out-expo), color 0.4s var(--ease-out-expo);
+  }
+  .magnetic:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  /* ─── FOOTER MARQUEE ─── */
+  .marquee-section {
+    overflow: hidden;
+    border-top: 1px solid var(--muted);
+    padding: 2rem 0;
+    background: var(--fg);
+  }
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+  }
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .marquee-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-3);
+    font-style: italic;
+    color: var(--bg);
+    letter-spacing: -0.02em;
+    padding-right: 3rem;
+  }
+  .marquee-sep {
+    color: var(--accent);
+    padding-right: 3rem;
+    font-size: var(--step-2);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--fg);
+    color: var(--bg);
+    padding: 4rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    align-items: end;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: var(--step-3);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+  }
+  .footer-info {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 2;
+  }
+  .footer-info a { color: var(--muted); text-decoration: none; }
+  .footer-info a:hover { color: var(--accent); }
+  .footer-year {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+  .footer-year span { color: var(--accent); }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(30px); }
+  .img-scale { transform: scale(0.92); opacity: 0; }
+
+  /* ─── REDUCED MOTION ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+    .img-scale { transform: none; opacity: 1; }
+    .preloader { display: none; }
+    .cursor-dot, .cursor-ring { display: none; }
+    * { cursor: auto; }
+    .marquee-track { animation: none; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.5rem; }
+    .hero { padding: 10rem 1.5rem 4rem; }
+    .work-grid { grid-template-columns: 1fr; }
+    .process-moment { grid-template-columns: 1fr; gap: 2rem; }
+    .process-moment.reverse { direction: ltr; }
+    .about-section { grid-template-columns: 1fr; gap: 4rem; }
+    footer { grid-template-columns: 1fr; }
+    .footer-year { text-align: left; }
+    .intro-section, .work-section, .process-section, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-label">Loading — Stoneform</div>
+  <div class="preloader-counter" id="preloaderCounter">0</div>
+  <div class="preloader-bar" id="preloaderBar"></div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-name" href="#">Stoneform Landscaping</a>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    <span>Booking Spring 2026</span>
+  </div>
+</nav>
+
+<!-- Hero — Stacked Index -->
+<section class="hero">
+  <div class="hero-eyebrow">Portland, Oregon — Est. 2011</div>
+  <h1 class="hero-tagline">A practice for <em>earth</em> and stone.</h1>
+
+  <div class="services-index">
+    <div class="service-row magnetic">
+      <div class="service-row-inner">
+        <span class="service-num">01</span>
+        <span class="service-name">Hardscaping</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row magnetic">
+      <div class="service-row-inner">
+        <span class="service-num">02</span>
+        <span class="service-name">Planting Design</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row magnetic">
+      <div class="service-row-inner">
+        <span class="service-num">03</span>
+        <span class="service-name">Grading & Drainage</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row magnetic">
+      <div class="service-row-inner">
+        <span class="service-num">04</span>
+        <span class="service-name">Outdoor Lighting</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row magnetic">
+      <div class="service-row-inner">
+        <span class="service-num">05</span>
+        <span class="service-name">Irrigation Systems</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+    <div class="service-row magnetic">
+      <div class="service-row-inner">
+        <span class="service-num">06</span>
+        <span class="service-name">Seasonal Maintenance</span>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Intro Statement -->
+<section class="intro-section">
+  <p class="intro-text reveal">We work with what the land gives us. Stone laid by hand, plants chosen for how they age, not how they photograph. Every project is a collaboration with the <em>specific</em> place it occupies.</p>
+</section>
+
+<!-- Work Grid -->
+<section class="work-section">
+  <div class="section-label">Selected Work — 2020–2025</div>
+  <div class="work-grid">
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw2.webp" alt="Crew moving lumber with tractor, Portland OR" loading="lazy">
+      </div>
+      <figcaption><span>SW Hills Terrace</span><span>Portland — 2025</span></figcaption>
+    </figure>
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw6.jpg" alt="Two workers laying pavers on a curved stone path, Portland OR" loading="lazy">
+      </div>
+      <figcaption><span>Forest Park Meadow</span><span>Portland — 2024</span></figcaption>
+    </figure>
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw7.png" alt="Full crew team portrait at golden hour, Stoneform Landscaping Portland" loading="lazy">
+      </div>
+      <figcaption><span>Eastside Courtyard</span><span>Portland — 2024</span></figcaption>
+    </figure>
+    <figure class="work-item">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw8.jpg" alt="Stone cutting with angle grinder, dust flying, industrial detail" loading="lazy">
+      </div>
+      <figcaption><span>Sellwood Kitchen Garden</span><span>Portland — 2023</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+  <div class="section-label">Process</div>
+
+  <div class="process-moment">
+    <div class="process-image">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw10.jpg" alt="Two workers installing drainage pipe at brick colonial residence, Portland OR" loading="lazy">
+      </div>
+    </div>
+    <div class="process-text reveal">
+      <h3>We start by<br>listening to the land.</h3>
+      <p>Every site has a water story, a sun story, a soil story. We spend the first week doing nothing but measuring, observing, and asking questions. The design follows from what we find — not from a template.</p>
+    </div>
+  </div>
+
+  <div class="process-moment reverse">
+    <div class="process-image">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw4.jpg" alt="Community garden build with wheelbarrow, human scale, Portland OR" loading="lazy">
+      </div>
+    </div>
+    <div class="process-text reveal">
+      <h3>Material selection<br>is half the work.</h3>
+      <p>We source regionally — basalt from the Columbia Gorge, reclaimed brick from Portland demolition sites, Douglas fir from salvage mills. The material should belong to the place before it arrives.</p>
+    </div>
+  </div>
+
+  <div class="process-moment">
+    <div class="process-image">
+      <div class="img-wrap img-scale">
+        <img src="images/lsw1.jpg" alt="Drainage system installation in progress with excavator, Portland OR" loading="lazy" style="object-position: center 60%;">
+      </div>
+    </div>
+    <div class="process-text reveal">
+      <h3>We design for<br>the third year.</h3>
+      <p>Newly installed landscapes are always awkward. We choose plants that have somewhere to go — that will fill, soften, and surprise you. Our maintenance agreements let us keep nudging the design as it matures.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="about-section">
+  <div class="about-text reveal">
+    <div class="section-label" style="margin-bottom:3rem;">§ About</div>
+    <h2>Fourteen years of <em>difficult</em> sites.</h2>
+    <p>Stoneform was started in 2011 by Cara Lindqvist after a decade working under landscape architects in Vancouver and Seattle. We're a crew of seven — two designers, four builders, one person who only does plants. We work on roughly twenty projects a year, all within the Portland metro area and the Gorge.</p>
+    <p>We don't pitch to commercial developers. Most of our work comes through the owners of old houses with bad drainage and big ambitions. That's where we do our best work.*</p>
+    <p style="font-size:0.8rem; color:var(--muted); margin-top:2rem;">*selectively</p>
+  </div>
+  <div class="team-image">
+    <div class="img-wrap img-scale">
+      <img src="images/lsw7.png" alt="Stoneform crew team portrait at golden hour, Portland OR" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-label">Start here</div>
+  <h2 class="cta-heading reveal">Have a site in mind?</h2>
+  <a href="mailto:hello@stoneformpdx.com" class="magnetic">Inquire about your project →</a>
+</section>
+
+<!-- Footer Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-content">
+      <span class="marquee-text">Stoneform Landscaping</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-text">Portland, Oregon</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-text">Earth &amp; Stone</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-text">Est. 2011</span>
+      <span class="marquee-sep">✦</span>
+    </div>
+    <div class="marquee-content" aria-hidden="true">
+      <span class="marquee-text">Stoneform Landscaping</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-text">Portland, Oregon</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-text">Earth &amp; Stone</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-text">Est. 2011</span>
+      <span class="marquee-sep">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-name">Stoneform</div>
+  <div class="footer-info">
+    Portland, OR 97201<br>
+    <a href="tel:+15034820011">(503) 482-0011</a><br>
+    <a href="mailto:hello@stoneformpdx.com">hello@stoneformpdx.com</a>
+  </div>
+  <div class="footer-year">
+    <span>MMXXVI</span><br>
+    All rights reserved
+  </div>
+</footer>
+
+<script>
+
+  // ─── VANILLA SPLITTEXT REPLACEMENT ───
+  function splitTextIntoWords(el) {
+    const text = el.innerText;
+    const words = text.split(/\s+/).filter(Boolean);
+    el.innerHTML = words.map(w =>
+      `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:bottom;"><span class="word" style="display:inline-block;">${w}</span></span>`
+    ).join(' ');
+    return { words: el.querySelectorAll('.word') };
+  }
+
+  window.addEventListener('load', () => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ─── LENIS SMOOTH SCROLL ───
+  let lenis;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // ─── CUSTOM CURSOR ───
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    gsap.to(dot, { x: mouseX, y: mouseY, duration: 0.1, ease: 'power2.out' });
+  });
+  gsap.ticker.add(() => {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    gsap.set(ring, { x: ringX, y: ringY });
+  });
+  document.querySelectorAll('a, button, .magnetic, .service-row').forEach((el) => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+
+  // ─── PRELOADER ───
+  if (!prefersReduced) {
+    const counter = document.getElementById('preloaderCounter');
+    const obj = { val: 0 };
+    const tl = gsap.timeline();
+
+    tl.to(obj, {
+      val: 100,
+      duration: 2,
+      ease: 'power2.inOut',
+      onUpdate: () => { if (counter) counter.textContent = Math.round(obj.val); },
+    })
+    .to('#preloaderBar', { scaleX: 1, duration: 2, ease: 'power2.inOut', transformOrigin: 'left' }, 0)
+    .to('#preloader', {
+      yPercent: -100,
+      duration: 1,
+      ease: 'power4.inOut',
+      onComplete: () => { document.getElementById('preloader').style.display = 'none'; },
+    }, '+=0.2');
+  } else {
+    document.getElementById('preloader').style.display = 'none';
+  }
+
+  // ─── HERO SPLITTEXT REVEAL ───
+  document.fonts.ready.then(() => {
+    if (prefersReduced) return;
+
+    const heroTagline = document.querySelector('.hero-tagline');
+    if (heroTagline) {
+      const split = splitTextIntoWords(heroTagline);
+      gsap.from(split.words, {
+        yPercent: 110,
+        duration: 1,
+        stagger: 0.04,
+        ease: 'power4.out',
+        delay: 2.5,
+      });
+    }
+
+    gsap.from('.service-row', {
+      opacity: 0,
+      y: 20,
+      duration: 0.7,
+      stagger: 0.08,
+      ease: 'power3.out',
+      delay: 2.8,
+    });
+  });
+
+  // ─── SCROLL REVEALS ───
+  if (!prefersReduced) {
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          once: true,
+        },
+      });
+    });
+
+    gsap.utils.toArray('.img-scale').forEach((el) => {
+      gsap.to(el, {
+        scale: 1,
+        opacity: 1,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          once: true,
+        },
+      });
+    });
+  }
+
+  // ─── MAGNETIC BUTTONS ───
+  document.querySelectorAll('.magnetic').forEach((el) => {
+    const strength = 0.35;
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      gsap.to(el, { x: x * strength, y: y * strength, duration: 0.5, ease: 'power3.out' });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+
+  // ─── FOOTER MARQUEE ───
+  if (!prefersReduced) {
+    const track = document.getElementById('marqueeTrack');
+    if (track) {
+      const contentWidth = track.querySelector('.marquee-content').offsetWidth;
+      gsap.to(track, {
+        x: -contentWidth,
+        duration: 22,
+        ease: 'none',
+        repeat: -1,
+      });
+    }
+  }
+});
+</script>
+</body>
+</html>
