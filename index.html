@@ -77,7 +77,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      padding: 0 8rem;
+      padding: 12rem 8rem 6rem 8rem;
       position: relative;
       overflow: hidden;
     }
@@ -401,23 +401,23 @@
     }
 
     .partner-logo {
-  width: 100%;
-  height: 110px;
-  background: #ffffff;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.8rem;
-  border: 1px solid rgba(107,30,46,0.08);
-  padding: 1rem;
-}
+      width: 100%;
+      height: 110px;
+      background: #ffffff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.8rem;
+      border: 1px solid rgba(107,30,46,0.08);
+      padding: 1rem;
+    }
 
-.partner-logo img {
-  max-height: 100%;
-  max-width: 70%;
-  object-fit: contain;
-}
+    .partner-logo img {
+      max-height: 100%;
+      max-width: 70%;
+      object-fit: contain;
+    }
     .partner-logo .accent { color: var(--blue-dark); }
 
     .partner-card h3 {
@@ -594,7 +594,7 @@
     @media (max-width: 900px) {
       nav { padding: 1rem 2rem; }
       .nav-links { gap: 1.5rem; }
-      .hero { padding: 0 3rem; }
+      .hero { padding: 12rem 3rem 6rem 3rem; }
       section { padding: 5rem 3rem; }
       #about { grid-template-columns: 1fr; gap: 3rem; }
       .meeting-card { grid-template-columns: 1fr; gap: 2rem; }
@@ -604,7 +604,7 @@
 
     @media (max-width: 600px) {
       .nav-links { display: none; }
-      .hero { padding: 0 1.5rem; }
+      .hero { padding: 12rem 1.5rem 6rem 1.5rem; }
       section { padding: 4rem 1.5rem; }
       .members-grid { grid-template-columns: 1fr 1fr; }
       .about-stats { grid-template-columns: 1fr; }
@@ -614,7 +614,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <div class="nav-logo">MHS Engineering</div>
     <ul class="nav-links">
@@ -627,7 +626,6 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-bg-text" aria-hidden="true">
       <span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span><span>E</span><span>R</span><span>I</span><span>N</span><span>G</span>
@@ -642,7 +640,6 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="about-text">
       <div class="section-label">Who We Are</div>
@@ -671,7 +668,6 @@
     </div>
   </section>
 
-  <!-- MEETINGS -->
   <section id="meetings">
     <div class="section-label">When & Where</div>
     <h2 class="section-title">Meeting Info</h2>
@@ -694,7 +690,6 @@
     </div>
   </section>
 
-  <!-- PARTNERSHIPS -->
   <section id="partnerships">
     <div class="section-label">Who We Work With</div>
     <h2 class="section-title">Partnerships</h2>
@@ -702,7 +697,7 @@
     <div class="partnerships-grid">
 
       <a href="https://www.jacobs.com/" target="_blank" rel="noopener" class="partner-card">
-<div class="partner-logo"><img src="jacobs-logo.png" alt="Jacobs Engineering"></div>
+        <div class="partner-logo"><img src="jacobs-logo.png" alt="Jacobs Engineering"></div>
         <h3>Jacobs Engineering</h3>
         <div class="partner-loc">Morristown, NJ</div>
         <p>A global leader in engineering, design, and technical services. Jacobs delivers solutions across infrastructure, aerospace, environmental, and digital sectors worldwide — with a major office right in our hometown.</p>
@@ -710,7 +705,7 @@
       </a>
 
       <a href="https://www.pegmep.com/" target="_blank" rel="noopener" class="partner-card">
-<div class="partner-logo"><img src="peg-logo.png" alt="Premier Engineering Group"></div>
+        <div class="partner-logo"><img src="peg-logo.png" alt="Premier Engineering Group"></div>
         <h3>Premier Engineering Group</h3>
         <div class="partner-loc">Rockaway, NJ</div>
         <p>A full-service mechanical, electrical, and plumbing/fire protection engineering design firm with 70 years of experience serving the New Jersey AEC community on schools, healthcare, and municipal projects.</p>
@@ -720,7 +715,6 @@
     </div>
   </section>
 
-  <!-- MEMBERS -->
   <section id="members">
     <div class="section-label">The Team</div>
     <h2 class="section-title">Members</h2>
@@ -762,7 +756,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="section-label">Get Involved</div>
     <h2 class="section-title">Contact Us</h2>
