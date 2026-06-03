@@ -96,16 +96,16 @@
       z-index: 2;
     }
 
-    /* FIXED: CENTERED EXACTLY WHERE THE NAV BAR ENDS AND SCREEN EDGE BEGINS */
+    /* FIXED: PARTIAL CORNER GEAR CENTERED PERFECTLY */
     .gear-container {
       position: absolute;
-      top: -84px;     /* Shifting down 76px (nav height) minus 160px (half of gear size) */
-      right: -160px;  /* Half of width to center axis perfectly on the right boundary */
+      top: -160px;    /* Half of width to center axis on exact top boundary */
+      right: -160px;  /* Half of height to center axis on exact right boundary */
       width: 320px;
       height: 320px;
       z-index: 1;
       pointer-events: none;
-      opacity: 0.15;  /* Subtly blends into the background */
+      opacity: 0.15;  /* Subtly blends into the background grid */
     }
 
     .spinning-gear {
@@ -120,7 +120,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* hero-tag styling to match site theme */
+    /* FIXED: hero-tag styling to match site theme */
     .hero-tag {
       display: inline-flex;
       align-items: center;
