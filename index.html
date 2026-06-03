@@ -96,30 +96,6 @@
       z-index: 2;
     }
 
-    /* PARTIAL CORNER GEAR */
-    .gear-container {
-      position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 320px;
-      height: 320px;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.15; /* Subtly blends into the background grid */
-    }
-
-    .spinning-gear {
-      width: 100%;
-      height: 100%;
-      transform-origin: center;
-      animation: gearRotation 30s linear infinite;
-    }
-
-    @keyframes gearRotation {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
     /* FIXED: hero-tag styling to match site theme */
     .hero-tag {
       display: inline-flex;
@@ -651,21 +627,6 @@
   </nav>
 
   <section class="hero" id="home">
-    <div class="gear-container" aria-hidden="true">
-      <svg class="spinning-gear" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="36" fill="none" stroke="var(--blue)" stroke-width="10" stroke-dasharray="6 4.3"/>
-        <circle cx="50" cy="50" r="31" fill="none" stroke="var(--blue)" stroke-width="2"/>
-        <circle cx="50" cy="50" r="21" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
-        <g stroke="var(--blue)" stroke-width="2">
-          <line x1="50" y1="12" x2="50" y2="88" />
-          <line x1="12" y1="50" x2="88" y2="50" />
-          <line x1="23" y1="23" x2="77" y2="77" />
-          <line x1="77" y1="23" x2="23" y2="77" />
-        </g>
-        <circle cx="50" cy="50" r="9" fill="var(--maroon-dark)" stroke="var(--blue)" stroke-width="2.5"/>
-      </svg>
-    </div>
-
     <div class="hero-bg-text" aria-hidden="true">
       <span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span><span>E</span><span>R</span><span>I</span><span>N</span><span>G</span>
     </div>
