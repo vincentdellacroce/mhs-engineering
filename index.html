@@ -4,7 +4,7 @@
   <link rel="icon" type="image/png" href="fanfan.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MHS Engineering Club</title>
+  <title>MCEP Fundraiser | MHS Engineering Club</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -28,6 +28,7 @@
       background: var(--cream);
       color: var(--dark);
       overflow-x: hidden;
+      padding-top: 80px;
     }
 
     /* NAV */
@@ -49,11 +50,12 @@
       font-size: 1.6rem;
       color: var(--blue);
       letter-spacing: 2px;
+      text-decoration: none;
     }
 
     .nav-links {
       display: flex;
-      gap: 2.2rem;
+      gap: 2.5rem;
       list-style: none;
     }
 
@@ -69,58 +71,34 @@
 
     .nav-links a:hover { color: var(--blue); }
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
+    /* HERO FUNDRAISER BANNER */
+    .fund-hero {
       background: var(--maroon-dark);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 5.5rem 8rem 4rem 8rem;
+      color: white;
+      padding: 5rem 8rem;
       position: relative;
       overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+      align-items: center;
     }
 
-    .hero::before {
+    .fund-hero::before {
       content: '';
       position: absolute;
       top: -200px; right: -200px;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(126,200,227,0.12) 0%, transparent 70%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(126,200,227,0.1) 0%, transparent 70%);
       border-radius: 50%;
     }
 
-    .hero-tag, .hero h1, .hero-sub, .hero-btns {
+    .fund-hero-content {
       position: relative;
       z-index: 2;
     }
 
-    /* GEAR POSITIONED ON CORNER BELOW NAV BAR */
-    .gear-container {
-      position: absolute;
-      top: -84px;     
-      right: -160px;  
-      width: 320px;
-      height: 320px;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.15;  
-    }
-
-    .spinning-gear {
-      width: 100%;
-      height: 100%;
-      transform-origin: center;
-      animation: gearRotation 30s linear infinite;
-    }
-
-    @keyframes gearRotation {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .hero-tag {
+    .fund-tag {
       display: inline-flex;
       align-items: center;
       gap: 0.8rem;
@@ -129,99 +107,109 @@
       letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--blue);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
+      margin-bottom: 1rem;
     }
 
-    .hero-tag::before {
+    .fund-tag::before {
       content: '';
       display: inline-block;
-      width: 40px;
+      width: 30px;
       height: 2px;
       background: var(--blue);
     }
 
-    .hero-bg-text {
-      position: absolute;
-      bottom: -40px;
-      right: -20px;
+    .fund-hero h1 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 18rem;
-      color: rgba(255, 255, 255, 0.03);
-      letter-spacing: 0px;
-      white-space: nowrap;
-      z-index: 0;
-      cursor: default;
-      pointer-events: auto;
-      user-select: none;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
     }
 
-    .hero-bg-text span {
-      transition: all 0.2s ease;
-      display: inline-block;
-      padding: 0 5px;
+    .fund-hero h1 span { color: var(--blue); }
+
+    .fund-hero p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      max-width: 600px;
     }
 
-    .hero-bg-text span:hover {
-      transform: translateY(-10px) scale(1.1);
-      opacity: 1;
+    /* PROGRESS CARD */
+    .progress-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(126,200,227,0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      backdrop-filter: blur(5px);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
     }
 
-    .hero-bg-text span:nth-child(1):hover { color: #00f2ff; text-shadow: 0 0 30px #00f2ff; }
-    .hero-bg-text span:nth-child(2):hover { color: #7000ff; text-shadow: 0 0 30px #7000ff; }
-    .hero-bg-text span:nth-child(3):hover { color: #00ff95; text-shadow: 0 0 30px #00ff95; }
-    .hero-bg-text span:nth-child(4):hover { color: #ff0055; text-shadow: 0 0 30px #ff0055; }
-    .hero-bg-text span:nth-child(5):hover { color: #50b3ff; text-shadow: 0 0 30px #50b3ff; }
-    .hero-bg-text span:nth-child(6):hover { color: #ffcc00; text-shadow: 0 0 30px #ffcc00; }
-    .hero-bg-text span:nth-child(7):hover { color: #0066ff; text-shadow: 0 0 30px #0066ff; }
-    .hero-bg-text span:nth-child(8):hover { color: #33ff00; text-shadow: 0 0 30px #33ff00; }
-    .hero-bg-text span:nth-child(9):hover { color: #ff5e00; text-shadow: 0 0 30px #ff5e00; }
-    .hero-bg-text span:nth-child(10):hover { color: #a200ff; text-shadow: 0 0 30px #a200ff; }
-    .hero-bg-text span:nth-child(11):hover { color: #00eaff; text-shadow: 0 0 30px #00eaff; }
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
 
-    .hero h1 {
+    .current-raised {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 10vw, 9rem);
-      line-height: 0.95;
-      color: white;
-      letter-spacing: 3px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.4s forwards;
+      font-size: 3.5rem;
+      color: var(--blue);
+      letter-spacing: 1px;
     }
 
-    .hero h1 span { color: var(--blue); }
-
-    .hero-sub {
-      margin-top: 2rem;
+    .target-goal {
       font-size: 1.1rem;
       color: rgba(255,255,255,0.6);
-      max-width: 480px;
-      line-height: 1.7;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.6s forwards;
+      font-weight: 500;
     }
 
-    .hero-btns {
-      margin-top: 3rem;
+    .progress-bar-container {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue));
+      border-radius: 6px;
+      animation: fillBar 1.5s ease-out forwards;
+    }
+
+    @keyframes fillBar {
+      to { width: 0%; } 
+    }
+
+    .progress-stats {
       display: flex;
-      gap: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s forwards;
+      justify-content: space-between;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
     }
 
     .btn {
-      padding: 0.9rem 2.2rem;
-      border-radius: 4px;
-      font-size: 0.85rem;
+      display: block;
+      width: 100%;
+      padding: 1.1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
       font-weight: 600;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       text-decoration: none;
+      text-align: center;
       transition: all 0.25s;
       cursor: pointer;
       border: none;
-      display: inline-block;
     }
 
     .btn-primary {
@@ -235,21 +223,13 @@
       box-shadow: 0 8px 25px rgba(126,200,227,0.3);
     }
 
-    .btn-outline {
-      background: transparent;
-      color: white;
-      border: 1.5px solid rgba(255,255,255,0.3);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-      transform: translateY(-2px);
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 7rem 8rem;
+    /* MAIN CONTENT SPLIT */
+    section.details {
+      padding: 6rem 8rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 6rem;
+      background: white;
     }
 
     .section-label {
@@ -263,388 +243,104 @@
 
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      letter-spacing: 2px;
-      line-height: 1;
-      color: var(--maroon-dark);
-      margin-bottom: 3rem;
-    }
-
-    /* ABOUT */
-    #about {
-      background: white;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-
-    .about-text p {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--gray);
-      margin-bottom: 1.2rem;
-    }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .stat-card {
-      background: var(--cream);
-      border-left: 4px solid var(--blue);
-      padding: 1.8rem 1.5rem;
-      border-radius: 0 8px 8px 0;
-    }
-
-    .stat-card .number {
-      font-family: 'Bebas Neue', sans-serif;
       font-size: 3rem;
-      color: var(--maroon);
-      letter-spacing: 2px;
-    }
-
-    .stat-card .label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--gray);
-      text-transform: uppercase;
       letter-spacing: 1px;
-      margin-top: 0.3rem;
-    }
-
-    /* MEETINGS */
-    #meetings {
-      background: var(--maroon-dark);
-      position: relative;
-      overflow: hidden;
-    }
-
-    #meetings::before {
-      content: '';
-      position: absolute;
-      bottom: -100px; left: -100px;
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(126,200,227,0.08) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    #meetings .section-label { color: var(--blue-light); }
-    #meetings .section-title { color: white; }
-
-    .meeting-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(126,200,227,0.2);
-      border-radius: 12px;
-      padding: 3rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-      backdrop-filter: blur(5px);
-    }
-
-    .meeting-item h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      color: var(--blue);
-      margin-bottom: 0.8rem;
-      text-transform: uppercase;
-    }
-
-    .meeting-item p {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.6;
-    }
-
-    .meeting-item .big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      color: white;
-      letter-spacing: 2px;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-
-    /* NEW: FUNDRAISER HIGHLIGHT SECTION */
-    #fundraiser-cta {
-      background: white;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .fund-cta-card {
-      background: var(--cream);
-      border: 1px solid rgba(107,30,46,0.1);
-      border-left: 6px solid var(--maroon);
-      border-radius: 8px;
-      padding: 4rem;
-      display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .fund-cta-info h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
       color: var(--maroon-dark);
-      letter-spacing: 1px;
-      margin-bottom: 1rem;
-    }
-
-    .fund-cta-info p {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: var(--gray);
       margin-bottom: 1.5rem;
     }
 
-    .fund-cta-goalbox {
-      background: white;
-      border: 1px solid rgba(0,0,0,0.06);
-      padding: 2.5rem 2rem;
-      border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    .divider {
+      width: 60px;
+      height: 4px;
+      background: var(--blue);
+      margin-bottom: 2rem;
+      border-radius: 2px;
     }
 
-    .fund-cta-goalbox .label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gray);
-      margin-bottom: 0.5rem;
-    }
-
-    .fund-cta-goalbox .amount {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem;
-      color: var(--maroon);
-      line-height: 1;
-      letter-spacing: 1px;
-      margin-bottom: 1.5rem;
-    }
-
-    /* PARTNERSHIPS */
-    #partnerships {
-      background: var(--cream);
-    }
-
-    .partnerships-intro {
+    .details-left p {
       font-size: 1.05rem;
-      color: var(--gray);
       line-height: 1.8;
-      max-width: 650px;
-      margin-bottom: 3rem;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
     }
 
-    .partnerships-grid {
+    /* EXPENSES BREAKDOWN LIST */
+    .expense-list {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .expense-item {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      font-size: 1.05rem;
+    }
+
+    .expense-item .name {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .expense-item .sub-label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--gray);
+      font-weight: 400;
+      margin-top: 0.2rem;
+    }
+
+    .expense-item .cost {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--maroon);
+      letter-spacing: 0.5px;
+      text-align: right;
+    }
+
+    /* SIDEBAR CALLOUT */
+    .details-right {
+      display: flex;
+      flex-direction: column;
       gap: 2rem;
     }
 
-    .partner-card {
-      background: white;
-      border-radius: 12px;
-      padding: 3rem 2.5rem;
-      border-top: 4px solid var(--maroon);
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.25s, box-shadow 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .partner-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(107,30,46,0.15);
-    }
-
-    .partner-card::after {
-      content: '↗';
-      position: absolute;
-      top: 1.5rem;
-      right: 1.8rem;
-      font-size: 1.4rem;
-      color: var(--blue-dark);
-      opacity: 0.4;
-      transition: all 0.25s;
-    }
-
-    .partner-card:hover::after {
-      opacity: 1;
-      transform: translate(3px, -3px);
-    }
-
-    .partner-logo {
-      width: 100%;
-      height: 110px;
-      background: #ffffff;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.8rem;
-      border: 1px solid rgba(107,30,46,0.08);
-      padding: 1rem;
-    }
-
-    .partner-logo img {
-      max-height: 100%;
-      max-width: 70%;
-      object-fit: contain;
-    }
-    .partner-logo .accent { color: var(--blue-dark); }
-
-    .partner-card h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 1.5px;
-      color: var(--maroon-dark);
-      margin-bottom: 0.6rem;
-    }
-
-    .partner-card .partner-loc {
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--blue-dark);
-      margin-bottom: 1rem;
-    }
-
-    .partner-card p {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-    }
-
-    .partner-tag {
-      display: inline-block;
-      padding: 0.35rem 1rem;
-      background: rgba(126,200,227,0.15);
-      color: var(--blue-dark);
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      align-self: flex-start;
-    }
-
-    /* MEMBERS */
-    #members {
-      background: white;
-    }
-
-    .members-intro {
-      font-size: 1.05rem;
-      color: var(--gray);
-      line-height: 1.8;
-      max-width: 600px;
-      margin-bottom: 3rem;
-    }
-
-    .members-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-
-    .member-card {
-      text-align: center;
-      padding: 2rem 1rem;
-      border-radius: 12px;
+    .info-box {
       background: var(--cream);
-      transition: transform 0.2s;
+      border-left: 4px solid var(--maroon);
+      padding: 2rem;
+      border-radius: 0 8px 8px 0;
     }
 
-    .member-card:hover { transform: translateY(-4px); }
-
-    .member-avatar {
-      width: 70px; height: 70px;
-      border-radius: 50%;
-      background: var(--maroon);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .info-box h3 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      color: var(--blue);
-      margin: 0 auto 1rem;
+      font-size: 1.4rem;
+      color: var(--maroon-dark);
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
     }
 
-    .member-card h4 {
-      font-weight: 600;
+    .info-box p {
       font-size: 0.95rem;
-      color: var(--dark);
-      margin-bottom: 0.3rem;
+      line-height: 1.6;
+      color: var(--gray);
     }
 
-    .member-card .role {
-      font-size: 0.8rem;
-      color: var(--maroon);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* CONTACT */
-    #contact {
-      background: var(--maroon-dark);
-      text-align: center;
-      padding: 7rem 4rem;
-    }
-
-    #contact .section-label { color: var(--blue-light); }
-    #contact .section-title { color: white; margin-bottom: 1rem; }
-
-    .contact-sub {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 3.5rem;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-
-    .contact-link {
-      display: flex;
+    .back-link {
+      display: inline-flex;
       align-items: center;
-      gap: 0.7rem;
-      padding: 1rem 2rem;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(126,200,227,0.25);
-      border-radius: 8px;
-      color: white;
+      gap: 0.5rem;
+      color: var(--maroon);
       text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.25s;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
     }
-
-    .contact-link:hover {
-      background: rgba(126,200,227,0.15);
-      border-color: var(--blue);
-      color: var(--blue);
-      transform: translateY(-2px);
-    }
-
-    .contact-link .icon { font-size: 1.2rem; }
+    .back-link:hover { color: var(--blue-dark); }
 
     /* FOOTER */
     footer {
@@ -658,265 +354,201 @@
 
     footer span { color: var(--blue); }
 
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* DIVIDER */
-    .divider {
-      width: 60px;
-      height: 4px;
-      background: var(--blue);
-      margin-bottom: 2rem;
-      border-radius: 2px;
-    }
-
     /* RESPONSIVE */
     @media (max-width: 1024px) {
-      .fund-cta-card { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem; }
-    }
-
-    @media (max-width: 900px) {
+      .fund-hero { grid-template-columns: 1fr; padding: 4rem 3rem; gap: 3rem; }
+      section.details { grid-template-columns: 1fr; padding: 4rem 3rem; gap: 4rem; }
       nav { padding: 1rem 2rem; }
-      .nav-links { gap: 1.2rem; }
-      .hero { padding: 5.5rem 3rem 4rem 3rem; }
-      section { padding: 5rem 3rem; }
-      #about { grid-template-columns: 1fr; gap: 3rem; }
-      .meeting-card { grid-template-columns: 1fr; gap: 2rem; }
-      .partnerships-grid { grid-template-columns: 1fr; }
-      .members-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .nav-links { gap: 1.5rem; }
     }
 
     @media (max-width: 600px) {
       .nav-links { display: none; }
-      .hero { padding: 5.5rem 1.5rem 4rem 1.5rem; }
-      section { padding: 4rem 1.5rem; }
-      .members-grid { grid-template-columns: 1fr 1fr; }
-      .about-stats { grid-template-columns: 1fr; }
-      .hero-tag { font-size: 0.75rem; letter-spacing: 3px; }
+      .fund-hero { padding: 3rem 1.5rem; }
+      section.details { padding: 3rem 1.5rem; }
+      .current-raised { font-size: 2.8rem; }
+    }
+
+    /* CUSTOM LIGHTBULB CURSOR STYLES */
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 42px;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, 0);
+      display: none;
+      transition: transform 0.04s ease-out;
+    }
+
+    /* Hide standard cursor completely across web modules */
+    html, body, a, button, .btn, input, select {
+      cursor: none !important;
+    }
+
+    .lightbulb-svg {
+      width: 100%;
+      height: 100%;
+      fill: #666;
+      transition: fill 0.1s ease;
+    }
+
+    /* Activated/Lit State Configuration */
+    .custom-cursor.clicked .lightbulb-svg {
+      fill: var(--blue);
+      filter: drop-shadow(0 0 15px var(--blue)) drop-shadow(0 0 5px var(--blue-dark));
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="nav-logo">MHS Engineering</div>
+    <a href="/" class="nav-logo">MHS Engineering</a>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#meetings">Meetings</a></li>
-      <li><a href="#fundraiser-cta">Fundraiser</a></li>
-      <li><a href="#partnerships">Partnerships</a></li>
-      <li><a href="#members">Members</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="/stem-outreach-hub.html" target="_blank" class="nav-highlight" style="color:var(--blue);border:1px solid rgba(126,200,227,0.4);padding:0.3rem 0.9rem;border-radius:4px;font-size:0.78rem;">Outreach Hub</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#meetings">Meetings</a></li>
+      <li><a href="/#fundraiser-cta">Fundraiser</a></li>
+      <li><a href="/#partnerships">Partnerships</a></li>
+      <li><a href="/#members">Members</a></li>
+      <li><a href="/#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <section class="hero" id="home">
-    <div class="gear-container" aria-hidden="true">
-      <svg class="spinning-gear" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="36" fill="none" stroke="var(--blue)" stroke-width="10" stroke-dasharray="6 4.3"/>
-        <circle cx="50" cy="50" r="31" fill="none" stroke="var(--blue)" stroke-width="2"/>
-        <circle cx="50" cy="50" r="21" fill="none" stroke="var(--blue)" stroke-width="1.5"/>
-        <g stroke="var(--blue)" stroke-width="2">
-          <line x1="50" y1="12" x2="50" y2="88" />
-          <line x1="12" y1="50" x2="88" y2="50" />
-          <line x1="23" y1="23" x2="77" y2="77" />
-          <line x1="77" y1="23" x2="23" y2="77" />
-        </g>
-        <circle cx="50" cy="50" r="9" fill="var(--maroon-dark)" stroke="var(--blue)" stroke-width="2.5"/>
-      </svg>
+  <section class="fund-hero">
+    <div class="fund-hero-content">
+      <div class="fund-tag">MCEP Drive</div>
+      <h1>Morris County<br/><span>Engineering Cup</span></h1>
+      <p>Encouraging the next generation of innovators to design, prototype, and implement sustainable engineering solutions that address real-world challenges specific to the Morris County community and its infrastructure.</p>
     </div>
 
-    <div class="hero-bg-text" aria-hidden="true">
-      <span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span><span>E</span><span>R</span><span>I</span><span>N</span><span>G</span>
-    </div>
+    <div class="progress-card">
+      <div class="goal-header">
+        <div class="current-raised">$0</div> 
+        <div class="target-goal">of $10,000 goal</div>
+      </div>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+      </div>
 
-    <div class="hero-tag">Morristown High School</div>
-    <h1>Engineering<br/><span>Club</span></h1>
-    <p class="hero-sub">Where curious minds come together to design, build, and innovate. Open to all disciplines — from mechanical to software and everything in between.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn btn-primary">Join the Club</a>
-      <a href="fundraiser.html" class="btn btn-outline" style="border-color: var(--blue); color: var(--blue);">Support Our Competition</a>
+      <div class="progress-stats">
+        <div><strong>0</strong> donations</div>
+        <div>Target: End of School Year</div>
+      </div>
+
+      <a href="#" target="_blank" rel="noopener" class="btn btn-primary">Support on GoFundMe</a>
     </div>
   </section>
 
-  <section id="about">
-    <div class="about-text">
-      <div class="section-label">Who We Are</div>
-      <h2 class="section-title">Built by<br/>Students</h2>
+  <section class="details">
+    <div class="details-left">
+      <div class="section-label">The Objective</div>
+      <h2 class="section-title">Why We Need Your Support</h2>
       <div class="divider"></div>
-      <p>The Morristown High School Engineering Club is a student-run organization for anyone passionate about exploring the fields of engineering and how things work and how to make them better. Whether you're into robotics, coding, science, math, or just curious about engineering, you belong here.</p>
-      <p>We work on real projects, learn from real engineers, and have a great time doing it. No prior experience required, just a willingness to build and explore.</p>
-    </div>
-    <div class="about-stats">
-      <div class="stat-card">
-        <div class="number">ALL</div>
-        <div class="label">Engineering Disciplines Welcome</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">Weekly</div>
-        <div class="label">Meetings Every Tuesday</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">CONNECT</div>
-        <div class="label">Real Engineers Speak at Almost Every Meeting</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">FREE</div>
-        <div class="label">Open to All Students</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="meetings">
-    <div class="section-label">When & Where</div>
-    <h2 class="section-title">Meeting Info</h2>
-    <div class="meeting-card">
-      <div class="meeting-item">
-        <h3>Day</h3>
-        <div class="big">Tuesday</div>
-        <p>Every 1-2 weeks during the school year</p>
-      </div>
-      <div class="meeting-item">
-        <h3>Time</h3>
-        <div class="big">Lunch</div>
-        <p>10:50 AM – 11:25 AM</p>
-      </div>
-      <div class="meeting-item">
-        <h3>Location</h3>
-        <div class="big">Rm 357</div>
-        <p>Morristown High School</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="fundraiser-cta">
-    <div class="section-label">Launchpad Initiative</div>
-    <h2 class="section-title">Next-Gen Competition Drive</h2>
-    
-    <div class="fund-cta-card">
-      <div class="fund-cta-info">
-        <h3>Help Us Represent MHS Next Year</h3>
-        <p>Our team is putting theoretical science into real practice. We are launching an active fundraising drive to secure advanced mechanical parts, custom boards, and travel pathways for an elite regional championship happening at the end of next school year.</p>
-        <p>Every contribution helps our student teams buy materials, fabricate systems, and cover entry costs.</p>
-        <a href="fundraiser.html" class="btn btn-primary" style="padding: 0.9rem 1.8rem;">View Campaign Details</a>
-      </div>
+      <p>The MCEP is a comprehensive, school-year-long engineering competition bringing together Morris County high schools. The event offers individual students or small teams (2-3 members) a unique framework to scale classroom concepts up into functional, real-world competitive installations.</p>
+      <p>At the close of the academic year, every project undergoes professional, rigorous evaluation by structural, hardware, and system design engineers. To ensure equal accessibility for all participant criteria, funding raw components, computational cores, specialized assemblies, and operations rests entirely on the shoulders of our local partners and donors.</p>
       
-      <div class="fund-cta-goalbox">
-        <div class="label">Target Campaign Goal</div>
-        <div class="amount">$10,000</div>
-        <div class="divider" style="margin: 0 auto 1.5rem;"></div>
-        <p style="font-size: 0.85rem; color: var(--gray); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Student Engineering Blueprint Drive</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="partnerships">
-    <div class="section-label">Who We Work With</div>
-    <h2 class="section-title">Partnerships</h2>
-    <p class="partnerships-intro">We're proud to partner with leading engineering firms right here in Morris County. Our partners share their real-world expertise with our members, bringing professional engineering insight straight into the classroom.</p>
-    <div class="partnerships-grid">
-
-      <a href="https://www.jacobs.com/" target="_blank" rel="noopener" class="partner-card">
-        <div class="partner-logo"><img src="jacobs-logo.png" alt="Jacobs Engineering"></div>
-        <h3>Jacobs Engineering</h3>
-        <div class="partner-loc">Morristown, NJ</div>
-        <p>A global leader in engineering, design, and technical services. Jacobs delivers solutions across infrastructure, aerospace, environmental, and digital sectors worldwide — with a major office right in our hometown.</p>
-        <span class="partner-tag">Industry Partner</span>
-      </a>
-
-      <a href="https://www.pegmep.com/" target="_blank" rel="noopener" class="partner-card">
-        <div class="partner-logo"><img src="peg-logo.png" alt="Premier Engineering Group"></div>
-        <h3>Premier Engineering Group</h3>
-        <div class="partner-loc">Rockaway, NJ</div>
-        <p>A full-service mechanical, electrical, and plumbing/fire protection engineering design firm with 70 years of experience serving the New Jersey AEC community on schools, healthcare, and municipal projects.</p>
-        <span class="partner-tag">Industry Partner</span>
-      </a>
-
-    </div>
-  </section>
-
-  <section id="members">
-    <div class="section-label">The Team</div>
-    <h2 class="section-title">Members</h2>
-    <p class="members-intro">Our club is made up of students from all grade levels and backgrounds. Leadership and advisor information will be updated here as the club grows.</p>
-    <div class="members-grid">
-      <div class="member-card">
-        <div class="member-avatar">VD</div>
-        <h4>Vincent Dellacroce</h4>
-        <div class="role">President</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar">GL</div>
-        <h4>Gianna Laratta</h4>
-        <div class="role">Vice President</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar">TA</div>
-        <h4>Taj Abdullah</h4>
-        <div class="role">Secretary</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar">LS</div>
-        <h4>Luigi Sciano</h4>
-        <div class="role">Treasurer</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar">RL</div>
-        <h4>Rodney Lee</h4>
-        <div class="role">Advisor</div>
-      </div>
+      <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem; margin-bottom: 0.5rem;">Campaign Fund Distribution Rules</h3>
+      <p>Out of our total $10,000 target campaign, all raised capital will be distributed using a strict, structured financial sequence to ensure fair participant incentives and high civic community impact:</p>
       
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf01zqZe9V87c2enY9FKWTQCMQm9Iyj46O9FFMr0Z70JDZldA/viewform?usp=header" target="_blank" class="member-card" style="text-decoration:none; background:var(--maroon); border: 2px dashed var(--blue); position:relative;">
-        <div class="member-avatar" style="background:var(--blue);">
-          <span style="color:var(--maroon-dark); font-size:2rem;">+</span>
-        </div>
-        <h4 style="color:var(--blue);">Join Us</h4>
-        <div class="role" style="color:rgba(126,200,227,0.8);">Click to join</div>
-        <div style="position:absolute; top:-10px; right:-10px; background:var(--blue); color:var(--maroon-dark); font-size:0.65rem; font-weight:700; padding:0.25rem 0.5rem; border-radius:20px; letter-spacing:1px; text-transform:uppercase;">Join</div>
-      </a>
+      <ul class="expense-list">
+        <li class="expense-item">
+          <div>
+            <span class="name">1. Direct Scholarship Tiers (Subtracted First)</span>
+            <span class="sub-label">1st Place ($1,000/student), 2nd Place ($750/student), 3rd Place ($500/student).</span>
+          </div>
+          <span class="cost">$2,250 - $6,750</span>
+        </li>
+        <li class="expense-item">
+          <div>
+            <span class="name">2. Community FoodBank of NJ Allocation</span>
+            <span class="sub-label">Allocated straight from the remaining balance following scholarship deductions.</span>
+          </div>
+          <span class="cost">$2,000 Flat</span>
+        </li>
+        <li class="expense-item">
+          <div>
+            <span class="name">3. Conditional Surplus Distribution</span>
+            <span class="sub-label">If remaining balance exceeds $2,000: split 50/50 between MHS Engineering Club & next year's campaign kickoff.</span>
+          </div>
+          <span class="cost">50 / 50 Split</span>
+        </li>
+        <li class="expense-item">
+          <div>
+            <span class="name">4. Conditional Minimum Distribution</span>
+            <span class="sub-label">If remaining balance after step 2 is $2,000 or less, 100% is allocated to MHS Engineering Club operations.</span>
+          </div>
+          <span class="cost">100% to Club</span>
+        </li>
+      </ul>
     </div>
-  </section>
 
-  <section id="contact">
-    <div class="section-label">Get Involved</div>
-    <h2 class="section-title">Contact Us</h2>
-    <p class="contact-sub">Interested in joining or have questions? Reach out to us directly or follow us on Instagram.</p>
-    <div class="contact-links">
-      <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin-bottom:0.5rem;">Students Interested — Contact:</p>
-      <a href="https://mail.google.com/mail/?view=cm&to=27vincent.dellacroce@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">
-        <span class="icon">✉️</span>
-        27vincent.dellacroce@msdk12.net
-        <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
-      </a>
-      <a href="https://mail.google.com/mail/?view=cm&to=rodney.lee@msdk12.net" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">
-        <span class="icon">✉️</span>
-        rodney.lee@msdk12.net
-        <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
-      </a>
-      <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; width:100%; text-align:center; margin:1rem 0 0.5rem;">Additional:</p>
-      <a href="https://mail.google.com/mail/?view=cm&to=77vincent.dellacroce@gmail.com" target="_blank" class="contact-link" style="flex-direction:column; align-items:center; gap:0.2rem;">
-        <span class="icon">✉️</span>
-        77vincent.dellacroce@gmail.com
-        <span style="font-size:0.7rem; opacity:0.5; letter-spacing:1px; text-transform:uppercase;">Click to Email</span>
-      </a>
-      <a href="https://instagram.com/mhs.engineeringclub" target="_blank" class="contact-link">
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-        </svg>
-        @mhs.engineeringclub
-      </a>
+    <div class="details-right">
+      <div class="info-box">
+        <h3>Step 1: Incentivizing Excellence</h3>
+        <p>From our total campaign pool, the scholarship payouts are calculated and deducted first. Depending on final team compositions (individual or groups of up to three), this structural tier totals between $2,250 and $6,750.</p>
+      </div>
+
+      <div class="info-box" style="border-left-color: var(--blue);">
+        <h3>Step 2: Supporting Regional Relief</h3>
+        <p>Directly following the scholarship subtraction, a flat $2,000 is given to the <strong>Community FoodBank of New Jersey (CFBNJ)</strong> to combat critical local food insecurity issues.</p>
+      </div>
+
+      <div class="info-box" style="border-left-color: var(--blue-dark);">
+        <h3>Step 3: Future Safeguards</h3>
+        <p>If the final outstanding balance sits above $2,000, half funds our immediate MHS Engineering raw items, while the remaining half establishes a financial headstart for next school year's competition team.</p>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <a href="/" class="back-link">← Back to Main Club Site</a>
+      </div>
     </div>
   </section>
 
   <footer>
     &copy; 2026 <span>MHS Engineering Club</span> · Morristown High School
   </footer>
+
+  <div class="custom-cursor" id="customCursor">
+    <svg class="lightbulb-svg" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2 h6 v2 h-6 z M8 5 h8 v2 h-8 z M9 8 h6 v1 h-6 z" fill="#999" />
+      <path d="M12 9 C8 9 5 12 5 16 C5 20 8 22 10 25 L10 28 C10 29 11 30 12 30 C13 30 14 29 14 28 L14 25 C16 22 19 20 19 16 C19 12 16 9 12 9 Z" />
+      <path d="M11 15 L11 19 M13 15 L13 19 M10 15 L14 15" stroke="#444" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+
+  <script>
+    const bulbCursor = document.getElementById('customCursor');
+
+    // Make custom interface element visible when user focus hits document view area
+    document.addEventListener('mouseenter', () => {
+      bulbCursor.style.display = 'block';
+    });
+
+    // Capture positioning vectors. 
+    // Top contact tip aligns directly over mouse pointer coordinate arrays natively.
+    document.addEventListener('mousemove', (e) => {
+      bulbCursor.style.left = `${e.clientX}px`;
+      bulbCursor.style.top = `${e.clientY}px`;
+    });
+
+    // Close electrical contact circuit path loop on trigger down click
+    document.addEventListener('mousedown', () => {
+      bulbCursor.classList.add('clicked');
+    });
+
+    // Open connection state, breaking glow flow upon click key lift up release
+    document.addEventListener('mouseup', () => {
+      bulbCursor.classList.remove('clicked');
+    });
+
+    // Graceful exit fallback cleanup routine handling viewport boundary breaks
+    document.addEventListener('mouseleave', () => {
+      bulbCursor.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
