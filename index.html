@@ -53,7 +53,7 @@
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 2.2rem;
       list-style: none;
     }
 
@@ -221,6 +221,7 @@
       transition: all 0.25s;
       cursor: pointer;
       border: none;
+      display: inline-block;
     }
 
     .btn-primary {
@@ -366,6 +367,66 @@
       letter-spacing: 2px;
       line-height: 1;
       margin-bottom: 0.3rem;
+    }
+
+    /* NEW: FUNDRAISER HIGHLIGHT SECTION */
+    #fundraiser-cta {
+      background: white;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .fund-cta-card {
+      background: var(--cream);
+      border: 1px solid rgba(107,30,46,0.1);
+      border-left: 6px solid var(--maroon);
+      border-radius: 8px;
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .fund-cta-info h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--maroon-dark);
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .fund-cta-info p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .fund-cta-goalbox {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 2.5rem 2rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+
+    .fund-cta-goalbox .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .fund-cta-goalbox .amount {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: var(--maroon);
+      line-height: 1;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
     }
 
     /* PARTNERSHIPS */
@@ -613,9 +674,13 @@
     }
 
     /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .fund-cta-card { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem; }
+    }
+
     @media (max-width: 900px) {
       nav { padding: 1rem 2rem; }
-      .nav-links { gap: 1.5rem; }
+      .nav-links { gap: 1.2rem; }
       .hero { padding: 5.5rem 3rem 4rem 3rem; }
       section { padding: 5rem 3rem; }
       #about { grid-template-columns: 1fr; gap: 3rem; }
@@ -641,6 +706,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#meetings">Meetings</a></li>
+      <li><a href="#fundraiser-cta">Fundraiser</a></li>
       <li><a href="#partnerships">Partnerships</a></li>
       <li><a href="#members">Members</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -673,7 +739,7 @@
     <p class="hero-sub">Where curious minds come together to design, build, and innovate. Open to all disciplines — from mechanical to software and everything in between.</p>
     <div class="hero-btns">
       <a href="#contact" class="btn btn-primary">Join the Club</a>
-      <a href="#about" class="btn btn-outline">Learn More</a>
+      <a href="fundraiser.html" class="btn btn-outline" style="border-color: var(--blue); color: var(--blue);">Support Our Competition</a>
     </div>
   </section>
 
@@ -723,6 +789,27 @@
         <h3>Location</h3>
         <div class="big">Rm 357</div>
         <p>Morristown High School</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="fundraiser-cta">
+    <div class="section-label">Launchpad Initiative</div>
+    <h2 class="section-title">Next-Gen Competition Drive</h2>
+    
+    <div class="fund-cta-card">
+      <div class="fund-cta-info">
+        <h3>Help Us Represent MHS Next Year</h3>
+        <p>Our team is putting theoretical science into real practice. We are launching an active fundraising drive to secure advanced mechanical parts, custom boards, and travel pathways for an elite regional championship happening at the end of next school year.</p>
+        <p>Every contribution helps our student teams buy materials, fabricate systems, and cover entry costs.</p>
+        <a href="fundraiser.html" class="btn btn-primary" style="padding: 0.9rem 1.8rem;">View Campaign Details</a>
+      </div>
+      
+      <div class="fund-cta-goalbox">
+        <div class="label">Target Campaign Goal</div>
+        <div class="amount">$5,000</div>
+        <div class="divider" style="margin: 0 auto 1.5rem;"></div>
+        <p style="font-size: 0.85rem; color: var(--gray); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Student Engineering Blueprint Drive</p>
       </div>
     </div>
   </section>
