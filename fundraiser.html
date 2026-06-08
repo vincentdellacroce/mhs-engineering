@@ -31,7 +31,7 @@
       padding-top: 80px;
     }
 
-    /* NAV */
+    /* --- NAVIGATION --- */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -71,7 +71,7 @@
 
     .nav-links a:hover { color: var(--blue); }
 
-    /* HERO FUNDRAISER BANNER */
+    /* --- HERO FUNDRAISER BANNER --- */
     .fund-hero {
       background: var(--maroon-dark);
       color: white;
@@ -135,7 +135,7 @@
       max-width: 600px;
     }
 
-    /* PROGRESS CARD */
+    /* --- PROGRESS CARD --- */
     .progress-card {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(126,200,227,0.2);
@@ -222,7 +222,7 @@
       box-shadow: 0 8px 25px rgba(126,200,227,0.3);
     }
 
-    /* MAIN CONTENT SPLIT */
+    /* --- MAIN CONTENT --- */
     section.details {
       padding: 6rem 8rem;
       display: grid;
@@ -263,7 +263,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* EXPENSES BREAKDOWN LIST */
     .expense-list {
       list-style: none;
       margin-top: 2rem;
@@ -278,33 +277,11 @@
       font-size: 1.05rem;
     }
 
-    .expense-item .name {
-      font-weight: 500;
-      color: var(--dark);
-    }
+    .expense-item .name { font-weight: 500; color: var(--dark); }
+    .expense-item .sub-label { display: block; font-size: 0.85rem; color: var(--gray); font-weight: 400; margin-top: 0.2rem; }
+    .expense-item .cost { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--maroon); letter-spacing: 0.5px; text-align: right; }
 
-    .expense-item .sub-label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--gray);
-      font-weight: 400;
-      margin-top: 0.2rem;
-    }
-
-    .expense-item .cost {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.3rem;
-      color: var(--maroon);
-      letter-spacing: 0.5px;
-      text-align: right;
-    }
-
-    /* SIDEBAR CALLOUT */
-    .details-right {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
+    .details-right { display: flex; flex-direction: column; gap: 2rem; }
 
     .info-box {
       background: var(--cream);
@@ -313,19 +290,8 @@
       border-radius: 0 8px 8px 0;
     }
 
-    .info-box h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      color: var(--maroon-dark);
-      margin-bottom: 0.5rem;
-      letter-spacing: 1px;
-    }
-
-    .info-box p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--gray);
-    }
+    .info-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--maroon-dark); margin-bottom: 0.5rem; letter-spacing: 1px; }
+    .info-box p { font-size: 0.95rem; line-height: 1.6; color: var(--gray); }
 
     .back-link {
       display: inline-flex;
@@ -341,7 +307,6 @@
     }
     .back-link:hover { color: var(--blue-dark); }
 
-    /* FOOTER */
     footer {
       background: #0a0a0a;
       color: rgba(255,255,255,0.4);
@@ -353,7 +318,7 @@
 
     footer span { color: var(--blue); }
 
-    /* RESPONSIVE */
+    /* --- RESPONSIVE MEDIA QUERIES --- */
     @media (max-width: 1024px) {
       .fund-hero { grid-template-columns: 1fr; padding: 4rem 3rem; gap: 3rem; }
       section.details { grid-template-columns: 1fr; padding: 4rem 3rem; gap: 4rem; }
@@ -368,7 +333,7 @@
       .current-raised { font-size: 2.8rem; }
     }
 
-    /* FIXED DIAGONAL CURSOR ENGINE */
+    /* --- HARDWARE ACCELERATED CUSTOM CURSOR SYSTEM --- */
     .custom-cursor {
       position: fixed;
       top: 0;
@@ -379,12 +344,12 @@
       z-index: 999999;
       opacity: 0; 
       will-change: transform;
-      /* Sets transform anchor directly to the very top-middle edge point of the screw contact */
-      transform-origin: 16px 3px; 
-      transition: opacity 0.2s ease;
+      /* Sets the rotation pivot directly on the tip contact point (X: 12px, Y: 2px) */
+      transform-origin: 12px 2px;
+      transition: opacity 0.15s ease;
     }
 
-    /* Completely overrides and clears native browser mouse arrows globally */
+    /* Strip standard desktop mouse elements across active nodes */
     html, body, a, button, .btn, input, select, [role="button"] {
       cursor: none !important;
     }
@@ -392,14 +357,18 @@
     .lightbulb-svg {
       width: 100%;
       height: 100%;
-      fill: #666;
-      transition: fill 0.12s ease-in-out, filter 0.12s ease-in-out;
+      fill: #555;
+      /* Added a clean stroke to ensure it remains distinct against dark header sections */
+      stroke: #fff;
+      stroke-width: 0.5px;
+      transition: fill 0.1s ease, filter 0.1s ease;
     }
 
-    /* High Energy Glowing Lit State Configuration */
+    /* High Intensity Glow Action on Click Connection */
     .custom-cursor.clicked .lightbulb-svg {
       fill: var(--blue);
-      filter: drop-shadow(0 0 15px var(--blue)) drop-shadow(0 0 4px var(--blue-dark));
+      stroke: var(--blue-light);
+      filter: drop-shadow(0 0 12px var(--blue)) drop-shadow(0 0 3px var(--blue-dark));
     }
   </style>
 </head>
@@ -516,32 +485,32 @@
     <svg class="lightbulb-svg" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
       <path d="M9 2 h6 v2 h-6 z M8 5 h8 v2 h-8 z M9 8 h6 v1 h-6 z" fill="#999" />
       <path d="M12 9 C8 9 5 12 5 16 C5 20 8 22 10 25 L10 28 C10 29 11 30 12 30 C13 30 14 29 14 28 L14 25 C16 22 19 20 19 16 C19 12 16 9 12 9 Z" />
-      <path d="M11 15 L11 19 M13 15 L13 19 M10 15 L14 15" stroke="#444" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M11 15 L11 19 M13 15 L13 19 M10 15 L14 15" stroke="#222" stroke-width="1.2" stroke-linecap="round" fill="none"/>
     </svg>
   </div>
 
   <script>
     const bulbCursor = document.getElementById('customCursor');
 
-    // Smooth position calculation on hardware layer.
-    // Offsetting the positioning values by the contact coordinates ensures the tip stays locked to the mouse.
-    // The -135deg rotation spins the bulb body up and out towards the right.
+    // Tracks mouse instantly inside the window.
+    // Subtracting 12 and 2 aligns the screw's top tip precisely to the mouse array point.
+    // Rotating 35 degrees clockwise swings the bulb body down-right, matching standard pointer slants.
     document.addEventListener('mousemove', (e) => {
       bulbCursor.style.opacity = '1';
-      bulbCursor.style.transform = `translate3d(${e.clientX - 16}px, ${e.clientY - 3}px, 0) rotate(-135deg)`;
+      bulbCursor.style.transform = `translate3d(${e.clientX - 12}px, ${e.clientY - 2}px, 0) rotate(35deg)`;
     });
 
-    // Close contact electrical connection on click down
+    // Close circuits loops on structural downclick
     document.addEventListener('mousedown', () => {
       bulbCursor.classList.add('clicked');
     });
 
-    // Reset circuit path properties on key release up
+    // Reset loop states on component key release
     document.addEventListener('mouseup', () => {
       bulbCursor.classList.remove('clicked');
     });
 
-    // Hide custom trace element when mouse leaves window container
+    // Clear element tracking visibility when mouse breaks window layout boundaries
     document.addEventListener('mouseleave', () => {
       bulbCursor.style.opacity = '0';
     });
