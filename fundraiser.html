@@ -333,7 +333,7 @@
       .current-raised { font-size: 2.8rem; }
     }
 
-    /* --- HARDWARE ACCELERATED CUSTOM CURSOR SYSTEM --- */
+    /* --- CUSTOM BULB CURSOR ELEMENT --- */
     .custom-cursor {
       position: fixed;
       top: 0;
@@ -344,12 +344,12 @@
       z-index: 999999;
       opacity: 0; 
       will-change: transform;
-      /* Sets the rotation pivot directly on the tip contact point (X: 12px, Y: 2px) */
-      transform-origin: 12px 2px;
+      /* Sets transform anchor directly to the top center point of the wide glass sphere */
+      transform-origin: 12px 2px; 
       transition: opacity 0.15s ease;
     }
 
-    /* Strip standard desktop mouse elements across active nodes */
+    /* Clear default pointer configurations */
     html, body, a, button, .btn, input, select, [role="button"] {
       cursor: none !important;
     }
@@ -358,13 +358,12 @@
       width: 100%;
       height: 100%;
       fill: #555;
-      /* Added a clean stroke to ensure it remains distinct against dark header sections */
       stroke: #fff;
       stroke-width: 0.5px;
       transition: fill 0.1s ease, filter 0.1s ease;
     }
 
-    /* High Intensity Glow Action on Click Connection */
+    /* High Energy Bright Glow Click Connection */
     .custom-cursor.clicked .lightbulb-svg {
       fill: var(--blue);
       stroke: var(--blue-light);
@@ -483,34 +482,29 @@
 
   <div class="custom-cursor" id="customCursor">
     <svg class="lightbulb-svg" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
-      <path d="M9 2 h6 v2 h-6 z M8 5 h8 v2 h-8 z M9 8 h6 v1 h-6 z" fill="#999" />
-      <path d="M12 9 C8 9 5 12 5 16 C5 20 8 22 10 25 L10 28 C10 29 11 30 12 30 C13 30 14 29 14 28 L14 25 C16 22 19 20 19 16 C19 12 16 9 12 9 Z" />
-      <path d="M11 15 L11 19 M13 15 L13 19 M10 15 L14 15" stroke="#222" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M12 2 C16 2 19 5 19 9 C19 13 16 15 14 18 L14 21 C14 22 13 23 12 23 C11 23 10 22 10 21 L10 18 C8 15 5 13 5 9 C5 5 8 2 12 2 Z" />
+      <path d="M11 10 L11 6 M13 10 L13 6 M10 10 L14 10" stroke="#222" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+      <path d="M9 24 h6 v2 h-6 z M8 27 h8 v2 h-8 z M9 30 h6 v1 h-6 z" fill="#999" />
     </svg>
   </div>
 
   <script>
     const bulbCursor = document.getElementById('customCursor');
 
-    // Tracks mouse instantly inside the window.
-    // Subtracting 12 and 2 aligns the screw's top tip precisely to the mouse array point.
-    // Rotating 35 degrees clockwise swings the bulb body down-right, matching standard pointer slants.
     document.addEventListener('mousemove', (e) => {
       bulbCursor.style.opacity = '1';
+      // Tracks smoothly. The rotation matches standard OS cursor slants, pushing the screw base down-right.
       bulbCursor.style.transform = `translate3d(${e.clientX - 12}px, ${e.clientY - 2}px, 0) rotate(35deg)`;
     });
 
-    // Close circuits loops on structural downclick
     document.addEventListener('mousedown', () => {
       bulbCursor.classList.add('clicked');
     });
 
-    // Reset loop states on component key release
     document.addEventListener('mouseup', () => {
       bulbCursor.classList.remove('clicked');
     });
 
-    // Clear element tracking visibility when mouse breaks window layout boundaries
     document.addEventListener('mouseleave', () => {
       bulbCursor.style.opacity = '0';
     });
