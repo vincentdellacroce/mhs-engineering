@@ -369,7 +369,7 @@
       .current-raised { font-size: 2.8rem; }
     }
 
-    /* CUSTOM LIGHTBULB CURSOR STYLES */
+    /* CUSTOM LIGHTBULB DIAGONAL CURSOR STYLES */
     .custom-cursor {
       position: fixed;
       top: 0;
@@ -378,12 +378,13 @@
       height: 42px;
       pointer-events: none;
       z-index: 99999;
-      transform: translate(-50%, 0);
       display: none;
-      transition: transform 0.04s ease-out;
+      /* Pivot around the exact top center contact point (X: 12px, Y: 2px inside the 24x32 viewBox) */
+      transform-origin: 12px 2px;
+      transform: translate(-12px, -2px) rotate(45deg);
     }
 
-    /* Hide standard cursor completely across web modules */
+    /* Hide standard cursor completely across interactive page modules */
     html, body, a, button, .btn, input, select {
       cursor: none !important;
     }
@@ -522,29 +523,28 @@
   <script>
     const bulbCursor = document.getElementById('customCursor');
 
-    // Make custom interface element visible when user focus hits document view area
+    // Display custom interface element when mouse joins workspace boundaries
     document.addEventListener('mouseenter', () => {
       bulbCursor.style.display = 'block';
     });
 
-    // Capture positioning vectors. 
-    // Top contact tip aligns directly over mouse pointer coordinate arrays natively.
+    // Capture dynamic system space positions
     document.addEventListener('mousemove', (e) => {
       bulbCursor.style.left = `${e.clientX}px`;
       bulbCursor.style.top = `${e.clientY}px`;
     });
 
-    // Close electrical contact circuit path loop on trigger down click
+    // Close contact electrical connection on structural click trigger down
     document.addEventListener('mousedown', () => {
       bulbCursor.classList.add('clicked');
     });
 
-    // Open connection state, breaking glow flow upon click key lift up release
+    // Disconnect active load state paths on component release up
     document.addEventListener('mouseup', () => {
       bulbCursor.classList.remove('clicked');
     });
 
-    // Graceful exit fallback cleanup routine handling viewport boundary breaks
+    // Hide custom trace element when system leaves view container
     document.addEventListener('mouseleave', () => {
       bulbCursor.style.display = 'none';
     });
