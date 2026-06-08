@@ -104,11 +104,11 @@
 
         float prevHeight = texture2D(u_prev_frame, uv).r;
         
-        // Restored mathematically bounded 0.5 coefficient to permanently prevent numerical explosion/glitching
         float nextHeight = (left + right + top + bottom) * 0.5 - prevHeight;
         
-        // Clean liquid damping value tailored for rapid settling
-        nextHeight *= 0.982; 
+        // Increased damping decay by reducing multiplier from 0.982 to 0.942
+        // This drains the kinetic wave energy much faster so the ripples disappear and settle quickly
+        nextHeight *= 0.942; 
 
         if (u_mouse_force > 0.0) {
           float dist = distance(uv * u_resolution, u_mouse_pos * u_resolution);
@@ -340,7 +340,6 @@
           this.lastTime = now;
         }
 
-        // Fast mouse coordinate tracking interpolation
         this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.24;
         this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.24;
 
@@ -350,9 +349,6 @@
         
         this.pointerForce = this.hasMoved ? Math.min(velocity * 0.16, 2.2) : 0.0;
 
-        // SUB-STEPPING: We execute 3 physics propagation loops per render frame.
-        // This makes the water ripples move 3x faster—simulating natural, low-viscosity fluid mechanics—
-        // while safely keeping the shader math strictly inside stable boundaries so it never glitches out.
         this.mesh.material = this.simulationMaterial;
         const subSteps = 3;
         
@@ -365,14 +361,12 @@
           this.renderer.setRenderTarget(this.bufferC);
           this.renderer.render(this.scene, this.camera);
 
-          // Swap references safely inside the loop step
           const temp = this.bufferB;
           this.bufferB = this.bufferA;
           this.bufferA = this.bufferC;
           this.bufferC = temp;
         }
 
-        // Output final screen render pass using the newly updated frame state (stored in bufferA)
         this.mesh.material = this.renderMaterial;
         this.renderMaterial.uniforms.u_buffer.value = this.bufferA.texture;
 
