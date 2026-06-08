@@ -208,7 +208,6 @@
       text-decoration: none;
       text-align: center;
       transition: all 0.25s;
-      cursor: pointer;
       border: none;
     }
 
@@ -368,6 +367,40 @@
       section.details { padding: 3rem 1.5rem; }
       .current-raised { font-size: 2.8rem; }
     }
+
+    /* FIXED DIAGONAL CURSOR ENGINE */
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 32px;
+      height: 42px;
+      pointer-events: none;
+      z-index: 999999;
+      opacity: 0; 
+      will-change: transform;
+      /* Sets transform anchor directly to the very top-middle edge point of the screw contact */
+      transform-origin: 16px 3px; 
+      transition: opacity 0.2s ease;
+    }
+
+    /* Completely overrides and clears native browser mouse arrows globally */
+    html, body, a, button, .btn, input, select, [role="button"] {
+      cursor: none !important;
+    }
+
+    .lightbulb-svg {
+      width: 100%;
+      height: 100%;
+      fill: #666;
+      transition: fill 0.12s ease-in-out, filter 0.12s ease-in-out;
+    }
+
+    /* High Energy Glowing Lit State Configuration */
+    .custom-cursor.clicked .lightbulb-svg {
+      fill: var(--blue);
+      filter: drop-shadow(0 0 15px var(--blue)) drop-shadow(0 0 4px var(--blue-dark));
+    }
   </style>
 </head>
 <body>
@@ -478,6 +511,41 @@
   <footer>
     &copy; 2026 <span>MHS Engineering Club</span> · Morristown High School
   </footer>
+
+  <div class="custom-cursor" id="customCursor">
+    <svg class="lightbulb-svg" viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 2 h6 v2 h-6 z M8 5 h8 v2 h-8 z M9 8 h6 v1 h-6 z" fill="#999" />
+      <path d="M12 9 C8 9 5 12 5 16 C5 20 8 22 10 25 L10 28 C10 29 11 30 12 30 C13 30 14 29 14 28 L14 25 C16 22 19 20 19 16 C19 12 16 9 12 9 Z" />
+      <path d="M11 15 L11 19 M13 15 L13 19 M10 15 L14 15" stroke="#444" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+
+  <script>
+    const bulbCursor = document.getElementById('customCursor');
+
+    // Smooth position calculation on hardware layer.
+    // Offsetting the positioning values by the contact coordinates ensures the tip stays locked to the mouse.
+    // The -135deg rotation spins the bulb body up and out towards the right.
+    document.addEventListener('mousemove', (e) => {
+      bulbCursor.style.opacity = '1';
+      bulbCursor.style.transform = `translate3d(${e.clientX - 16}px, ${e.clientY - 3}px, 0) rotate(-135deg)`;
+    });
+
+    // Close contact electrical connection on click down
+    document.addEventListener('mousedown', () => {
+      bulbCursor.classList.add('clicked');
+    });
+
+    // Reset circuit path properties on key release up
+    document.addEventListener('mouseup', () => {
+      bulbCursor.classList.remove('clicked');
+    });
+
+    // Hide custom trace element when mouse leaves window container
+    document.addEventListener('mouseleave', () => {
+      bulbCursor.style.opacity = '0';
+    });
+  </script>
 
 </body>
 </html>
