@@ -104,11 +104,11 @@
 
         float prevHeight = texture2D(u_prev_frame, uv).r;
         
-        // Raised wave propagation speed multiplier from 0.5 to 0.53 to accelerate the velocity of the ripples
-        float nextHeight = (left + right + top + bottom) * 0.53 - prevHeight;
+        // Restored mathematically bounded 0.5 coefficient to permanently prevent numerical explosion/glitching
+        float nextHeight = (left + right + top + bottom) * 0.5 - prevHeight;
         
-        // Retained highly energetic propagation by reducing damping decay from 0.982 to 0.993 (retains kinetic speed longer)
-        nextHeight *= 0.993; 
+        // Clean liquid damping value tailored for rapid settling
+        nextHeight *= 0.982; 
 
         if (u_mouse_force > 0.0) {
           float dist = distance(uv * u_resolution, u_mouse_pos * u_resolution);
@@ -340,38 +340,47 @@
           this.lastTime = now;
         }
 
-        // Sharpened tracking interpolation from 0.16 to 0.28 to make the fluid reaction respond faster to mouse speed changes
-        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.28;
-        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.28;
+        // Fast mouse coordinate tracking interpolation
+        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.24;
+        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.24;
 
         const dx = this.mouse.x - this.mouse.prevX;
         const dy = this.mouse.y - this.mouse.prevY;
         const velocity = Math.sqrt(dx * dx + dy * dy);
         
-        this.pointerForce = this.hasMoved ? Math.min(velocity * 0.14, 1.8) : 0.0;
+        this.pointerForce = this.hasMoved ? Math.min(velocity * 0.16, 2.2) : 0.0;
 
+        // SUB-STEPPING: We execute 3 physics propagation loops per render frame.
+        // This makes the water ripples move 3x faster—simulating natural, low-viscosity fluid mechanics—
+        // while safely keeping the shader math strictly inside stable boundaries so it never glitches out.
         this.mesh.material = this.simulationMaterial;
-        this.simulationMaterial.uniforms.u_mouse_pos.value.set(this.mouse.x / this.width, this.mouse.y / this.height);
-        this.simulationMaterial.uniforms.u_mouse_force.value = this.pointerForce;
-        this.simulationMaterial.uniforms.u_current_frame.value = this.bufferA.texture;
-        this.simulationMaterial.uniforms.u_prev_frame.value = this.bufferB.texture;
+        const subSteps = 3;
+        
+        for (let i = 0; i < subSteps; i++) {
+          this.simulationMaterial.uniforms.u_mouse_force.value = (i === 0) ? this.pointerForce : 0.0;
+          this.simulationMaterial.uniforms.u_mouse_pos.value.set(this.mouse.x / this.width, this.mouse.y / this.height);
+          this.simulationMaterial.uniforms.u_current_frame.value = this.bufferA.texture;
+          this.simulationMaterial.uniforms.u_prev_frame.value = this.bufferB.texture;
 
-        this.renderer.setRenderTarget(this.bufferC);
-        this.renderer.render(this.scene, this.camera);
+          this.renderer.setRenderTarget(this.bufferC);
+          this.renderer.render(this.scene, this.camera);
 
+          // Swap references safely inside the loop step
+          const temp = this.bufferB;
+          this.bufferB = this.bufferA;
+          this.bufferA = this.bufferC;
+          this.bufferC = temp;
+        }
+
+        // Output final screen render pass using the newly updated frame state (stored in bufferA)
         this.mesh.material = this.renderMaterial;
-        this.renderMaterial.uniforms.u_buffer.value = this.bufferC.texture;
+        this.renderMaterial.uniforms.u_buffer.value = this.bufferA.texture;
 
         this.renderer.setRenderTarget(null);
         this.renderer.render(this.scene, this.camera);
 
         this.mouse.prevX = this.mouse.x;
         this.mouse.prevY = this.mouse.y;
-
-        const temp = this.bufferB;
-        this.bufferB = this.bufferA;
-        this.bufferA = this.bufferC;
-        this.bufferC = temp;
       }
     }
 
