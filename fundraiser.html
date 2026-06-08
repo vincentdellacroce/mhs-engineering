@@ -4,7 +4,7 @@
   <link rel="icon" type="image/png" href="fanfan.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Competition Fundraiser | MHS Engineering Club</title>
+  <title>MCEP Fundraiser | MHS Engineering Club</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -28,7 +28,7 @@
       background: var(--cream);
       color: var(--dark);
       overflow-x: hidden;
-      padding-top: 80px; /* Accounts for fixed nav */
+      padding-top: 80px;
     }
 
     /* NAV */
@@ -167,7 +167,6 @@
       font-weight: 500;
     }
 
-    /* Progress Bar Animation styling */
     .progress-bar-container {
       width: 100%;
       height: 12px;
@@ -179,14 +178,13 @@
 
     .progress-bar {
       height: 100%;
-      width: 0%; /* Dynamic fallback, overwritten by animation to actual status */
+      width: 0%;
       background: linear-gradient(90deg, var(--blue-dark), var(--blue));
       border-radius: 6px;
       animation: fillBar 1.5s ease-out forwards;
     }
 
     @keyframes fillBar {
-      /* Update the 'to' width percentage as the fundraiser progresses! */
       to { width: 0%; } 
     }
 
@@ -273,8 +271,9 @@
     }
 
     .expense-item {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
       padding: 1rem 0;
       border-bottom: 1px solid rgba(0,0,0,0.08);
       font-size: 1.05rem;
@@ -285,11 +284,20 @@
       color: var(--dark);
     }
 
+    .expense-item .sub-label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--gray);
+      font-weight: 400;
+      margin-top: 0.2rem;
+    }
+
     .expense-item .cost {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.3rem;
       color: var(--maroon);
       letter-spacing: 0.5px;
+      text-align: right;
     }
 
     /* SIDEBAR CALLOUT */
@@ -320,7 +328,6 @@
       color: var(--gray);
     }
 
-    /* BACK TO MAIN LINK */
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -370,6 +377,7 @@
     <ul class="nav-links">
       <li><a href="index.html#about">About</a></li>
       <li><a href="index.html#meetings">Meetings</a></li>
+      <li><a href="index.html#fundraiser-cta">Fundraiser</a></li>
       <li><a href="index.html#partnerships">Partnerships</a></li>
       <li><a href="index.html#members">Members</a></li>
       <li><a href="index.html#contact">Contact</a></li>
@@ -378,15 +386,15 @@
 
   <section class="fund-hero">
     <div class="fund-hero-content">
-      <div class="fund-tag">Road to Success</div>
-      <h1>Engineering<br/><span>Competition Drive</span></h1>
-      <p>Our members are gearing up to take on the region's best at the grand engineering arena next year. To make this breakthrough competitive run possible, we're building our launchpad from the ground up.</p>
+      <div class="fund-tag">MCEP Drive</div>
+      <h1>Morris County<br/><span>Engineering Cup</span></h1>
+      <p>Encouraging the next generation of innovators to design, prototype, and implement sustainable engineering solutions that address real-world challenges specific to the Morris County community and its infrastructure.</p>
     </div>
 
     <div class="progress-card">
       <div class="goal-header">
         <div class="current-raised">$0</div> 
-        <div class="target-goal">of $5,000 goal</div>
+        <div class="target-goal">of $10,000 goal</div>
       </div>
       
       <div class="progress-bar-container">
@@ -395,7 +403,7 @@
 
       <div class="progress-stats">
         <div><strong>0</strong> donations</div>
-        <div>Target: End of Next School Year</div>
+        <div>Target: End of School Year</div>
       </div>
 
       <a href="#" target="_blank" rel="noopener" class="btn btn-primary">Support on GoFundMe</a>
@@ -407,41 +415,60 @@
       <div class="section-label">The Objective</div>
       <h2 class="section-title">Why We Need Your Support</h2>
       <div class="divider"></div>
-      <p>The MHS Engineering Club is entering an elite regional engineering and design tournament at the conclusion of next school year. This event offers our students an incredible opportunity to apply classroom mechanics, programming, and hardware workflows to dynamic, real-world competitive applications.</p>
-      <p>As a completely student-driven project, funding structural raw elements, processing boards, custom component sourcing, and traveling arrangements relies entirely on our amazing local community and partners.</p>
+      <p>The MCEP is a comprehensive, school-year-long engineering competition bringing together Morris County high schools. The event offers individual students or small teams (2-3 members) a unique framework to scale classroom concepts up into functional, real-world competitive installations.</p>
+      <p>At the close of the academic year, every project undergoes professional, rigorous evaluation by structural, hardware, and system design engineers. To ensure equal accessibility for all participant criteria, funding raw components, computational cores, specialized assemblies, and operations rests entirely on the shoulders of our local partners and donors.</p>
       
-      <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem; margin-bottom: 0.5rem;">Estimated Expense Blueprint</h3>
-      <p>Transparency is key to our engineering principles. Here is how the total $5k goal breaks down:</p>
+      <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem; margin-bottom: 0.5rem;">The Financial Breakdown</h3>
+      <p>Our baseline funding model rewards excellence, directly feeds the regional ecosystem, and funds engineering operations. Depending on finalized team structures, the funds scale across these parameters:</p>
       
       <ul class="expense-list">
         <li class="expense-item">
-          <span class="name">Structural Materials & Heavy Metal Hardware</span>
-          <span class="cost">$1,800</span>
+          <div>
+            <span class="name">1st Place Scholarship Tier</span>
+            <span class="sub-label">$1,000 per student (Total range depending on team sizes)</span>
+          </div>
+          <span class="cost">$1,000 - $3,000</span>
         </li>
         <li class="expense-item">
-          <span class="name">Microcontrollers, Sensors & Electrical Components</span>
-          <span class="cost">$1,200</span>
+          <div>
+            <span class="name">2nd Place Scholarship Tier</span>
+            <span class="sub-label">$750 per student (Total range depending on team sizes)</span>
+          </div>
+          <span class="cost">$750 - $2,250</span>
         </li>
         <li class="expense-item">
-          <span class="name">Competition Registration Entry Fees</span>
-          <span class="cost">$800</span>
+          <div>
+            <span class="name">3rd Place Scholarship Tier</span>
+            <span class="sub-label">$500 per student (Total range depending on team sizes)</span>
+          </div>
+          <span class="cost">$500 - $1,500</span>
         </li>
         <li class="expense-item">
-          <span class="name">Team Transit & Safe Equipment Transport</span>
-          <span class="cost">$1,200</span>
+          <div>
+            <span class="name">Community FoodBank of NJ Donation (CFBNJ)</span>
+            <span class="sub-label">20% base commitment + half of remaining undistributed pool funds</span>
+          </div>
+          <span class="cost">20% Baseline+</span>
+        </li>
+        <li class="expense-item">
+          <div>
+            <span class="name">Morristown Engineering Club Operations</span>
+            <span class="sub-label">Half of remaining balance used for structural kits, hardware, and transport</span>
+          </div>
+          <span class="cost">Remaining Pool Split</span>
         </li>
       </ul>
     </div>
 
     <div class="details-right">
       <div class="info-box">
-        <h3>Tax-Deductible Status</h3>
-        <p>Contributions made through our system route directly into our official student organizational accounts. Reach out to club leadership for formal documentation details.</p>
+        <h3>Community Integration</h3>
+        <p>A locked 20% minimum baseline of all funds raised goes directly to support the <strong>Community FoodBank of New Jersey (CFBNJ)</strong> to target food insecurity across our regional sectors alongside our infrastructural works.</p>
       </div>
 
       <div class="info-box" style="border-left-color: var(--blue);">
-        <h3>Alternative Options</h3>
-        <p>Are you an engineering industry professional or local manufacturer? We also happily accept raw tool materials, component donations, and specialized training mentorship.</p>
+        <h3>Remaining Pool Split</h3>
+        <p>Once final award distributions are assessed based on individual or group counts, the remaining asset pool is split exactly 50/50 between expanding CFBNJ relief resources and funding local Morristown High School Engineering raw materials.</p>
       </div>
 
       <div style="margin-top: 1rem;">
