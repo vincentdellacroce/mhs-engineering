@@ -109,7 +109,8 @@
 
         if (u_mouse_force > 0.0) {
           float dist = distance(uv * u_resolution, u_mouse_pos * u_resolution);
-          float influence = smoothstep(45.0, 0.0, dist);
+          // Tightened radius from 45.0 to 15.0 for a more localized, premium micro-interaction
+          float influence = smoothstep(15.0, 0.0, dist);
           nextHeight += influence * u_mouse_force * 0.7;
         }
 
@@ -361,7 +362,8 @@
         const dy = this.mouse.y - this.mouse.prevY;
         const velocity = Math.sqrt(dx * dx + dy * dy);
         
-        this.pointerForce = this.hasMoved ? Math.min(velocity * 0.18, 2.8) : 0.0;
+        // Eased down peak displacement limits to balance out the tighter impact field
+        this.pointerForce = this.hasMoved ? Math.min(velocity * 0.14, 1.8) : 0.0;
 
         // Execution Step 1: Physics Propagation Loop
         this.mesh.material = this.simulationMaterial;
@@ -393,7 +395,6 @@
 
     // Ensure all typography sets have cleanly downloaded from Google Servers before initialization
     window.addEventListener('load', () => {
-      // Small timeout ensures fonts are mapped in browser memory before canvas draws text metrics
       setTimeout(() => {
         new FluidSimulationEngine();
       }, 250);
