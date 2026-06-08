@@ -103,13 +103,15 @@
         float bottom= texture2D(u_current_frame, uv + vec2(0.0, -texel.y)).r;
 
         float prevHeight = texture2D(u_prev_frame, uv).r;
-        float nextHeight = (left + right + top + bottom) * 0.5 - prevHeight;
         
-        nextHeight *= 0.982; 
+        // Raised wave propagation speed multiplier from 0.5 to 0.53 to accelerate the velocity of the ripples
+        float nextHeight = (left + right + top + bottom) * 0.53 - prevHeight;
+        
+        // Retained highly energetic propagation by reducing damping decay from 0.982 to 0.993 (retains kinetic speed longer)
+        nextHeight *= 0.993; 
 
         if (u_mouse_force > 0.0) {
           float dist = distance(uv * u_resolution, u_mouse_pos * u_resolution);
-          // Tightened radius from 45.0 to 15.0 for a more localized, premium micro-interaction
           float influence = smoothstep(15.0, 0.0, dist);
           nextHeight += influence * u_mouse_force * 0.7;
         }
@@ -133,40 +135,31 @@
         float ht = texture2D(u_buffer, uv + vec2(0.0, texel.y)).r;
         float hb = texture2D(u_buffer, uv + vec2(0.0, -texel.y)).r;
 
-        // Extract surface slope vectors
         vec3 normal = normalize(vec3((hl - hr) * 4.0, (hb - ht) * 4.0, 1.0));
 
-        // Base Liquid Tones
         vec3 baseEspresso = vec3(0.063, 0.035, 0.018);
         vec3 darkRoast    = vec3(0.184, 0.114, 0.067);
         
-        // Define clean refraction offset multiplier
         vec2 distortion = normal.xy * 0.035;
 
-        // Chromatic Aberration Pipeline (Sampling fluid levels)
         float rHeight = texture2D(u_buffer, uv + distortion * 1.10).r;
         float gHeight = texture2D(u_buffer, uv + distortion * 1.00).r;
         float bHeight = texture2D(u_buffer, uv + distortion * 0.90).r;
         float combinedHeight = (rHeight + gHeight + bHeight) / 3.0;
 
-        // Sample text texture using matching distortion coordinates to force liquid warping
         float textR = texture2D(u_text_texture, uv + distortion * 1.06).r;
         float textG = texture2D(u_text_texture, uv + distortion * 1.00).r;
         float textB = texture2D(u_text_texture, uv + distortion * 0.94).r;
         vec3 textSample = vec3(textR, textG, textB);
 
-        // Mix liquid core map
         vec3 liquidColor = mix(baseEspresso, darkRoast, clamp(combinedHeight * 2.5, 0.0, 1.0));
 
-        // Composite typography mask seamlessly onto coffee background mix
-        vec3 textToneColor = vec3(0.98, 0.96, 0.93); // Solid premium off-white lettering tone
+        vec3 textToneColor = vec3(0.98, 0.96, 0.93); 
         vec3 compositeBase = mix(liquidColor, textToneColor, textSample);
 
-        // Subtly lift chromatic edge glow effects within text fields based on movement velocity
         compositeBase.r += textR * clamp(rHeight * 0.15, 0.0, 0.08);
         compositeBase.b += textB * clamp(bHeight * 0.12, 0.0, 0.06);
 
-        // Specular Lighting Pass (Blinn-Phong)
         vec3 lightDir = normalize(vec3(0.15, 0.45, 0.75));
         vec3 viewDir  = vec3(0.0, 0.0, 1.0);
         vec3 halfDir  = normalize(lightDir + viewDir);
@@ -189,13 +182,11 @@
         this.lastTime = performance.now();
         this.frameCount = 0;
 
-        // Pre-create dynamic text assets before spinning up WebGL configurations
         this.createTextTexture();
         this.initEngine();
       }
 
       createTextTexture() {
-        // Build isolated dynamic offscreen canvas to render text directly to WebGL texture pipeline
         this.textCanvas = document.createElement('canvas');
         this.textCtx = this.textCanvas.getContext('2d');
         this.updateTextCanvasSize();
@@ -209,9 +200,8 @@
         const ctx = this.textCtx;
         ctx.clearRect(0, 0, this.textCanvas.width, this.textCanvas.height);
         
-        // Match responsive scale attributes matching viewport width
         const baseSize = window.innerWidth;
-        let fontSize = baseSize * 0.09; // Fluid scale percentage match
+        let fontSize = baseSize * 0.09; 
         if (fontSize < 46) fontSize = 46;
         if (fontSize > 165) fontSize = 165;
         fontSize = fontSize * ratio;
@@ -219,7 +209,6 @@
         ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, this.textCanvas.width, this.textCanvas.height);
 
-        // Render typography text exactly dead-center on our offscreen canvas
         ctx.font = `400 ${fontSize}px 'Playfair Display', serif`;
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
@@ -228,7 +217,6 @@
         
         ctx.fillText("Bruin Coffee", this.textCanvas.width / 2, this.textCanvas.height / 2);
 
-        // If ThreeJS texture loop has been mounted, flag direct allocation update properties
         if (this.textTexture) {
           this.textTexture.needsUpdate = true;
         }
@@ -270,7 +258,6 @@
         this.bufferB = new THREE.WebGLRenderTarget(this.width, this.height, targetOptions);
         this.bufferC = new THREE.WebGLRenderTarget(this.width, this.height, targetOptions);
 
-        // Wrap offscreen context output into native WebGL texture maps
         this.textTexture = new THREE.CanvasTexture(this.textCanvas);
         this.textTexture.minFilter = THREE.LinearFilter;
         this.textTexture.magFilter = THREE.LinearFilter;
@@ -327,7 +314,6 @@
         window.addEventListener('resize', () => {
           const r = Math.min(window.devicePixelRatio, 2);
           
-          // Re-render text canvas bounds to maintain clean typographical rendering vectors
           this.updateTextCanvasSize();
 
           this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -354,18 +340,16 @@
           this.lastTime = now;
         }
 
-        // Structural cursor tracking logic
-        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.16;
-        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.16;
+        // Sharpened tracking interpolation from 0.16 to 0.28 to make the fluid reaction respond faster to mouse speed changes
+        this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.28;
+        this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.28;
 
         const dx = this.mouse.x - this.mouse.prevX;
         const dy = this.mouse.y - this.mouse.prevY;
         const velocity = Math.sqrt(dx * dx + dy * dy);
         
-        // Eased down peak displacement limits to balance out the tighter impact field
         this.pointerForce = this.hasMoved ? Math.min(velocity * 0.14, 1.8) : 0.0;
 
-        // Execution Step 1: Physics Propagation Loop
         this.mesh.material = this.simulationMaterial;
         this.simulationMaterial.uniforms.u_mouse_pos.value.set(this.mouse.x / this.width, this.mouse.y / this.height);
         this.simulationMaterial.uniforms.u_mouse_force.value = this.pointerForce;
@@ -375,7 +359,6 @@
         this.renderer.setRenderTarget(this.bufferC);
         this.renderer.render(this.scene, this.camera);
 
-        // Execution Step 2: Spatial Layout Composed Visual Output
         this.mesh.material = this.renderMaterial;
         this.renderMaterial.uniforms.u_buffer.value = this.bufferC.texture;
 
@@ -385,7 +368,6 @@
         this.mouse.prevX = this.mouse.x;
         this.mouse.prevY = this.mouse.y;
 
-        // Execution Step 3: Shift memory textures pointers
         const temp = this.bufferB;
         this.bufferB = this.bufferA;
         this.bufferA = this.bufferC;
@@ -393,7 +375,6 @@
       }
     }
 
-    // Ensure all typography sets have cleanly downloaded from Google Servers before initialization
     window.addEventListener('load', () => {
       setTimeout(() => {
         new FluidSimulationEngine();
