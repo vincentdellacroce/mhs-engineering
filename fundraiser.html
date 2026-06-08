@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="fanfan.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Competition Fundraiser | MHS Engineering Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --maroon: #6B1E2E;
+      --maroon-dark: #4a1220;
+      --maroon-light: #8c2a3e;
+      --blue: #7EC8E3;
+      --blue-light: #aeddf0;
+      --blue-dark: #4fa8c8;
+      --cream: #f8f4f0;
+      --dark: #111111;
+      --gray: #555;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+      padding-top: 80px; /* Accounts for fixed nav */
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(107, 30, 46, 0.97);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.2);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--blue);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    /* HERO FUNDRAISER BANNER */
+    .fund-hero {
+      background: var(--maroon-dark);
+      color: white;
+      padding: 5rem 8rem;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .fund-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(126,200,227,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .fund-hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .fund-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .fund-tag::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 2px;
+      background: var(--blue);
+    }
+
+    .fund-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .fund-hero h1 span { color: var(--blue); }
+
+    .fund-hero p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* PROGRESS CARD */
+    .progress-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(126,200,227,0.2);
+      border-radius: 16px;
+      padding: 2.5rem;
+      backdrop-filter: blur(5px);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .current-raised {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: var(--blue);
+      letter-spacing: 1px;
+    }
+
+    .target-goal {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+
+    /* Progress Bar Animation styling */
+    .progress-bar-container {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%; /* Dynamic fallback, overwritten by animation to actual status */
+      background: linear-gradient(90deg, var(--blue-dark), var(--blue));
+      border-radius: 6px;
+      animation: fillBar 1.5s ease-out forwards;
+    }
+
+    @keyframes fillBar {
+      /* Update the 'to' width percentage as the fundraiser progresses! */
+      to { width: 0%; } 
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 1.1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--maroon-dark);
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(126,200,227,0.3);
+    }
+
+    /* MAIN CONTENT SPLIT */
+    section.details {
+      padding: 6rem 8rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 6rem;
+      background: white;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--maroon);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 1px;
+      color: var(--maroon-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .divider {
+      width: 60px;
+      height: 4px;
+      background: var(--blue);
+      margin-bottom: 2rem;
+      border-radius: 2px;
+    }
+
+    .details-left p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    /* EXPENSES BREAKDOWN LIST */
+    .expense-list {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .expense-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      font-size: 1.05rem;
+    }
+
+    .expense-item .name {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .expense-item .cost {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--maroon);
+      letter-spacing: 0.5px;
+    }
+
+    /* SIDEBAR CALLOUT */
+    .details-right {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .info-box {
+      background: var(--cream);
+      border-left: 4px solid var(--maroon);
+      padding: 2rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .info-box h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--maroon-dark);
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+
+    .info-box p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+
+    /* BACK TO MAIN LINK */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--maroon);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--blue-dark); }
+
+    /* FOOTER */
+    footer {
+      background: #0a0a0a;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    footer span { color: var(--blue); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .fund-hero { grid-template-columns: 1fr; padding: 4rem 3rem; gap: 3rem; }
+      section.details { grid-template-columns: 1fr; padding: 4rem 3rem; gap: 4rem; }
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .fund-hero { padding: 3rem 1.5rem; }
+      section.details { padding: 3rem 1.5rem; }
+      .current-raised { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">MHS Engineering</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#meetings">Meetings</a></li>
+      <li><a href="index.html#partnerships">Partnerships</a></li>
+      <li><a href="index.html#members">Members</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="fund-hero">
+    <div class="fund-hero-content">
+      <div class="fund-tag">Road to Success</div>
+      <h1>Engineering<br/><span>Competition Drive</span></h1>
+      <p>Our members are gearing up to take on the region's best at the grand engineering arena next year. To make this breakthrough competitive run possible, we're building our launchpad from the ground up.</p>
+    </div>
+
+    <div class="progress-card">
+      <div class="goal-header">
+        <div class="current-raised">$0</div> 
+        <div class="target-goal">of $5,000 goal</div>
+      </div>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="progress-stats">
+        <div><strong>0</strong> donations</div>
+        <div>Target: End of Next School Year</div>
+      </div>
+
+      <a href="#" target="_blank" rel="noopener" class="btn btn-primary">Support on GoFundMe</a>
+    </div>
+  </section>
+
+  <section class="details">
+    <div class="details-left">
+      <div class="section-label">The Objective</div>
+      <h2 class="section-title">Why We Need Your Support</h2>
+      <div class="divider"></div>
+      <p>The MHS Engineering Club is entering an elite regional engineering and design tournament at the conclusion of next school year. This event offers our students an incredible opportunity to apply classroom mechanics, programming, and hardware workflows to dynamic, real-world competitive applications.</p>
+      <p>As a completely student-driven project, funding structural raw elements, processing boards, custom component sourcing, and traveling arrangements relies entirely on our amazing local community and partners.</p>
+      
+      <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem; margin-bottom: 0.5rem;">Estimated Expense Blueprint</h3>
+      <p>Transparency is key to our engineering principles. Here is how the total $5k goal breaks down:</p>
+      
+      <ul class="expense-list">
+        <li class="expense-item">
+          <span class="name">Structural Materials & Heavy Metal Hardware</span>
+          <span class="cost">$1,800</span>
+        </li>
+        <li class="expense-item">
+          <span class="name">Microcontrollers, Sensors & Electrical Components</span>
+          <span class="cost">$1,200</span>
+        </li>
+        <li class="expense-item">
+          <span class="name">Competition Registration Entry Fees</span>
+          <span class="cost">$800</span>
+        </li>
+        <li class="expense-item">
+          <span class="name">Team Transit & Safe Equipment Transport</span>
+          <span class="cost">$1,200</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="details-right">
+      <div class="info-box">
+        <h3>Tax-Deductible Status</h3>
+        <p>Contributions made through our system route directly into our official student organizational accounts. Reach out to club leadership for formal documentation details.</p>
+      </div>
+
+      <div class="info-box" style="border-left-color: var(--blue);">
+        <h3>Alternative Options</h3>
+        <p>Are you an engineering industry professional or local manufacturer? We also happily accept raw tool materials, component donations, and specialized training mentorship.</p>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <a href="index.html" class="back-link">← Back to Main Club Site</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 <span>MHS Engineering Club</span> · Morristown High School
+  </footer>
+
+</body>
+</html>
