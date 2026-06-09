@@ -61,15 +61,15 @@
 
     <footer class="w-full grid grid-cols-2 md:grid-cols-3 items-end text-neutral-400 text-xs tracking-wider">
       <div class="flex flex-col gap-2">
-        <span class="font-mono text-[10px] text-neutral-500">// INTEGRATED PHYSICS ENGINE</span>
-        <span id="fps-display" class="font-mono">Initializing Pipeline...</span>
+        <span class="font-mono text-[10px] text-neutral-500">// INTEGRATED FLUID PIPELINE</span>
+        <span id="fps-display" class="font-mono">Initializing Engine...</span>
       </div>
       <div class="hidden md:block text-center italic font-['Playfair_Display'] text-neutral-300 text-base">
         "Refinement through physics."
       </div>
       <div class="text-right flex flex-col gap-1 items-end">
         <span class="uppercase tracking-[0.2em] font-semibold text-neutral-200">Interact</span>
-        <span class="text-[11px] text-neutral-500">Cream concentration advection active</span>
+        <span class="text-[11px] text-neutral-500">Persistent momentum marbling active</span>
       </div>
     </footer>
   </main>
@@ -103,12 +103,30 @@
         vec2 uv = vUv;
         vec2 texel = vec2(1.0) / u_resolution;
 
-        // Data Schema: Red Channel = Wave Displacement Height, Green Channel = Cream Density Concentration
-        vec4 currentSample = texture2D(u_current_frame, uv);
-        float currentHeight = currentSample.r;
-        float currentCream  = currentSample.g;
+        // DATA MATRIX ARCHITECTURE:
+        // Red Channel [r]   = Wave Equation Displacement (Surface Tension)
+        // Green Channel [g] = Cream Density Concentration Matrix (0.0 to 5.0)
+        // Blue Channel [b]  = Fluid Velocity Momentum X-Axis
+        // Alpha Channel [a] = Fluid Velocity Momentum Y-Axis
+        vec4 currentData = texture2D(u_current_frame, uv);
+        float currentHeight = currentData.r;
+        float currentCream  = currentData.g;
+        vec2 currentVel     = currentData.ba;
 
-        // 1. Classical Wave Equation Evolution (Red Channel)
+        // 1. ADVECT PERSISTENT FLUID VELOCITY VECTOR MAP (Self-Advection)
+        vec2 advectedVel = texture2D(u_current_frame, uv - currentVel * 0.4 * texel).ba;
+        
+        // Soft velocity spatial diffusion pass to eliminate blocky stepping artifacts
+        vec2 velL = texture2D(u_current_frame, uv + vec2(-texel.x, 0.0)).ba;
+        vec2 velR = texture2D(u_current_frame, uv + vec2(texel.x, 0.0)).ba;
+        vec2 velT = texture2D(u_current_frame, uv + vec2(0.0, texel.y)).ba;
+        vec2 velB = texture2D(u_current_frame, uv + vec2(0.0, -texel.y)).ba;
+        vec2 diffusedVel = (velL + velR + velT + velB) * 0.25;
+        
+        vec2 nextVel = mix(advectedVel, diffusedVel, 0.08);
+        nextVel *= 0.982; // Viscous friction decay prevents infinite acceleration loop
+
+        // 2. DISPLACEMENT WAVE GEOMETRY CALCULATIONS (Surface Reflection Engine)
         float left  = texture2D(u_current_frame, uv + vec2(-texel.x, 0.0)).r;
         float right = texture2D(u_current_frame, uv + vec2(texel.x, 0.0)).r;
         float top   = texture2D(u_current_frame, uv + vec2(0.0, texel.y)).r;
@@ -116,29 +134,11 @@
 
         float prevHeight = texture2D(u_prev_frame, uv).r;
         float nextHeight = (left + right + top + bottom) * 0.5 - prevHeight;
-        nextHeight *= 0.945; // Height damping
-
-        // 2. Continuous Micro-Advection of Cream Concentration (Green Channel)
-        // Sample local height differences to build a pseudo-velocity flow field
-        vec2 flowField = vec2(right - left, top - bottom) * 0.12;
-        
-        // Advect cream density along the local fluid movement vectors
-        float advectedCream = texture2D(u_current_frame, uv - flowField).g;
-        
-        // Apply spatial diffusion so the cream softly expands outward naturally
-        float creamLeft   = texture2D(u_current_frame, uv + vec2(-texel.x, 0.0)).g;
-        float creamRight  = texture2D(u_current_frame, uv + vec2(texel.x, 0.0)).g;
-        float creamTop    = texture2D(u_current_frame, uv + vec2(0.0, texel.y)).g;
-        float creamBottom = texture2D(u_current_frame, uv + vec2(0.0, -texel.y)).g;
-        float diffusedCream = (creamLeft + creamRight + creamTop + creamBottom) * 0.25;
-
-        // Mix advection and diffusion, then apply a smooth linear dissolution factor
-        float nextCream = mix(advectedCream, diffusedCream, 0.15);
-        nextCream *= 0.993; // Controls how fast the cream dissolves cleanly into the espresso matrix
+        nextHeight *= 0.942; 
 
         vec2 pixelPos = uv * u_resolution;
 
-        // 3. Process Mouse Drag Velocity Fields
+        // 3. TRANSFER CONTINUOUS MOUSE DRAG MOMENTUM FORCE FIELDS
         if (u_mouse_force > 0.0) {
           vec2 pA = u_mouse_pos_old * u_resolution;
           vec2 pB = u_mouse_pos * u_resolution;
@@ -152,43 +152,58 @@
           vec2 projection = pA + t * v;
           float dist = distance(pixelPos, projection);
           
-          float wakeRadius = mix(32.0, 18.0, t); 
+          float wakeRadius = mix(38.0, 22.0, t); 
           float crossFade = smoothstep(wakeRadius, 0.0, dist);
           
           if (crossFade > 0.0) {
             float dragShear = dot(normalize(u_mouse_dir + vec2(0.0001)), normalize(pixelPos - pA + vec2(0.0001)));
-            float hydroForce = crossFade * u_mouse_force * (0.5 + 0.5 * dragShear);
+            nextHeight += crossFade * u_mouse_force * (0.4 + 0.5 * dragShear);
             
-            nextHeight += hydroForce;
-            
-            // Interaction: Dragging through existing cream redistributes it along the stroke axis
-            nextCream += crossFade * u_mouse_force * 0.04;
+            // Stirring action: Transfer precise dragging vectors right into the persistent velocity map
+            nextVel += normalize(u_mouse_dir + vec2(0.0001)) * crossFade * u_mouse_force * 3.8;
           }
         }
 
-        // 4. Inject Discrete Splash Drop
+        // 4. DISCRETE CREAM DROP IMPULSE INJECTION
         if (u_splash_force > 0.0) {
           vec2 targetSplashPixel = u_splash_pos * u_resolution;
           float distToSplash = distance(pixelPos, targetSplashPixel);
           
-          float splashRadius = 55.0; 
+          float splashRadius = 65.0; 
           if (distToSplash < splashRadius) {
             float normalizedDist = distToSplash / splashRadius;
             
-            // Generate fluid ripple shockwave height profile
+            // Sharp fluid ripple displacement spike
             float heightProfile = cos(normalizedDist * 3.14159265 * 2.0) * (1.0 - normalizedDist);
-            nextHeight += heightProfile * u_splash_force * 4.0;
+            nextHeight += heightProfile * u_splash_force * 4.5;
             
-            // Generate dense, structured white cream distribution footprint
+            // Radial velocity splash burst outwards from core drop center
+            vec2 radialVector = normalize(pixelPos - targetSplashPixel + vec2(0.0001));
+            nextVel += radialVector * (1.0 - normalizedDist) * u_splash_force * 2.5;
+            
+            // Inject structural cream mass footprint
             float creamProfile = smoothstep(1.0, 0.0, normalizedDist);
-            // Multi-layered exponential core to replicate the thick droplet landing point
-            creamProfile += pow(smoothstep(0.6, 0.0, normalizedDist), 2.0) * 1.5;
-            
-            nextCream += creamProfile * u_splash_force * 2.0;
+            creamProfile += pow(smoothstep(0.45, 0.0, normalizedDist), 3.0) * 3.0; // Multi-layered dense nucleus
+            currentCream += creamProfile * u_splash_force * 3.5;
           }
         }
 
-        gl_FragColor = vec4(clamp(nextHeight, -5.0, 5.0), clamp(nextCream, 0.0, 4.0), 0.0, 1.0);
+        // 5. ADVECT CREAM DENSITY MATRIX OVER THE HIGH-FIDELITY FLUID MATRIX
+        float advectedCream = texture2D(u_current_frame, uv - nextVel * texel * 0.9).g;
+        
+        // Minor conservation diffusion to preserve fine silk lines without jagged pixel breaks
+        float cL = texture2D(u_current_frame, uv + vec2(-texel.x, 0.0)).g;
+        float cR = texture2D(u_current_frame, uv + vec2(texel.x, 0.0)).g;
+        float cT = texture2D(u_current_frame, uv + vec2(0.0, texel.y)).g;
+        float cB = texture2D(u_current_frame, uv + vec2(0.0, -texel.y)).g;
+        float diffusedCream = (cL + cR + cT + cB) * 0.25;
+
+        float nextCream = mix(advectedCream, diffusedCream, 0.015);
+        
+        // ABSOLUTE RETENTION CONSTANT: Retains maximum structural value over thousands of execution loops
+        nextCream *= 0.99985; 
+
+        gl_FragColor = vec4(clamp(nextHeight, -5.0, 5.0), clamp(nextCream, 0.0, 5.0), nextVel.x, nextVel.y);
       }
     `;
 
@@ -202,53 +217,57 @@
         vec2 uv = vUv;
         vec2 texel = vec2(1.0) / u_resolution;
 
-        // Sample simulation data
         vec4 simData = texture2D(u_buffer, uv);
         float height = simData.r;
         float creamDensity = simData.g;
 
-        // Reconstruct high-fidelity normal vectors from spatial heights
+        // Reconstruct fine physical surface normal arrays
         float hl = texture2D(u_buffer, uv + vec2(-texel.x, 0.0)).r;
         float hr = texture2D(u_buffer, uv + vec2(texel.x, 0.0)).r;
         float ht = texture2D(u_buffer, uv + vec2(0.0, texel.y)).r;
         float hb = texture2D(u_buffer, uv + vec2(0.0, -texel.y)).r;
         vec3 normal = normalize(vec3((hl - hr) * 4.5, (hb - ht) * 4.5, 1.0));
 
-        // Color maps
-        vec3 baseEspresso = vec3(0.05, 0.025, 0.012);
-        vec3 darkRoast    = vec3(0.16, 0.098, 0.055);
-        vec3 premiumCream = vec3(0.96, 0.93, 0.88); // Highly saturated organic silk white tone
+        // CHROMATIC SPECTRUM MAPS (Organic Earth Tones Only)
+        vec3 baseEspresso = vec3(0.043, 0.022, 0.01);
+        vec3 darkRoast    = vec3(0.145, 0.082, 0.043);
+        vec3 richMacchiato = vec3(0.46, 0.31, 0.19);   // Diffused cream concentration color state
+        vec3 artisanCream  = vec3(0.97, 0.94, 0.89);   // Peak density core milk color state
 
-        // Apply optical refraction across the dynamic normal map vectors
         vec2 distortion = normal.xy * 0.035;
 
-        // Distort typography layer
+        // Optical typography layer refraction mappings
         float textR = texture2D(u_text_texture, uv + distortion * 1.06).r;
         float textG = texture2D(u_text_texture, uv + distortion * 1.00).r;
         float textB = texture2D(u_text_texture, uv + distortion * 0.94).r;
         float textSample = (textR + textG + textB) / 3.0;
 
-        // Combine base coffee color mapping
+        // Form base espresso variations across dynamic height changes
         vec3 coffeeLiquid = mix(baseEspresso, darkRoast, clamp(height * 2.5, 0.0, 1.0));
 
-        // Composite the cream overlay directly using the mathematical density concentration field
-        // This guarantees the cream shifts with flow fields and dissolves perfectly over time.
-        float creamMask = smoothstep(0.02, 0.95, creamDensity);
-        vec3 finalLiquidColor = mix(coffeeLiquid, premiumCream, creamMask);
+        // MULTI-STAGED CHROMATIC INTERPOLATION CURVES:
+        // This ensures cream never transitions into flat gray or vanishes into dark pixels.
+        // As density dilutes, it paints the espresso into light brown velvet textures.
+        vec3 blendedLiquidState;
+        if (creamDensity < 0.35) {
+          blendedLiquidState = mix(coffeeLiquid, richMacchiato, creamDensity / 0.35);
+        } else {
+          blendedLiquidState = mix(richMacchiato, artisanCream, clamp((creamDensity - 0.35) / 1.65, 0.0, 1.0));
+        }
 
-        // Render typography integration
+        // Composite typography layer
         vec3 textToneColor = vec3(0.98, 0.96, 0.93);
-        vec3 compositeBase = mix(finalLiquidColor, textToneColor, textSample);
+        vec3 compositeBase = mix(blendedLiquidState, textToneColor, textSample);
 
-        // Specular reflections for real fluid surface feel
+        // Advanced Fresnel specular highlighting maps
         vec3 lightDir = normalize(vec3(0.2, 0.5, 0.8));
         vec3 viewDir  = vec3(0.0, 0.0, 1.0);
         vec3 halfDir  = normalize(lightDir + viewDir);
         float specularIntensity = pow(max(dot(normal, halfDir), 0.0), 65.0);
         
-        // Increase specular sheen intensity over the cream boundaries
-        float specificSpecular = mix(0.6, 1.2, creamMask);
-        vec3 specularColor = vec3(0.98, 0.95, 0.88) * specularIntensity * specificSpecular;
+        // Increase reflective gloss metrics directly over cream profiles
+        float specificGloss = mix(0.65, 1.25, smoothstep(0.1, 0.9, creamDensity));
+        vec3 specularColor = vec3(0.98, 0.94, 0.88) * specularIntensity * specificGloss;
 
         gl_FragColor = vec4(compositeBase + specularColor, 1.0);
       }
@@ -411,6 +430,7 @@
           if (e.touches.length > 0) updateCoords(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: true });
 
+        // Dispatch discrete structural creamer pour drop action
         this.canvas.addEventListener('click', (e) => {
           this.splashData.x = e.clientX / window.innerWidth;
           this.splashData.y = 1.0 - (e.clientY / window.innerHeight);
