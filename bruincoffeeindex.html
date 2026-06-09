@@ -69,7 +69,7 @@
       </div>
       <div class="text-right flex flex-col gap-1 items-end">
         <span class="uppercase tracking-[0.2em] font-semibold text-neutral-200">Interact</span>
-        <span class="text-[11px] text-neutral-500">Continuous high-speed fluid tracking active</span>
+        <span class="text-[11px] text-neutral-500">Hydrodynamic shear wake enabled</span>
       </div>
     </footer>
   </main>
@@ -85,28 +85,21 @@
       }
     `;
 
-    // CHANGED: The shader now expects up to 2 pointer input coordinates simultaneously (u_mouse_pos and u_mouse_pos_old)
-    // It creates a smooth capsule segment instead of a single dot, blending the fluid continuous track.
     const simulationFragmentShaderSource = `
       uniform vec2 u_resolution;
       uniform float u_mouse_force;
       uniform vec2 u_mouse_pos; 
       uniform vec2 u_mouse_pos_old; 
+      uniform vec2 u_mouse_dir; // NEW: Explicit direction vector of the drag movement
       uniform sampler2D u_current_frame;
       uniform sampler2D u_prev_frame;
       varying vec2 vUv;
-
-      // Function to calculate distance from current pixel uv to the moving cursor line segment
-      float distanceToSegment(vec2 p, vec2 a, vec2 b) {
-        vec2 pa = p - a, ba = b - a;
-        float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
-        return length(pa - ba * h);
-      }
 
       void main() {
         vec2 uv = vUv;
         vec2 texel = vec2(1.0) / u_resolution;
 
+        // Standard wave equation sampling
         float left  = texture2D(u_current_frame, uv + vec2(-texel.x, 0.0)).r;
         float right = texture2D(u_current_frame, uv + vec2(texel.x, 0.0)).r;
         float top   = texture2D(u_current_frame, uv + vec2(0.0, texel.y)).r;
@@ -118,10 +111,34 @@
         nextHeight *= 0.942; 
 
         if (u_mouse_force > 0.0) {
-          // Compute distance to the interpolated drag line instead of just a static circle point
-          float dist = distanceToSegment(uv * u_resolution, u_mouse_pos_old * u_resolution, u_mouse_pos * u_resolution);
-          float influence = smoothstep(16.0, 0.0, dist);
-          nextHeight += influence * u_mouse_force * 0.7;
+          // Hydrodynamic line segment math
+          vec2 pixelPos = uv * u_resolution;
+          vec2 pA = u_mouse_pos_old * u_resolution;
+          vec2 pB = u_mouse_pos * u_resolution;
+          
+          vec2 v = pB - pA;
+          vec2 w = pixelPos - pA;
+          
+          // Calculate projection projection factor along the drag line
+          float lenSq = dot(v, v);
+          float t = lenSq > 0.0 ? clamp(dot(w, v) / lenSq, 0.0, 1.0) : 0.0;
+          
+          // Find closest point on the segment line
+          vec2 projection = pA + t * v;
+          float dist = distance(pixelPos, projection);
+          
+          // CHANGED: Instead of a generic circle stamp, we evaluate fluid shearing.
+          // We project the drag velocity dynamically into the surface heights using dot products
+          // relative to the movement vector, creating a true fluid wake wave.
+          float wakeRadius = mix(24.0, 14.0, t); // Taper trail slightly behind the path direction
+          float crossFade = smoothstep(wakeRadius, 0.0, dist);
+          
+          if (crossFade > 0.0) {
+            // Compute fluid displacement directly coupled to the current dragging angle
+            float dragShear = dot(normalize(u_mouse_dir + vec2(0.0001)), normalize(pixelPos - pA + vec2(0.0001)));
+            float hydroForce = crossFade * u_mouse_force * (0.4 + 0.5 * dragShear);
+            nextHeight += hydroForce;
+          }
         }
 
         gl_FragColor = vec4(clamp(nextHeight, -5.0, 5.0), 0.0, 0.0, 1.0);
@@ -185,10 +202,11 @@
         
         this.mouse = { x: 0.5, y: 0.5, prevX: 0.5, prevY: 0.5, targetX: 0.5, targetY: 0.5 };
         
-        // Dynamic momentum vectors
+        // Flow vectors
         this.momentum = { x: 0, y: 0 };
+        this.dragDirection = { x: 0, y: 0 };
         this.simulatedMouse = { x: 0.5, y: 0.5 };
-        this.simulatedMouseOld = { x: 0.5, y: 0.5 }; // Track previous interpolated location to bridge steps
+        this.simulatedMouseOld = { x: 0.5, y: 0.5 }; 
         
         this.pointerForce = 0.0;
         this.hasMoved = false;
@@ -284,7 +302,8 @@
             u_current_frame: { value: null },
             u_prev_frame: { value: null },
             u_mouse_pos: { value: new THREE.Vector2(0.5, 0.5) },
-            u_mouse_pos_old: { value: new THREE.Vector2(0.5, 0.5) }, // Linked structural segment uniform
+            u_mouse_pos_old: { value: new THREE.Vector2(0.5, 0.5) }, 
+            u_mouse_dir: { value: new THREE.Vector2(0.0, 0.0) }, // Dynamic direction vector link
             u_mouse_force: { value: 0.0 }
           }
         });
@@ -332,9 +351,7 @@
 
         window.addEventListener('resize', () => {
           const r = Math.min(window.devicePixelRatio, 2);
-          
           this.updateTextCanvasSize();
-
           this.renderer.setSize(window.innerWidth, window.innerHeight);
           this.width = Math.floor(window.innerWidth * r);
           this.height = Math.floor(window.innerHeight * r);
@@ -359,10 +376,10 @@
           this.lastTime = now;
         }
 
-        // Cache historical state before applying fresh coordinate interpolation updates
         this.simulatedMouseOld.x = this.simulatedMouse.x;
         this.simulatedMouseOld.y = this.simulatedMouse.y;
 
+        // Smooth tracking interpolation
         this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.24;
         this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.24;
 
@@ -373,17 +390,23 @@
         if (userVelocity > 0.1) {
           this.momentum.x = dx;
           this.momentum.y = dy;
+          this.dragDirection.x = dx;
+          this.dragDirection.y = dy;
+          
           this.simulatedMouse.x = this.mouse.x;
           this.simulatedMouse.y = this.mouse.y;
-          this.pointerForce = this.hasMoved ? Math.min(userVelocity * 0.16, 2.2) : 0.0;
+          this.pointerForce = this.hasMoved ? Math.min(userVelocity * 0.15, 2.0) : 0.0;
         } else {
           this.momentum.x *= 0.88;
           this.momentum.y *= 0.88;
+          this.dragDirection.x *= 0.92;
+          this.dragDirection.y *= 0.92;
+          
           this.simulatedMouse.x += this.momentum.x;
           this.simulatedMouse.y += this.momentum.y;
           
           const lingeringVelocity = Math.sqrt(this.momentum.x * this.momentum.x + this.momentum.y * this.momentum.y);
-          this.pointerForce = lingeringVelocity > 0.05 ? Math.min(lingeringVelocity * 0.16, 2.2) : 0.0;
+          this.pointerForce = lingeringVelocity > 0.05 ? Math.min(lingeringVelocity * 0.15, 2.0) : 0.0;
         }
 
         this.mesh.material = this.simulationMaterial;
@@ -392,9 +415,9 @@
         for (let i = 0; i < subSteps; i++) {
           this.simulationMaterial.uniforms.u_mouse_force.value = (i === 0) ? this.pointerForce : 0.0;
           
-          // Connect current uniform segment targets
           this.simulationMaterial.uniforms.u_mouse_pos.value.set(this.simulatedMouse.x / this.width, this.simulatedMouse.y / this.height);
           this.simulationMaterial.uniforms.u_mouse_pos_old.value.set(this.simulatedMouseOld.x / this.width, this.simulatedMouseOld.y / this.height);
+          this.simulationMaterial.uniforms.u_mouse_dir.value.set(this.dragDirection.x, this.dragDirection.y);
           
           this.simulationMaterial.uniforms.u_current_frame.value = this.bufferA.texture;
           this.simulationMaterial.uniforms.u_prev_frame.value = this.bufferB.texture;
