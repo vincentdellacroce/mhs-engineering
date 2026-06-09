@@ -90,7 +90,12 @@
       uniform float u_mouse_force;
       uniform vec2 u_mouse_pos; 
       uniform vec2 u_mouse_pos_old; 
-      uniform vec2 u_mouse_dir; // NEW: Explicit direction vector of the drag movement
+      uniform vec2 u_mouse_dir; 
+      
+      // Creamer splash uniforms
+      uniform vec2 u_splash_pos;
+      uniform float u_splash_force;
+      
       uniform sampler2D u_current_frame;
       uniform sampler2D u_prev_frame;
       varying vec2 vUv;
@@ -110,34 +115,44 @@
         
         nextHeight *= 0.942; 
 
+        vec2 pixelPos = uv * u_resolution;
+
+        // 1. Continuous Hydrodynamic Drag Processing
         if (u_mouse_force > 0.0) {
-          // Hydrodynamic line segment math
-          vec2 pixelPos = uv * u_resolution;
           vec2 pA = u_mouse_pos_old * u_resolution;
           vec2 pB = u_mouse_pos * u_resolution;
           
           vec2 v = pB - pA;
           vec2 w = pixelPos - pA;
           
-          // Calculate projection projection factor along the drag line
           float lenSq = dot(v, v);
           float t = lenSq > 0.0 ? clamp(dot(w, v) / lenSq, 0.0, 1.0) : 0.0;
           
-          // Find closest point on the segment line
           vec2 projection = pA + t * v;
           float dist = distance(pixelPos, projection);
           
-          // CHANGED: Instead of a generic circle stamp, we evaluate fluid shearing.
-          // We project the drag velocity dynamically into the surface heights using dot products
-          // relative to the movement vector, creating a true fluid wake wave.
-          float wakeRadius = mix(24.0, 14.0, t); // Taper trail slightly behind the path direction
+          float wakeRadius = mix(24.0, 14.0, t); 
           float crossFade = smoothstep(wakeRadius, 0.0, dist);
           
           if (crossFade > 0.0) {
-            // Compute fluid displacement directly coupled to the current dragging angle
             float dragShear = dot(normalize(u_mouse_dir + vec2(0.0001)), normalize(pixelPos - pA + vec2(0.0001)));
             float hydroForce = crossFade * u_mouse_force * (0.4 + 0.5 * dragShear);
             nextHeight += hydroForce;
+          }
+        }
+
+        // 2. Discrete Creamer Drop Impulse Processing
+        if (u_splash_force > 0.0) {
+          vec2 targetSplashPixel = u_splash_pos * u_resolution;
+          float distToSplash = distance(pixelPos, targetSplashPixel);
+          
+          // Generate a highly distinct, structural concentric milk drop footprint
+          float splashRadius = 42.0; 
+          if (distToSplash < splashRadius) {
+            // High-intensity mathematical ripple mask profile
+            float normalizedDist = distToSplash / splashRadius;
+            float splashWaveProfile = cos(normalizedDist * 3.14159265 * 1.5) * (1.0 - normalizedDist);
+            nextHeight += splashWaveProfile * u_splash_force * 3.5;
           }
         }
 
@@ -162,8 +177,10 @@
 
         vec3 normal = normalize(vec3((hl - hr) * 4.0, (hb - ht) * 4.0, 1.0));
 
+        // Color profiles optimized for organic milk-to-coffee dissipation rendering
         vec3 baseEspresso = vec3(0.063, 0.035, 0.018);
         vec3 darkRoast    = vec3(0.184, 0.114, 0.067);
+        vec3 creamerTone  = vec3(0.92, 0.85, 0.74); // High intensity cream mixture color profile
         
         vec2 distortion = normal.xy * 0.035;
 
@@ -175,9 +192,11 @@
         float textR = texture2D(u_text_texture, uv + distortion * 1.06).r;
         float textG = texture2D(u_text_texture, uv + distortion * 1.00).r;
         float textB = texture2D(u_text_texture, uv + distortion * 0.94).r;
-        vec3 textSample = vec3(textR, textG, textB);
+        float textSample = vec3(textR, textG, textB).r;
 
+        // Dynamically mix between deep roast and creamy textures depending on wave height threshold
         vec3 liquidColor = mix(baseEspresso, darkRoast, clamp(combinedHeight * 2.5, 0.0, 1.0));
+        liquidColor = mix(liquidColor, creamerTone, clamp(combinedHeight * 1.8 - 0.25, 0.0, 1.0));
 
         vec3 textToneColor = vec3(0.98, 0.96, 0.93); 
         vec3 compositeBase = mix(liquidColor, textToneColor, textSample);
@@ -210,6 +229,9 @@
         
         this.pointerForce = 0.0;
         this.hasMoved = false;
+
+        // Splash vector initialization metrics
+        this.splashData = { x: 0.5, y: 0.5, force: 0.0 };
         
         this.lastTime = performance.now();
         this.frameCount = 0;
@@ -303,8 +325,10 @@
             u_prev_frame: { value: null },
             u_mouse_pos: { value: new THREE.Vector2(0.5, 0.5) },
             u_mouse_pos_old: { value: new THREE.Vector2(0.5, 0.5) }, 
-            u_mouse_dir: { value: new THREE.Vector2(0.0, 0.0) }, // Dynamic direction vector link
-            u_mouse_force: { value: 0.0 }
+            u_mouse_dir: { value: new THREE.Vector2(0.0, 0.0) }, 
+            u_mouse_force: { value: 0.0 },
+            u_splash_pos: { value: new THREE.Vector2(0.5, 0.5) },
+            u_splash_force: { value: 0.0 }
           }
         });
 
@@ -348,6 +372,13 @@
         this.canvas.addEventListener('touchmove', (e) => {
           if (e.touches.length > 0) updateCoords(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: true });
+
+        // Click interaction logic to dispatch a creamer shot drop
+        this.canvas.addEventListener('click', (e) => {
+          this.splashData.x = e.clientX / window.innerWidth;
+          this.splashData.y = 1.0 - (e.clientY / window.innerHeight);
+          this.splashData.force = 1.0; // Fire immediate max amplitude impulse
+        });
 
         window.addEventListener('resize', () => {
           const r = Math.min(window.devicePixelRatio, 2);
@@ -413,11 +444,15 @@
         const subSteps = 3;
         
         for (let i = 0; i < subSteps; i++) {
+          // Sync interaction uniform parameters to the hardware buffer
           this.simulationMaterial.uniforms.u_mouse_force.value = (i === 0) ? this.pointerForce : 0.0;
-          
           this.simulationMaterial.uniforms.u_mouse_pos.value.set(this.simulatedMouse.x / this.width, this.simulatedMouse.y / this.height);
           this.simulationMaterial.uniforms.u_mouse_pos_old.value.set(this.simulatedMouseOld.x / this.width, this.simulatedMouseOld.y / this.height);
           this.simulationMaterial.uniforms.u_mouse_dir.value.set(this.dragDirection.x, this.dragDirection.y);
+          
+          // Apply splash updates inside the initial physics sub-step window
+          this.simulationMaterial.uniforms.u_splash_pos.value.set(this.splashData.x, this.splashData.y);
+          this.simulationMaterial.uniforms.u_splash_force.value = (i === 0) ? this.splashData.force : 0.0;
           
           this.simulationMaterial.uniforms.u_current_frame.value = this.bufferA.texture;
           this.simulationMaterial.uniforms.u_prev_frame.value = this.bufferB.texture;
@@ -430,6 +465,9 @@
           this.bufferA = this.bufferC;
           this.bufferC = temp;
         }
+
+        // Dissipate discrete creamer impulse immediately after processing
+        this.splashData.force = 0.0;
 
         this.mesh.material = this.renderMaterial;
         this.renderMaterial.uniforms.u_buffer.value = this.bufferA.texture;
