@@ -94,6 +94,7 @@
       
       uniform vec2 u_splash_pos;
       uniform float u_splash_force;
+      uniform float u_splash_radius;
       
       uniform sampler2D u_current_frame;
       uniform sampler2D u_prev_frame;
@@ -119,22 +120,18 @@
         nextHeight *= 0.945; // Height damping
 
         // 2. Continuous Micro-Advection of Cream Concentration (Green Channel)
-        // Sample local height differences to build a pseudo-velocity flow field
         vec2 flowField = vec2(right - left, top - bottom) * 0.12;
         
-        // Advect cream density along the local fluid movement vectors
         float advectedCream = texture2D(u_current_frame, uv - flowField).g;
         
-        // Apply spatial diffusion so the cream softly expands outward naturally
         float creamLeft   = texture2D(u_current_frame, uv + vec2(-texel.x, 0.0)).g;
         float creamRight  = texture2D(u_current_frame, uv + vec2(texel.x, 0.0)).g;
         float creamTop    = texture2D(u_current_frame, uv + vec2(0.0, texel.y)).g;
         float creamBottom = texture2D(u_current_frame, uv + vec2(0.0, -texel.y)).g;
         float diffusedCream = (creamLeft + creamRight + creamTop + creamBottom) * 0.25;
 
-        // Mix advection and diffusion, then apply a smooth linear dissolution factor
         float nextCream = mix(advectedCream, diffusedCream, 0.15);
-        nextCream *= 0.993; // Controls how fast the cream dissolves cleanly into the espresso matrix
+        nextCream *= 0.993; // Matte dissolution velocity
 
         vec2 pixelPos = uv * u_resolution;
 
@@ -160,31 +157,27 @@
             float hydroForce = crossFade * u_mouse_force * (0.5 + 0.5 * dragShear);
             
             nextHeight += hydroForce;
-            
-            // Interaction: Dragging through existing cream redistributes it along the stroke axis
             nextCream += crossFade * u_mouse_force * 0.04;
           }
         }
 
-        // 4. Inject Discrete Splash Drop
+        // 4. Inject Continuous/Discrete Cream Drop Profile
         if (u_splash_force > 0.0) {
           vec2 targetSplashPixel = u_splash_pos * u_resolution;
           float distToSplash = distance(pixelPos, targetSplashPixel);
           
-          float splashRadius = 55.0; 
-          if (distToSplash < splashRadius) {
-            float normalizedDist = distToSplash / splashRadius;
+          if (distToSplash < u_splash_radius) {
+            float normalizedDist = distToSplash / u_splash_radius;
             
             // Generate fluid ripple shockwave height profile
             float heightProfile = cos(normalizedDist * 3.14159265 * 2.0) * (1.0 - normalizedDist);
-            nextHeight += heightProfile * u_splash_force * 4.0;
+            nextHeight += heightProfile * u_splash_force * 3.0;
             
-            // Generate dense, structured white cream distribution footprint
+            // Dynamic multi-layered cream concentration distribution footprint
             float creamProfile = smoothstep(1.0, 0.0, normalizedDist);
-            // Multi-layered exponential core to replicate the thick droplet landing point
             creamProfile += pow(smoothstep(0.6, 0.0, normalizedDist), 2.0) * 1.5;
             
-            nextCream += creamProfile * u_splash_force * 2.0;
+            nextCream += creamProfile * u_splash_force * 0.18; 
           }
         }
 
@@ -202,51 +195,40 @@
         vec2 uv = vUv;
         vec2 texel = vec2(1.0) / u_resolution;
 
-        // Sample simulation data
         vec4 simData = texture2D(u_buffer, uv);
         float height = simData.r;
         float creamDensity = simData.g;
 
-        // Reconstruct high-fidelity normal vectors from spatial heights
         float hl = texture2D(u_buffer, uv + vec2(-texel.x, 0.0)).r;
         float hr = texture2D(u_buffer, uv + vec2(texel.x, 0.0)).r;
         float ht = texture2D(u_buffer, uv + vec2(0.0, texel.y)).r;
         float hb = texture2D(u_buffer, uv + vec2(0.0, -texel.y)).r;
         vec3 normal = normalize(vec3((hl - hr) * 4.5, (hb - ht) * 4.5, 1.0));
 
-        // Color maps
         vec3 baseEspresso = vec3(0.05, 0.025, 0.012);
         vec3 darkRoast    = vec3(0.16, 0.098, 0.055);
-        vec3 premiumCream = vec3(0.96, 0.93, 0.88); // Highly saturated organic silk white tone
+        vec3 premiumCream = vec3(0.96, 0.93, 0.88); 
 
-        // Apply optical refraction across the dynamic normal map vectors
         vec2 distortion = normal.xy * 0.035;
 
-        // Distort typography layer
         float textR = texture2D(u_text_texture, uv + distortion * 1.06).r;
         float textG = texture2D(u_text_texture, uv + distortion * 1.00).r;
         float textB = texture2D(u_text_texture, uv + distortion * 0.94).r;
         float textSample = (textR + textG + textB) / 3.0;
 
-        // Combine base coffee color mapping
         vec3 coffeeLiquid = mix(baseEspresso, darkRoast, clamp(height * 2.5, 0.0, 1.0));
 
-        // Composite the cream overlay directly using the mathematical density concentration field
-        // This guarantees the cream shifts with flow fields and dissolves perfectly over time.
         float creamMask = smoothstep(0.02, 0.95, creamDensity);
         vec3 finalLiquidColor = mix(coffeeLiquid, premiumCream, creamMask);
 
-        // Render typography integration
         vec3 textToneColor = vec3(0.98, 0.96, 0.93);
         vec3 compositeBase = mix(finalLiquidColor, textToneColor, textSample);
 
-        // Specular reflections for real fluid surface feel
         vec3 lightDir = normalize(vec3(0.2, 0.5, 0.8));
         vec3 viewDir  = vec3(0.0, 0.0, 1.0);
         vec3 halfDir  = normalize(lightDir + viewDir);
         float specularIntensity = pow(max(dot(normal, halfDir), 0.0), 65.0);
         
-        // Increase specular sheen intensity over the cream boundaries
         float specificSpecular = mix(0.6, 1.2, creamMask);
         vec3 specularColor = vec3(0.98, 0.95, 0.88) * specularIntensity * specificSpecular;
 
@@ -269,7 +251,12 @@
         this.pointerForce = 0.0;
         this.hasMoved = false;
 
+        // Interaction state configuration
         this.splashData = { x: 0.5, y: 0.5, force: 0.0 };
+        this.isHolding = false;
+        this.holdTime = 0.0;
+        this.currentSplashRadius = 45.0;
+        this.holdPos = { x: 0.5, y: 0.5 };
         
         this.lastTime = performance.now();
         this.frameCount = 0;
@@ -344,6 +331,7 @@
           type: textureType,
           depthBuffer: false,
           stencilBuffer: false,
+          
         };
 
         this.bufferA = new THREE.WebGLRenderTarget(this.width, this.height, targetOptions);
@@ -366,7 +354,8 @@
             u_mouse_dir: { value: new THREE.Vector2(0.0, 0.0) }, 
             u_mouse_force: { value: 0.0 },
             u_splash_pos: { value: new THREE.Vector2(0.5, 0.5) },
-            u_splash_force: { value: 0.0 }
+            u_splash_force: { value: 0.0 },
+            u_splash_radius: { value: 45.0 }
           }
         });
 
@@ -406,16 +395,44 @@
           }
         };
 
-        this.canvas.addEventListener('mousemove', (e) => updateCoords(e.clientX, e.clientY));
-        this.canvas.addEventListener('touchmove', (e) => {
-          if (e.touches.length > 0) updateCoords(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
+        // Down/Start hold states
+        const startPress = (x, y) => {
+          this.isHolding = true;
+          this.holdTime = 0.0;
+          this.holdPos.x = x / window.innerWidth;
+          this.holdPos.y = 1.0 - (y / window.innerHeight);
+        };
 
-        this.canvas.addEventListener('click', (e) => {
-          this.splashData.x = e.clientX / window.innerWidth;
-          this.splashData.y = 1.0 - (e.clientY / window.innerHeight);
-          this.splashData.force = 1.0; 
+        // Up/End hold states
+        const endPress = () => {
+          this.isHolding = false;
+        };
+
+        this.canvas.addEventListener('mousedown', (e) => startPress(e.clientX, e.clientY));
+        window.addEventListener('mouseup', endPress);
+
+        this.canvas.addEventListener('touchstart', (e) => {
+          if (e.touches.length > 0) startPress(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+        window.addEventListener('touchend', endPress);
+
+        this.canvas.addEventListener('mousemove', (e) => {
+          updateCoords(e.clientX, e.clientY);
+          if (this.isHolding) {
+            this.holdPos.x = e.clientX / window.innerWidth;
+            this.holdPos.y = 1.0 - (e.clientY / window.innerHeight);
+          }
         });
+
+        this.canvas.addEventListener('touchmove', (e) => {
+          if (e.touches.length > 0) {
+            updateCoords(e.touches[0].clientX, e.touches[0].clientY);
+            if (this.isHolding) {
+              this.holdPos.x = e.touches[0].clientX / window.innerWidth;
+              this.holdPos.y = 1.0 - (e.touches[0].clientY / window.innerHeight);
+            }
+          }
+        }, { passive: true });
 
         window.addEventListener('resize', () => {
           const r = Math.min(window.devicePixelRatio, 2);
@@ -476,6 +493,21 @@
           this.pointerForce = lingeringVelocity > 0.05 ? Math.min(lingeringVelocity * 0.15, 2.0) : 0.0;
         }
 
+        // Compute accumulation mechanics while press state is held active
+        if (this.isHolding) {
+          this.holdTime += 0.0166; // Frame step accumulation scalar
+          this.splashData.x = this.holdPos.x;
+          this.splashData.y = this.holdPos.y;
+          
+          // Base radius of 45px scaling up to 265px dynamically over time
+          this.currentSplashRadius = 45.0 + Math.min(this.holdTime * 140.0, 220.0);
+          // Scale concentration flow pressure sustainably so it doesn't blow out the float grid
+          this.splashData.force = 0.25 + Math.min(this.holdTime * 0.5, 1.2);
+        } else {
+          this.holdTime = 0.0;
+          this.currentSplashRadius = 45.0;
+        }
+
         this.mesh.material = this.simulationMaterial;
         const subSteps = 3;
         
@@ -486,7 +518,8 @@
           this.simulationMaterial.uniforms.u_mouse_dir.value.set(this.dragDirection.x, this.dragDirection.y);
           
           this.simulationMaterial.uniforms.u_splash_pos.value.set(this.splashData.x, this.splashData.y);
-          this.simulationMaterial.uniforms.u_splash_force.value = (i === 0) ? this.splashData.force : 0.0;
+          this.simulationMaterial.uniforms.u_splash_radius.value = this.currentSplashRadius;
+          this.simulationMaterial.uniforms.u_splash_force.value = (i === 0 && (this.isHolding || this.splashData.force > 0.0)) ? this.splashData.force : 0.0;
           
           this.simulationMaterial.uniforms.u_current_frame.value = this.bufferA.texture;
           this.simulationMaterial.uniforms.u_prev_frame.value = this.bufferB.texture;
@@ -500,7 +533,10 @@
           this.bufferC = temp;
         }
 
-        this.splashData.force = 0.0;
+        // Clean frame force when press is fully isolated
+        if (!this.isHolding) {
+          this.splashData.force = 0.0;
+        }
 
         this.mesh.material = this.renderMaterial;
         this.renderMaterial.uniforms.u_buffer.value = this.bufferA.texture;
