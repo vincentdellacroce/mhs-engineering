@@ -714,7 +714,7 @@
 </nav>
 
 <div class="index-image-reveal" id="indexImageReveal">
-  <img src="landscaping-images/lsp10.jpg" alt="Estate landscaping design from above, Savannah GA">
+  <img src="landscaping-images/lsp10.jpg" alt="Estate landscaping design from above, Savannah GA" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
 </div>
 
 <section class="hero" id="hero">
@@ -962,11 +962,9 @@
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-  // FAIL-SAFE: If GSAP or its dependencies fail to load via CDN, remove the preloader mask instantly
   if (typeof gsap === 'undefined') {
     const preloader = document.getElementById('preloader');
     if (preloader) preloader.style.display = 'none';
-    console.error("GSAP library did not load. Check network connection or CDN availability.");
     return;
   }
 
@@ -1059,7 +1057,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── LENIS & SCROLL ANIMATIONS ──
+  // ── LENIS ──
   function initScrollAnimations() {
     if (typeof Lenis !== 'undefined') {
       const lenis = new Lenis({
