@@ -1,4 +1,3 @@
-<!-- SITE 6: GROVE ORDER —— SAVANNAH GA -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <style>
   /* ── PALETTE 11: Champagne ── */
@@ -267,9 +265,12 @@
     transition: opacity 0.3s;
     overflow: hidden;
   }
-  .index-image-reveal img,
-
-
+  .index-image-reveal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
 
   /* ── SECTIONS GENERIC ── */
   section { padding-block: 9rem; }
@@ -687,11 +688,9 @@
 </head>
 <body>
 
-<!-- Custom cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- Preloader -->
 <div class="preloader" id="preloader">
   <div class="preloader-brand">Grove Order</div>
   <div class="preloader-right">
@@ -703,7 +702,6 @@
   </div>
 </div>
 
-<!-- Nav -->
 <nav id="mainNav">
   <a href="#" class="nav-logo">Grove <em>Order</em></a>
   <div class="nav-right">
@@ -715,12 +713,10 @@
   </div>
 </nav>
 
-<!-- Hover image reveal (follows cursor) -->
 <div class="index-image-reveal" id="indexImageReveal">
-  <img src="images/lsp10.jpg" alt="Estate landscaping design from above, Savannah GA" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
+  <img src="landscaping-images/lsp10.jpg" alt="Estate landscaping design from above, Savannah GA">
 </div>
 
-<!-- Hero: Stacked Index -->
 <section class="hero" id="hero">
   <div class="hero-eyebrow">Grove Order — Savannah, GA — Est. 2009</div>
   <div class="stacked-index" id="stackedIndex">
@@ -752,7 +748,6 @@
   </div>
 </section>
 
-<!-- Intro -->
 <section class="intro">
   <div class="container">
     <p class="intro-text reveal">
@@ -766,14 +761,13 @@
   </div>
 </section>
 
-<!-- Work Grid -->
 <section class="work-grid-section">
   <div class="container">
     <p class="section-eyebrow reveal">Selected Work</p>
     <div class="work-grid">
       <figure class="work-item reveal">
         <div class="work-item-image" data-label="[ PHOTO: Walled courtyard garden, Savannah Historic District ]">
-          <img src="images/lsp5.jpg" alt="Cape Cod shingle estate with white hydrangea foreground, the aspirational client" loading="lazy">
+          <img src="landscaping-images/lsp5.jpg" alt="Cape Cod shingle estate with white hydrangea foreground, the aspirational client" loading="lazy">
         </div>
         <figcaption>
           <p class="proj-name">Whitaker Street Residence</p>
@@ -782,7 +776,7 @@
       </figure>
       <figure class="work-item reveal">
         <div class="work-item-image" data-label="[ PHOTO: Lowcountry estate garden, marsh views ]">
-          <img src="images/lsp8.jpg" alt="Aerial serpentine path through manicured garden, overhead pattern" loading="lazy">
+          <img src="landscaping-images/lsp8.jpg" alt="Aerial serpentine path through manicured garden, overhead pattern" loading="lazy">
         </div>
         <figcaption>
           <p class="proj-name">Sea Island Estate</p>
@@ -791,7 +785,7 @@
       </figure>
       <figure class="work-item reveal">
         <div class="work-item-image" data-label="[ PHOTO: Limestone terrace and reflecting pool ]">
-          <img src="images/lsp9.jpg" alt="Formal fountain garden with striped lawn and symmetrical pools, classical grandeur" loading="lazy">
+          <img src="landscaping-images/lsp9.jpg" alt="Formal fountain garden with striped lawn and symmetrical pools, classical grandeur" loading="lazy">
         </div>
         <figcaption>
           <p class="proj-name">Jekyll Island Compound</p>
@@ -800,7 +794,7 @@
       </figure>
       <figure class="work-item reveal">
         <div class="work-item-image" data-label="[ PHOTO: Spanish moss live oak allee, grand entrance ]">
-          <img src="images/lsp6.jpg" alt="Stone steps lit at dusk with landscape uplighting, evening drama" loading="lazy">
+          <img src="landscaping-images/lsp6.jpg" alt="Stone steps lit at dusk with landscape uplighting, evening drama" loading="lazy">
         </div>
         <figcaption>
           <p class="proj-name">Beaufort River Road</p>
@@ -809,7 +803,7 @@
       </figure>
       <figure class="work-item reveal">
         <div class="work-item-image" data-label="[ PHOTO: Walled kitchen garden, espaliered fruit ]">
-          <img src="images/lsp7.jpeg" alt="Commercial courtyard with prairie beds and water feature, range of work" loading="lazy">
+          <img src="landscaping-images/lsp7.jpeg" alt="Commercial courtyard with prairie beds and water feature, range of work" loading="lazy">
         </div>
         <figcaption>
           <p class="proj-name">Habersham House</p>
@@ -818,7 +812,7 @@
       </figure>
       <figure class="work-item reveal">
         <div class="work-item-image" data-label="[ PHOTO: Evening garden lighting, jasmine arbor ]">
-          <img src="images/lsp1.jpg" alt="White cottage with paver path, residential detail" loading="lazy">
+          <img src="landscaping-images/lsp1.jpg" alt="White cottage with paver path, residential detail" loading="lazy">
         </div>
         <figcaption>
           <p class="proj-name">Bluffton Private Estate</p>
@@ -829,14 +823,13 @@
   </div>
 </section>
 
-<!-- Process -->
 <section class="process-section">
   <div class="container">
     <p class="section-eyebrow reveal">How We Work</p>
 
     <div class="process-moment reveal">
       <div class="process-image img-scale" data-label="[ PHOTO: Site survey, measuring a formal garden bed ]">
-        <img src="images/lsp9.jpg" alt="Formal fountain garden with symmetrical pools, site survey scale" loading="lazy">
+        <img src="landscaping-images/lsp9.jpg" alt="Formal fountain garden with symmetrical pools, site survey scale" loading="lazy">
       </div>
       <div class="process-text">
         <div class="process-num">I.</div>
@@ -847,7 +840,7 @@
 
     <div class="process-moment reverse reveal">
       <div class="process-image img-scale" data-label="[ PHOTO: Hand-drawn planting plan on drafting table ]">
-        <img src="images/lsp7.jpeg" alt="Modern courtyard with prairie planting and water feature" loading="lazy">
+        <img src="landscaping-images/lsp7.jpeg" alt="Modern courtyard with prairie planting and water feature" loading="lazy">
       </div>
       <div class="process-text">
         <div class="process-num">II.</div>
@@ -858,7 +851,7 @@
 
     <div class="process-moment reveal">
       <div class="process-image img-scale" data-label="[ PHOTO: Close detail of planting, gloved hands placing a plant ]">
-        <img src="images/lsp8.jpg" alt="Aerial of serpentine garden with winding path" loading="lazy">
+        <img src="landscaping-images/lsp8.jpg" alt="Aerial of serpentine garden with winding path" loading="lazy">
       </div>
       <div class="process-text">
         <div class="process-num">III.</div>
@@ -869,7 +862,6 @@
   </div>
 </section>
 
-<!-- Services -->
 <section class="services-section">
   <div class="container">
     <div class="services-header">
@@ -911,7 +903,6 @@
   </div>
 </section>
 
-<!-- About -->
 <section class="about-section">
   <div class="container">
     <div class="about-grid">
@@ -924,7 +915,7 @@
       </div>
       <div class="about-image-col">
         <div class="team-image img-scale" data-photo-slot="team">
-          <img src="images/lsp1.jpg" alt="White cottage with paver path, Savannah Georgia" loading="lazy">
+          <img src="landscaping-images/lsp1.jpg" alt="White cottage with paver path, Savannah Georgia" loading="lazy">
         </div>
         <p class="team-caption">Margaret Holt — Principal, Grove Order</p>
       </div>
@@ -932,7 +923,6 @@
   </div>
 </section>
 
-<!-- CTA -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-inner">
@@ -945,7 +935,6 @@
   </div>
 </section>
 
-<!-- Marquee -->
 <div class="marquee-section">
   <div class="marquee-track" id="marqueeTrack">
     <div class="marquee-item">Grove Order <span class="marquee-sep">·</span> Garden Design <span class="marquee-sep">·</span> <em>Savannah, Georgia</em> <span class="marquee-sep">·</span> Est. 2009 <span class="marquee-sep">·</span> Referrals Only <span class="marquee-sep">·</span></div>
@@ -955,7 +944,6 @@
   </div>
 </div>
 
-<!-- Footer -->
 <footer>
   <div class="footer-top">
     <div class="footer-name">Grove <em>Order</em></div>
@@ -973,7 +961,15 @@
 </footer>
 
 <script>
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
+  // FAIL-SAFE: If GSAP or its dependencies fail to load via CDN, remove the preloader mask instantly
+  if (typeof gsap === 'undefined') {
+    const preloader = document.getElementById('preloader');
+    if (preloader) preloader.style.display = 'none';
+    console.error("GSAP library did not load. Check network connection or CDN availability.");
+    return;
+  }
+
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   gsap.registerPlugin(ScrollTrigger);
@@ -1045,17 +1041,9 @@ window.addEventListener('load', () => {
   // ── STACKED INDEX HOVER REVEAL ──
   const reveal = document.getElementById('indexImageReveal');
   const rows = document.querySelectorAll('.index-row');
-  const labels = [
-    '[ PHOTO: Formal parterre garden, clipped boxwood ]',
-    '[ PHOTO: Limestone courtyard paving detail ]',
-    '[ PHOTO: Estate grounds, weekly maintenance crew ]',
-    '[ PHOTO: Drip irrigation installation in planting bed ]',
-    '[ PHOTO: Low-voltage garden lighting, evening atmosphere ]',
-  ];
 
   rows.forEach((row, i) => {
     row.addEventListener('mouseenter', (e) => {
-      // image is now a real <img> tag — no text label to update
       gsap.to(reveal, { opacity: 1, duration: 0.25 });
     });
     row.addEventListener('mousemove', (e) => {
@@ -1071,7 +1059,7 @@ window.addEventListener('load', () => {
     });
   });
 
-  // ── LENIS ──
+  // ── LENIS & SCROLL ANIMATIONS ──
   function initScrollAnimations() {
     if (typeof Lenis !== 'undefined') {
       const lenis = new Lenis({
@@ -1136,7 +1124,6 @@ window.addEventListener('load', () => {
     const track = document.getElementById('marqueeTrack');
     if (track) {
       const items = track.querySelectorAll('.marquee-item');
-      const totalWidth = items[0].offsetWidth * items.length;
       gsap.to(track, {
         x: -items[0].offsetWidth,
         duration: 22,
