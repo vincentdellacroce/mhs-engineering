@@ -7,6 +7,8 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&f[]=gambetta@400,1,700&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
@@ -22,20 +24,38 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['"Inter"', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Satoshi"', 'sans-serif'],
+                        serif: ['"Gambetta"', 'serif'],
                     }
                 }
             }
         }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-
     <style>
-        /* The "Active Noise" Canvas from your design tokens */
+        /* Hide Default Cursor */
+        body { background-color: #F4F7F5; color: #0D1F14; cursor: none; }
+        a, button { cursor: none; }
+
+        /* Custom GSAP Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 12px; height: 12px;
+            background-color: #2A5C3D;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor-dot.hovered {
+            width: 60px; height: 60px;
+            background-color: #F4F7F5;
+        }
+
+        /* The "Active Noise" Canvas */
         .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -52,18 +72,38 @@
         .lenis.lenis-stopped { overflow: hidden; }
         .lenis.lenis-scrolling iframe { pointer-events: none; }
         
-        body { background-color: #F4F7F5; color: #0D1F14; }
+        /* Fixed Typography Clipping */
+        .clip-text { 
+            overflow: hidden; 
+            display: block; 
+            padding-bottom: 0.15em; /* Prevents descender clipping */
+            margin-bottom: -0.15em;
+        }
+        .clip-text span { 
+            display: inline-block; 
+            transform: translateY(115%); 
+            transform-origin: top left;
+        }
         
-        .clip-text { overflow: hidden; display: block; }
-        .clip-text span { display: inline-block; transform: translateY(110%); }
-        
-        /* Image hover zooms */
-        .img-container { overflow: hidden; }
-        .img-container img { transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
-        .img-container:hover img { transform: scale(1.05); }
+        /* Premium Image Hover Micro-Interactions */
+        .img-container { 
+            overflow: hidden; 
+            position: relative;
+        }
+        .img-container img { 
+            transition: transform 1.4s cubic-bezier(0.19, 1, 0.22, 1), filter 1.4s ease; 
+            transform-origin: center;
+            filter: contrast(1.1) saturate(0.8) brightness(0.9); /* Color grades standard stock */
+        }
+        .parallax-card:hover .img-container img { 
+            transform: scale(1.08) skewY(-1deg); /* Adds structural distortion on hover */
+            filter: contrast(1.1) saturate(1) brightness(1);
+        }
     </style>
 </head>
 <body class="antialiased font-sans selection:bg-brand-green selection:text-white relative">
+
+    <div class="cursor-dot"></div>
 
     <svg class="noise-overlay" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <filter id="noiseFilter">
@@ -72,9 +112,9 @@
         <rect width="100%" height="100%" filter="url(#noiseFilter)" />
     </svg>
 
-    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-8 md:px-12 flex justify-between items-center mix-blend-difference text-white">
-        <span class="text-xs font-semibold tracking-widest uppercase">Groundworks / Dev</span>
-        <a href="#contact" class="text-xs uppercase tracking-wider hover:text-brand-muted transition-colors">
+    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-8 md:px-12 flex justify-between items-center mix-blend-difference text-white pointer-events-none">
+        <span class="text-xs font-bold tracking-widest uppercase pointer-events-auto hover-target">Groundworks / Dev</span>
+        <a href="#contact" class="text-xs uppercase tracking-wider text-brand-light hover:text-brand-green transition-colors pointer-events-auto hover-target magnetic-btn">
             Initiate Project
         </a>
     </nav>
@@ -86,16 +126,16 @@
                 Digital Architecture
             </div>
             
-            <h1 class="font-light tracking-tighter text-[clamp(3rem,8vw,12rem)] leading-[0.85] uppercase uppercase">
+            <h1 class="font-light tracking-tighter text-[clamp(3.5rem,8.5vw,12rem)] leading-[0.9] uppercase">
                 <span class="clip-text hero-text"><span class="block">Elite Digital</span></span>
-                <span class="clip-text hero-text text-brand-green italic font-serif lowercase"><span class="block">landscapes</span></span>
+                <span class="clip-text hero-text text-brand-green italic font-serif lowercase pr-4"><span class="block">landscapes</span></span>
             </h1>
             
             <div class="mt-16 flex flex-col md:flex-row gap-8 justify-between items-start md:items-end border-t border-brand-border pt-8">
                 <p class="text-lg md:text-xl text-brand-darkGreen max-w-xl font-light leading-relaxed">
-                    We craft hyper-performant, bespoke web ecosystems designed strictly for high-end landscape architects and outdoor creators. No templates.
+                    We craft hyper-performant, bespoke web ecosystems designed strictly for high-end landscape architects. No generic templates.
                 </p>
-                <a href="#work" class="px-6 py-3 border border-brand-darkGreen hover:bg-brand-darkGreen hover:text-white transition-colors text-xs tracking-widest uppercase">
+                <a href="#work" class="px-6 py-4 border border-brand-darkGreen hover:bg-brand-darkGreen hover:text-white transition-all duration-500 text-xs tracking-widest uppercase hover-target magnetic-btn">
                     View Systems
                 </a>
             </div>
@@ -113,152 +153,42 @@
             </div>
 
             <div class="flex flex-col gap-32 md:gap-48">
-                <a href="#" class="parallax-card group block w-full md:w-[70%]">
+                <a href="#" class="parallax-card group block w-full md:w-[70%] hover-target">
                     <div class="img-container relative w-full aspect-[16/10] bg-brand-light border border-brand-border">
-                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2000&auto=format&fit=crop" alt="High End Landscaping 1" class="absolute inset-0 w-full h-full object-cover parallax-img opacity-90">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2000&auto=format&fit=crop" alt="Verdant Estate" class="absolute inset-0 w-full h-full object-cover parallax-img">
                     </div>
                     <div class="mt-8 flex justify-between items-start">
                         <div>
-                            <h3 class="text-3xl uppercase tracking-wide font-light text-brand-darkGreen mb-2">Verdant Estate</h3>
+                            <h3 class="text-3xl uppercase tracking-wide font-medium text-brand-darkGreen mb-2">Verdant Estate</h3>
                             <p class="text-brand-muted font-light text-sm">Beverly Hills, CA — Immersive WebGL Experience</p>
                         </div>
-                        <span class="border border-brand-border px-3 py-1 text-[10px] uppercase tracking-widest text-brand-green group-hover:bg-brand-green group-hover:text-white transition-colors">View Live</span>
+                        <span class="border border-brand-border px-4 py-2 text-[10px] uppercase tracking-widest text-brand-green group-hover:bg-brand-green group-hover:text-white transition-colors duration-500">View Live</span>
                     </div>
                 </a>
 
-                <a href="#" class="parallax-card group block w-full md:w-[70%] self-end">
+                <a href="#" class="parallax-card group block w-full md:w-[70%] self-end hover-target">
                     <div class="img-container relative w-full aspect-[4/3] bg-brand-light border border-brand-border">
-                        <img src="https://images.unsplash.com/photo-1558904541-efa843a96f0f?q=80&w=2000&auto=format&fit=crop" alt="High End Landscaping 2" class="absolute inset-0 w-full h-full object-cover parallax-img opacity-90">
+                        <img src="https://images.unsplash.com/photo-1558904541-efa843a96f0f?q=80&w=2000&auto=format&fit=crop" alt="Oasis Modern" class="absolute inset-0 w-full h-full object-cover parallax-img">
                     </div>
                     <div class="mt-8 flex justify-between items-start">
                         <div>
-                            <h3 class="text-3xl uppercase tracking-wide font-light text-brand-darkGreen mb-2">Oasis Modern</h3>
+                            <h3 class="text-3xl uppercase tracking-wide font-medium text-brand-darkGreen mb-2">Oasis Modern</h3>
                             <p class="text-brand-muted font-light text-sm">Miami, FL — Architectural Digital Platform</p>
                         </div>
-                        <span class="border border-brand-border px-3 py-1 text-[10px] uppercase tracking-widest text-brand-green group-hover:bg-brand-green group-hover:text-white transition-colors">View Live</span>
+                        <span class="border border-brand-border px-4 py-2 text-[10px] uppercase tracking-widest text-brand-green group-hover:bg-brand-green group-hover:text-white transition-colors duration-500">View Live</span>
                     </div>
                 </a>
             </div>
         </div>
     </section>
 
-    <section class="py-32 md:py-48 px-6 md:px-12 xl:px-24">
-        <div class="max-w-[1400px] w-full mx-auto">
-            <div class="mb-20 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-brand-border pb-8">
-                <div>
-                    <span class="text-[10px] tracking-widest uppercase text-brand-muted block mb-2">[ Tier II ]</span>
-                    <h2 class="text-3xl md:text-5xl font-light uppercase tracking-tight text-brand-darkGreen">Performance Engines</h2>
-                </div>
-                <p class="text-brand-muted max-w-sm font-light text-sm mt-4 md:mt-0">High-conversion, lightning-fast sites for regional landscaping powerhouses.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="#" class="group block md:col-span-2 relative aspect-[16/9] md:aspect-auto img-container border border-brand-border bg-brand-white p-6 flex flex-col justify-end min-h-[400px]">
-                    <img src="https://images.unsplash.com/photo-1598902468171-0f50e33fd5fb?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity">
-                    <div class="relative z-10">
-                        <span class="text-[10px] tracking-widest uppercase text-brand-green bg-white/80 backdrop-blur px-2 py-1 mb-3 inline-block">Commercial</span>
-                        <h3 class="text-2xl uppercase tracking-wide font-light text-brand-darkGreen">Greenline Pro</h3>
-                    </div>
-                </a>
-
-                <a href="#" class="group block relative aspect-square img-container border border-brand-border bg-brand-white p-6 flex flex-col justify-end">
-                    <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity">
-                    <div class="relative z-10">
-                        <span class="text-[10px] tracking-widest uppercase text-brand-green bg-white/80 backdrop-blur px-2 py-1 mb-3 inline-block">Design/Build</span>
-                        <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Timber & Stone</h3>
-                    </div>
-                </a>
-
-                <a href="#" class="group block relative aspect-square img-container border border-brand-border bg-brand-white p-6 flex flex-col justify-end">
-                    <img src="https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity">
-                    <div class="relative z-10">
-                        <span class="text-[10px] tracking-widest uppercase text-brand-green bg-white/80 backdrop-blur px-2 py-1 mb-3 inline-block">Tree Service</span>
-                        <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Apex Arborists</h3>
-                    </div>
-                </a>
-
-                <a href="#" class="group block relative aspect-square img-container border border-brand-border bg-brand-white p-6 flex flex-col justify-end">
-                    <img src="https://images.unsplash.com/photo-1592424001806-69d123b320df?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity">
-                    <div class="relative z-10">
-                        <span class="text-[10px] tracking-widest uppercase text-brand-green bg-white/80 backdrop-blur px-2 py-1 mb-3 inline-block">Hardscaping</span>
-                        <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Stonecraft Co.</h3>
-                    </div>
-                </a>
-
-                <a href="#" class="group block relative aspect-square img-container border border-brand-border bg-brand-white p-6 flex flex-col justify-end">
-                    <img src="https://images.unsplash.com/photo-1416879598555-2795f569d056?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity">
-                    <div class="relative z-10">
-                        <span class="text-[10px] tracking-widest uppercase text-brand-green bg-white/80 backdrop-blur px-2 py-1 mb-3 inline-block">Maintenance</span>
-                        <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Clear Cut Yards</h3>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-32 md:py-48 px-6 md:px-12 xl:px-24 bg-brand-white border-t border-brand-border">
-        <div class="max-w-[1400px] w-full mx-auto">
-            <div class="mb-20 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-brand-border pb-8">
-                <div>
-                    <span class="text-[10px] tracking-widest uppercase text-brand-muted block mb-2">[ Variant Verticals ]</span>
-                    <h2 class="text-3xl md:text-5xl font-light uppercase tracking-tight text-brand-darkGreen">Beyond the Land</h2>
-                </div>
-                <p class="text-brand-muted max-w-sm font-light text-sm mt-4 md:mt-0">Applying our high-performance structural logic to other premium industries.</p>
-            </div>
-
-            <div class="flex flex-col divide-y divide-brand-border">
-                <a href="#" class="group py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:bg-brand-light transition-colors px-4 -mx-4">
-                    <div class="flex items-center gap-8">
-                        <span class="text-xs font-mono text-brand-muted">/ 01</span>
-                        <div class="w-24 h-16 bg-gray-200 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=400&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                        </div>
-                        <div>
-                            <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Aether Studio</h3>
-                            <p class="text-[10px] uppercase tracking-widest text-brand-green mt-1">Interior Architecture</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-brand-muted max-w-md font-light hidden md:block">Minimalist digital portfolio for an award-winning interior design firm.</p>
-                </a>
-
-                <a href="#" class="group py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:bg-brand-light transition-colors px-4 -mx-4">
-                    <div class="flex items-center gap-8">
-                        <span class="text-xs font-mono text-brand-muted">/ 02</span>
-                        <div class="w-24 h-16 bg-gray-200 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=400&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                        </div>
-                        <div>
-                            <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Krypton Fit</h3>
-                            <p class="text-[10px] uppercase tracking-widest text-brand-green mt-1">Elite Wellness</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-brand-muted max-w-md font-light hidden md:block">High-energy, dark-mode interface for an exclusive fitness facility.</p>
-                </a>
-
-                <a href="#" class="group py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:bg-brand-light transition-colors px-4 -mx-4">
-                    <div class="flex items-center gap-8">
-                        <span class="text-xs font-mono text-brand-muted">/ 03</span>
-                        <div class="w-24 h-16 bg-gray-200 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                        </div>
-                        <div>
-                            <h3 class="text-xl uppercase tracking-wide font-light text-brand-darkGreen">Monolith Group</h3>
-                            <p class="text-[10px] uppercase tracking-widest text-brand-green mt-1">Venture Capital</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-brand-muted max-w-md font-light hidden md:block">Brutalist corporate presentation platform for real estate investments.</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contact" class="py-24 px-6 md:px-12 xl:px-24 bg-brand-darkGreen text-brand-light">
+    <footer id="contact" class="py-32 px-6 md:px-12 xl:px-24 bg-brand-darkGreen text-brand-light">
         <div class="max-w-[1400px] w-full mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
             <div>
                 <h4 class="text-xs uppercase tracking-widest text-brand-muted mb-4">Command Your Local Market</h4>
-                <p class="text-3xl md:text-5xl font-light text-brand-white uppercase tracking-tight">Let's build<br>your estate.</p>
+                <p class="text-4xl md:text-6xl font-light text-brand-white uppercase tracking-tight leading-[0.9]">Let's build<br><span class="font-serif italic text-brand-green">your estate.</span></p>
             </div>
-            <a href="mailto:hello@groundworks.dev" class="px-8 py-4 bg-brand-green hover:bg-white hover:text-brand-darkGreen transition-colors uppercase tracking-widest text-xs font-medium">
+            <a href="mailto:hello@groundworks.dev" class="px-8 py-5 bg-brand-green hover:bg-white hover:text-brand-darkGreen transition-colors duration-500 uppercase tracking-widest text-xs font-medium hover-target magnetic-btn">
                 Start the Dialogue
             </a>
         </div>
@@ -269,17 +199,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // 1. Initialize Lenis Smooth Scrolling
+        // 1. Lenis Smooth Scrolling Physics
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
         });
 
         function raf(time) {
@@ -288,30 +214,68 @@
         }
         requestAnimationFrame(raf);
 
-        // 2. Initialize GSAP
+        // 2. GSAP Initialization
         gsap.registerPlugin(ScrollTrigger);
-
-        // Synchronize GSAP and Lenis
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0);
 
-        // 3. Animations
+        // 3. Custom Cursor Logic (Micro-interactions)
+        const cursor = document.querySelector('.cursor-dot');
+        const hoverTargets = document.querySelectorAll('.hover-target');
         
-        // Hero Text Reveal
+        // Follow mouse smoothly
+        let mouseX = 0; let mouseY = 0;
+        let cursorX = 0; let cursorY = 0;
+        
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Use GSAP ticker for smooth hardware-accelerated cursor interpolation
+        gsap.ticker.add(() => {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            gsap.set(cursor, { x: cursorX, y: cursorY });
+        });
+
+        // Cursor Hover States
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // Magnetic Button Logic
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                gsap.to(btn, { x: x * 0.4, y: y * 0.4, duration: 0.6, ease: "power3.out" });
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+            });
+        });
+
+        // 4. Hero Text Reveal Animation
         gsap.to(".hero-text span", {
             y: "0%",
+            rotateZ: 0,
             stagger: 0.1,
-            duration: 1.4,
+            duration: 1.6,
             ease: "power4.out",
             delay: 0.2
         });
 
-        // High-End Image Parallax
+        // 5. Parallax Imagery
         const parallaxCards = document.querySelectorAll(".parallax-card");
         parallaxCards.forEach(card => {
             const img = card.querySelector(".parallax-img");
-            
             gsap.fromTo(img, 
                 { y: "-15%" }, 
                 {
