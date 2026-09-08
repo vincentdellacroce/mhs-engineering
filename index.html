@@ -369,7 +369,7 @@
       margin-bottom: 0.3rem;
     }
 
-    /* NEW: FUNDRAISER HIGHLIGHT SECTION */
+    /* FUNDRAISER HIGHLIGHT SECTION */
     #fundraiser-cta {
       background: white;
       border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -556,7 +556,7 @@
 
     .members-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1.5rem;
     }
 
@@ -686,14 +686,12 @@
       #about { grid-template-columns: 1fr; gap: 3rem; }
       .meeting-card { grid-template-columns: 1fr; gap: 2rem; }
       .partnerships-grid { grid-template-columns: 1fr; }
-      .members-grid { grid-template-columns: 1fr 1fr 1fr; }
     }
 
     @media (max-width: 600px) {
       .nav-links { display: none; }
       .hero { padding: 5.5rem 1.5rem 4rem 1.5rem; }
       section { padding: 4rem 1.5rem; }
-      .members-grid { grid-template-columns: 1fr 1fr; }
       .about-stats { grid-template-columns: 1fr; }
       .hero-tag { font-size: 0.75rem; letter-spacing: 3px; }
     }
@@ -800,14 +798,13 @@
     <div class="fund-cta-card">
       <div class="fund-cta-info">
         <h3>Help Us Represent MHS Next Year</h3>
-        <p>Our team is putting theoretical science into real practice. We are launching an active fundraising drive to secure advanced mechanical parts, custom boards, and travel pathways for an elite regional championship happening at the end of next school year.</p>
-        <p>Every contribution helps our student teams buy materials, fabricate systems, and cover entry costs.</p>
+        <p>Vincent DellaCroce is putting together a Morris county wide engineering competition. Each contribution goes towards: 20% to Community Food bank of New Jersey, 60% towards scholarships for the 3 winners, 20 % towards the MHS Engineering club.</p>
         <a href="fundraiser.html" class="btn btn-primary" style="padding: 0.9rem 1.8rem;">View Campaign Details</a>
       </div>
       
       <div class="fund-cta-goalbox">
         <div class="label">Target Campaign Goal</div>
-        <div class="amount">$10,000</div>
+        <div class="amount">$5,000</div>
         <div class="divider" style="margin: 0 auto 1.5rem;"></div>
         <p style="font-size: 0.85rem; color: var(--gray); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Student Engineering Blueprint Drive</p>
       </div>
@@ -845,14 +842,24 @@
     <p class="members-intro">Our club is made up of students from all grade levels and backgrounds. Leadership and advisor information will be updated here as the club grows.</p>
     <div class="members-grid">
       <div class="member-card">
+        <div class="member-avatar">RL</div>
+        <h4>Rodney Lee</h4>
+        <div class="role">Advisor</div>
+      </div>
+      <div class="member-card">
         <div class="member-avatar">VD</div>
-        <h4>Vincent Dellacroce</h4>
+        <h4>Vincent DellaCroce</h4>
         <div class="role">President</div>
       </div>
       <div class="member-card">
-        <div class="member-avatar">GL</div>
-        <h4>Gianna Laratta</h4>
+        <div class="member-avatar">LS</div>
+        <h4>Luigi Sciano</h4>
         <div class="role">Vice President</div>
+      </div>
+      <div class="member-card">
+        <div class="member-avatar">MM</div>
+        <h4>Malcolm Mejia</h4>
+        <div class="role">Treasurer</div>
       </div>
       <div class="member-card">
         <div class="member-avatar">TA</div>
@@ -860,14 +867,9 @@
         <div class="role">Secretary</div>
       </div>
       <div class="member-card">
-        <div class="member-avatar">LS</div>
-        <h4>Luigi Sciano</h4>
-        <div class="role">Treasurer</div>
-      </div>
-      <div class="member-card">
-        <div class="member-avatar">RL</div>
-        <h4>Rodney Lee</h4>
-        <div class="role">Advisor</div>
+        <div class="member-avatar">CT</div>
+        <h4>Christian Thomas</h4>
+        <div class="role">Social Media Manager + Graphic Designer</div>
       </div>
       
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf01zqZe9V87c2enY9FKWTQCMQm9Iyj46O9FFMr0Z70JDZldA/viewform?usp=header" target="_blank" class="member-card" style="text-decoration:none; background:var(--maroon); border: 2px dashed var(--blue); position:relative;">
