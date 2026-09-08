@@ -17,7 +17,6 @@
       --cream: #f8f4f0;
       --dark: #111111;
       --gray: #555;
-      --progress: 0%;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -179,7 +178,7 @@
 
     .progress-bar {
       height: 100%;
-      width: var(--progress);
+      width: 0%;
       background: linear-gradient(90deg, var(--blue-dark), var(--blue));
       border-radius: 6px;
       transition: width 1s ease-out;
@@ -261,65 +260,14 @@
       margin-bottom: 1.5rem;
     }
 
-    /* CALCULATOR & INTERACTIVE TOOL */
-    .calc-box {
-      background: var(--cream);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-top: 2rem;
-      border: 1px solid rgba(107, 30, 46, 0.1);
-    }
-
-    .calc-box h4 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      color: var(--maroon-dark);
-      margin-bottom: 1rem;
-      letter-spacing: 1px;
-    }
-
-    .calc-controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .input-group input, .input-group select {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .input-group input:focus, .input-group select:focus {
-      border-color: var(--maroon);
-    }
-
     /* EXPENSES BREAKDOWN LIST */
     .expense-list {
       list-style: none;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
     }
 
     .expense-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: baseline;
-      padding: 1rem 0;
+      padding: 1.2rem 0;
       border-bottom: 1px solid rgba(0,0,0,0.08);
       font-size: 1.05rem;
     }
@@ -327,22 +275,16 @@
     .expense-item .name {
       font-weight: 600;
       color: var(--dark);
+      font-size: 1.1rem;
     }
 
     .expense-item .sub-label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       color: var(--gray);
       font-weight: 400;
-      margin-top: 0.2rem;
-    }
-
-    .expense-item .cost {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      color: var(--maroon);
-      letter-spacing: 0.5px;
-      text-align: right;
+      margin-top: 0.3rem;
+      line-height: 1.5;
     }
 
     /* SIDEBAR CALLOUTS */
@@ -412,7 +354,6 @@
       .fund-hero { padding: 3rem 1.5rem; }
       section.details { padding: 3rem 1.5rem; }
       .current-raised { font-size: 2.8rem; }
-      .calc-controls { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -432,24 +373,24 @@
 
   <section class="fund-hero">
     <div class="fund-hero-content">
-      <div class="fund-tag">MCEP Drive</div>
+      <div class="fund-tag">2026–2027 School Year Drive</div>
       <h1>Morris County<br/><span>Engineering Cup</span></h1>
-      <p>Encouraging the next generation of innovators to design, prototype, and implement sustainable engineering solutions that address real-world challenges specific to the Morris County community and its infrastructure.</p>
+      <p>Encouraging high school innovators to design, prototype, and implement sustainable engineering solutions that address real-world challenges across Morris County.</p>
     </div>
 
     <div class="progress-card">
       <div class="goal-header">
-        <div class="current-raised" id="display-raised">$0</div>
-        <div class="target-goal">of $10,000 goal</div>
+        <div class="current-raised">$0</div>
+        <div class="target-goal">of $5,000 goal</div>
       </div>
       
       <div class="progress-bar-container">
-        <div class="progress-bar" id="hero-progress-bar"></div>
+        <div class="progress-bar" style="width: 0%;"></div>
       </div>
 
       <div class="progress-stats">
-        <div><strong id="display-donations">0</strong> donations</div>
-        <div>Target: End of School Year</div>
+        <div><strong>0</strong> donations</div>
+        <div>Target: 2026–2027 School Year</div>
       </div>
 
       <a href="https://www.gofundme.com" target="_blank" rel="noopener" class="btn btn-primary">Support on GoFundMe</a>
@@ -458,81 +399,49 @@
 
   <section class="details">
     <div class="details-left">
-      <div class="section-label">The Objective</div>
+      <div class="section-label">2026–2027 Campaign</div>
       <h2 class="section-title">Why We Need Your Support</h2>
       <div class="divider"></div>
-      <p>The MCEP is a comprehensive, school-year-long engineering competition bringing together Morris County high schools. The event offers individual students or small teams (2-3 members) a unique framework to scale classroom concepts up into functional, real-world competitive installations.</p>
-      <p>At the close of the academic year, every project undergoes professional, rigorous evaluation by structural, hardware, and system design engineers. To ensure equal accessibility for all participant criteria, funding raw components, computational cores, specialized assemblies, and operations rests entirely on the shoulders of our local partners and donors.</p>
+      <p>The Morris County Engineering Cup (MCEP) is a year-long competition for high school students across Morris County during the 2026–2027 school year. Students work individually or in small teams (2–3 members) to design, prototype, and build real-world engineering solutions for local community challenges.</p>
+      <p>At the end of the school year, student projects are evaluated by professional engineers. Your support ensures that components, microcontrollers, testing hardware, and event operations remain accessible to all participants free of charge.</p>
       
-      <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem; margin-bottom: 0.5rem;">Campaign Fund Distribution Rules</h3>
-      <p>Out of our total $10,000 target campaign, all raised capital will be distributed using a strict, structured financial sequence to ensure fair participant incentives and high civic community impact:</p>
+      <h3 class="section-title" style="font-size: 2rem; margin-top: 2.5rem; margin-bottom: 0.5rem;">How Campaign Funds Are Used</h3>
+      <p>Every dollar raised toward our $5,000 goal directly impacts students and our local community:</p>
       
-      <!-- INTERACTIVE CALCULATOR PREVIEW -->
-      <div class="calc-box">
-        <h4>Live Financial Breakdown Simulator</h4>
-        <div class="calc-controls">
-          <div class="input-group">
-            <label for="raised-input">Total Raised Amount ($)</label>
-            <input type="number" id="raised-input" value="10000" min="0" step="250">
-          </div>
-          <div class="input-group">
-            <label for="team-size-select">Avg Team Size (Scholarships)</label>
-            <select id="team-size-select">
-              <option value="1">1 Member ($2,250 Total)</option>
-              <option value="2">2 Members ($4,500 Total)</option>
-              <option value="3" selected>3 Members ($6,750 Total)</option>
-            </select>
-          </div>
-        </div>
-
-        <ul class="expense-list">
-          <li class="expense-item">
-            <div>
-              <span class="name">1. Direct Scholarship Tiers (Subtracted First)</span>
-              <span class="sub-label">1st Place ($1,000/student), 2nd Place ($750/student), 3rd Place ($500/student).</span>
-            </div>
-            <span class="cost" id="out-scholarship">$6,750</span>
-          </li>
-          <li class="expense-item">
-            <div>
-              <span class="name">2. Community FoodBank of NJ Allocation</span>
-              <span class="sub-label">Allocated straight from remaining balance following scholarship deductions (Up to $2,000 flat).</span>
-            </div>
-            <span class="cost" id="out-foodbank">$2,000</span>
-          </li>
-          <li class="expense-item">
-            <div>
-              <span class="name">3. MHS Engineering Club Operations</span>
-              <span class="sub-label">Covers raw materials, components, operational tools, and event hosting.</span>
-            </div>
-            <span class="cost" id="out-club">$625</span>
-          </li>
-          <li class="expense-item">
-            <div>
-              <span class="name">4. Next Year's Kickoff Fund</span>
-              <span class="sub-label">Reserved surplus for initiating next year's regional engineering competition.</span>
-            </div>
-            <span class="cost" id="out-nextyear">$625</span>
-          </li>
-        </ul>
-      </div>
-
+      <ul class="expense-list">
+        <li class="expense-item">
+          <div class="name">1. Student Scholarships</div>
+          <span class="sub-label">Awarded to 1st, 2nd, and 3rd place winning teams to support their future STEM education.</span>
+        </li>
+        <li class="expense-item">
+          <div class="name">2. Community FoodBank of NJ Donation</div>
+          <span class="sub-label">A portion of raised funds directly supports local food security initiatives in New Jersey.</span>
+        </li>
+        <li class="expense-item">
+          <div class="name">3. Club Operations & Event Materials</div>
+          <span class="sub-label">Covers prototyping components, sensors, microcontrollers, and venue hosting costs.</span>
+        </li>
+        <li class="expense-item">
+          <div class="name">4. Future Competition Reserve</div>
+          <span class="sub-label">Remaining surplus establishes a baseline fund to launch the next school year's competition.</span>
+        </li>
+      </ul>
     </div>
 
     <div class="details-right">
       <div class="info-box">
-        <h3>Step 1: Incentivizing Excellence</h3>
-        <p>From our total campaign pool, the scholarship payouts are calculated and deducted first. Depending on final team compositions (individual or groups of up to three), this structural tier totals between $2,250 and $6,750.</p>
+        <h3>Scholarships & Recognition</h3>
+        <p>Rewarding student excellence with educational awards that empower young innovators to pursue college STEM pathways.</p>
       </div>
 
       <div class="info-box" style="border-left-color: var(--blue);">
-        <h3>Step 2: Supporting Regional Relief</h3>
-        <p>Directly following the scholarship subtraction, up to a flat $2,000 is given to the <strong>Community FoodBank of New Jersey (CFBNJ)</strong> to combat critical local food insecurity issues.</p>
+        <h3>Community Giving</h3>
+        <p>Extending civic impact by donating a dedicated portion of competition funding directly to the <strong>Community FoodBank of New Jersey</strong>.</p>
       </div>
 
       <div class="info-box" style="border-left-color: var(--blue-dark);">
-        <h3>Step 3 & 4: Future Safeguards</h3>
-        <p>If the remaining balance after Step 2 exceeds $2,000, half funds immediate MHS Engineering equipment while half reserves a financial headstart for next year's campaign. If $2,000 or less, 100% funds club operations.</p>
+        <h3>Equal STEM Access</h3>
+        <p>Removing financial barriers so every participating student receives the hardware, tools, and mentorship needed to succeed.</p>
       </div>
 
       <div style="margin-top: 1rem;">
@@ -542,69 +451,8 @@
   </section>
 
   <footer>
-    &copy; 2026 <span>MHS Engineering Club</span> · Morristown High School
+    &copy; 2026–2027 <span>MHS Engineering Club</span> · Morristown High School
   </footer>
 
-  <script>
-    // FINANCIAL BREAKDOWN CALCULATOR LOGIC
-    const raisedInput = document.getElementById('raised-input');
-    const teamSelect = document.getElementById('team-size-select');
-    
-    const outScholarship = document.getElementById('out-scholarship');
-    const outFoodBank = document.getElementById('out-foodbank');
-    const outClub = document.getElementById('out-club');
-    const outNextYear = document.getElementById('out-nextyear');
-
-    const displayRaised = document.getElementById('display-raised');
-    const heroProgressBar = document.getElementById('hero-progress-bar');
-    const targetGoal = 10000;
-
-    function formatUSD(num) {
-      return '$' + Math.max(0, num).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-    }
-
-    function calculateDistribution() {
-      const raised = parseFloat(raisedInput.value) || 0;
-      const teamMultiplier = parseInt(teamSelect.value) || 1;
-
-      // Hero Section UI Updates
-      displayRaised.textContent = formatUSD(raised);
-      const pct = Math.min(100, Math.max(0, (raised / targetGoal) * 100));
-      heroProgressBar.style.width = pct + '%';
-
-      // Step 1: Scholarships (Base per team size = $2,250 * teamMultiplier)
-      const scholarshipCap = 2250 * teamMultiplier;
-      const scholarshipAllocated = Math.min(raised, scholarshipCap);
-      let rem1 = raised - scholarshipAllocated;
-
-      // Step 2: FoodBank (Flat $2,000 max from remaining balance)
-      const foodbankAllocated = Math.min(rem1, 2000);
-      let rem2 = rem1 - foodbankAllocated;
-
-      // Step 3 & 4: Club & Surplus
-      let clubAllocated = 0;
-      let nextYearAllocated = 0;
-
-      if (rem2 > 2000) {
-        clubAllocated = rem2 / 2;
-        nextYearAllocated = rem2 / 2;
-      } else {
-        clubAllocated = rem2;
-        nextYearAllocated = 0;
-      }
-
-      // Update DOM
-      outScholarship.textContent = formatUSD(scholarshipAllocated);
-      outFoodBank.textContent = formatUSD(foodbankAllocated);
-      outClub.textContent = formatUSD(clubAllocated);
-      outNextYear.textContent = formatUSD(nextYearAllocated);
-    }
-
-    raisedInput.addEventListener('input', calculateDistribution);
-    teamSelect.addEventListener('change', calculateDistribution);
-
-    // Initial calculation on load
-    calculateDistribution();
-  </script>
 </body>
 </html>
